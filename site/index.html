@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI × Elections — The Newsletter of Record</title>
+<title>AI × Elections — For Election Administration Professionals</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
 :root {
   --paper:    oklch(98%  0.005  82);
   --pale:     oklch(94%  0.005  70);
-  --pale-b:   oklch(84%  0.007  70);
+  --pale-b:   oklch(87%  0.007  70);
   --ink:      oklch(13%  0.007  70);
   --ink-mid:  oklch(40%  0.006  70);
   --ink-lt:   oklch(62%  0.006  70);
@@ -28,250 +28,307 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--f-text);
-  -webkit-font-smoothing: antialiased;
-}
-
-.label {
-  font-family: var(--f-label);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-mid);
-}
-
-.red { color: var(--red); }
+body { background: var(--paper); color: var(--ink); font-family: var(--f-text); -webkit-font-smoothing: antialiased; }
 
 /* ── PROCLAMATION BAR ── */
 .proclamation {
   background: var(--ink);
-  color: var(--paper);
-  padding: 9px 40px;
+  padding: 8px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
-.proclamation-text {
+.proc-text {
+  font-family: var(--f-label);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: oklch(45% 0.005 70);
+}
+.proc-links { display: flex; gap: 20px; align-items: center; }
+.proc-links a {
   font-family: var(--f-label);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: oklch(55% 0.005 70);
-}
-
-.proclamation-right {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.proclamation-right a {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: oklch(55% 0.005 70);
+  color: oklch(48% 0.005 70);
   text-decoration: none;
+  transition: color 0.15s;
 }
-
-.proclamation-right a:hover { color: var(--paper); }
+.proc-links a:hover { color: var(--paper); }
 
 /* ── MASTHEAD ── */
 .masthead {
   border-bottom: 1.5px solid var(--ink);
-  padding: 32px 40px 28px;
-  text-align: center;
+  padding: 36px 40px 28px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  gap: 20px;
 }
-
-.masthead-eyebrow {
+.masthead-left {
   font-family: var(--f-label);
   font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.20em;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-lt);
-  margin-bottom: 12px;
+  padding-bottom: 4px;
 }
-
 .masthead-title {
   font-family: var(--f-display);
-  font-size: clamp(52px, 10vw, 120px);
+  font-size: clamp(48px, 9vw, 108px);
   line-height: 0.9;
   letter-spacing: -0.02em;
   color: var(--ink);
+  text-align: center;
 }
-
 .masthead-title .x { color: var(--red); }
-
-.masthead-tagline {
+.masthead-right {
   font-family: var(--f-text);
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 300;
   font-style: italic;
+  line-height: 1.5;
   color: var(--ink-mid);
-  margin-top: 16px;
+  text-align: right;
+  padding-bottom: 4px;
+  max-width: 22ch;
+  margin-left: auto;
 }
 
-/* ── NAV ── */
-nav {
-  border-bottom: 1.5px solid var(--ink);
-  padding: 0 40px;
+/* ── PROFILE SELECTOR ── */
+.profile-bar {
+  background: var(--pale);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 40px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  height: 46px;
+  gap: 16px;
 }
-
-.nav-links {
-  display: flex;
-  gap: 28px;
-  list-style: none;
+.profile-prompt {
+  font-family: var(--f-label);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
-
-.nav-links a {
+.profile-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.profile-btn {
   font-family: var(--f-label);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  padding: 5px 12px;
+  border: 1.5px solid var(--pale-b);
+  background: transparent;
   color: var(--ink-mid);
-  text-decoration: none;
-  transition: color 0.15s;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
 }
+.profile-btn:hover { border-color: var(--ink-mid); color: var(--ink); }
+.profile-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 
-.nav-links a:hover { color: var(--ink); }
-
-.nav-issue {
-  font-family: var(--f-label);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
+/* ── SECTION NAV ── */
+.section-nav {
+  border-bottom: 1.5px solid var(--ink);
+  padding: 0 40px;
+  display: flex;
+  align-items: stretch;
+  overflow-x: auto;
+  position: sticky;
+  top: 0;
+  background: var(--paper);
+  z-index: 100;
 }
-
-.nav-cta {
+.section-nav::-webkit-scrollbar { display: none; }
+.sec-btn {
   font-family: var(--f-label);
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  background: var(--ink);
-  color: var(--paper);
-  border: none;
-  padding: 8px 18px;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-/* ── DATELINE STRIP ── */
-.dateline {
-  background: var(--pale);
-  border-bottom: 1px solid var(--rule);
-  padding: 6px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.dateline span {
-  font-family: var(--f-label);
-  font-size: 10px;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  color: var(--ink-lt);
+  padding: 12px 18px;
+  border: none;
+  background: transparent;
+  color: var(--ink-mid);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.15s;
+  position: relative;
 }
+.sec-btn:hover { color: var(--ink); }
+.sec-btn.active { color: var(--ink); border-bottom-color: var(--ink); }
+.sec-btn .priority-dot {
+  display: none;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--red);
+  position: absolute;
+  top: 10px;
+  right: 6px;
+}
+body.has-profile .sec-btn.priority .priority-dot { display: inline-block; }
 
-/* ── FRONT PAGE LAYOUT ── */
-.front-page {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+/* ── MAIN CONTENT ── */
+.main { padding: 0; }
+
+/* ── SECTION BLOCK ── */
+.section-block {
+  border-bottom: 1.5px solid var(--ink);
+  padding: 48px 40px;
+  transition: opacity 0.2s;
+}
+.section-block.hidden { display: none; }
+
+.section-hd {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  padding-bottom: 14px;
   border-bottom: 1.5px solid var(--ink);
 }
-
-/* ── LEAD STORY ── */
-.lead-story {
-  grid-column: 1 / 3;
-  border-right: 1.5px solid var(--ink);
-  padding: 40px 40px 48px 40px;
+.section-name {
+  font-family: var(--f-display);
+  font-size: 28px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
 }
-
-.story-kicker {
+.section-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.section-desc {
+  font-family: var(--f-text);
+  font-size: 13px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink-mid);
+}
+.priority-label {
+  display: none;
   font-family: var(--f-label);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--red);
+  border: 1px solid var(--red);
+  padding: 2px 8px;
+}
+body.has-profile .section-block.priority .priority-label { display: inline-block; }
+
+/* ── ARTICLE KICKER ── */
+.kicker {
+  font-family: var(--f-label);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-mid);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
+.kicker-rule { width: 20px; height: 1.5px; background: var(--ink); flex-shrink: 0; }
 
-.kicker-rule {
-  display: inline-block;
-  width: 24px;
-  height: 1.5px;
-  background: var(--ink);
+/* ── LEAD ARTICLE (full width) ── */
+.article-lead {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 48px;
+  align-items: start;
 }
-
+.lead-body-col {}
 .lead-headline {
   font-family: var(--f-display);
-  font-size: clamp(36px, 5vw, 56px);
+  font-size: clamp(30px, 4vw, 46px);
   line-height: 1.0;
   letter-spacing: -0.01em;
   color: var(--ink);
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
-
 .lead-deck {
   font-family: var(--f-text);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 400;
   font-style: italic;
   line-height: 1.5;
   color: var(--ink-mid);
-  margin-bottom: 28px;
-  max-width: 60ch;
+  margin-bottom: 20px;
+  padding: 14px 0;
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
-  padding: 14px 0;
 }
-
-.lead-body {
+.lead-text {
   font-family: var(--f-text);
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 300;
   line-height: 1.72;
   color: var(--ink);
-  max-width: 62ch;
-  column-count: 1;
 }
+.lead-text p { margin-bottom: 16px; max-width: 60ch; }
+.lead-text p:last-child { margin-bottom: 0; }
+.lead-text strong { font-weight: 600; }
 
-.lead-body p { margin-bottom: 18px; }
-.lead-body p:last-child { margin-bottom: 0; }
-
-.lead-body strong { font-weight: 600; }
-
-.byline {
+.lead-aside {
+  padding-top: 8px;
+  border-left: 1px solid var(--rule);
+  padding-left: 36px;
+}
+.aside-label {
   font-family: var(--f-label);
-  font-size: 11px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1.5px solid var(--ink);
+}
+.aside-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.aside-item:last-child { border-bottom: none; }
+.aside-tag {
+  font-family: var(--f-label);
+  font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.10em;
   text-transform: uppercase;
   color: var(--ink-lt);
-  margin-top: 28px;
-  padding-top: 16px;
-  border-top: 1px solid var(--rule);
+  margin-bottom: 4px;
 }
-
+.aside-title {
+  font-family: var(--f-text);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.aside-deck {
+  font-family: var(--f-text);
+  font-size: 13px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink-mid);
+  line-height: 1.45;
+}
 .read-more {
   display: inline-block;
   font-family: var(--f-label);
@@ -284,274 +341,154 @@ nav {
   margin-top: 20px;
   padding-bottom: 2px;
   border-bottom: 1.5px solid var(--ink);
-  transition: color 0.15s, border-color 0.15s;
 }
 
-.read-more:hover { color: var(--ink-mid); border-color: var(--ink-mid); }
-
-/* ── SIDEBAR ── */
-.sidebar {
-  grid-column: 3 / 4;
-  padding: 40px 0;
-}
-
-.sidebar-section {
-  padding: 0 28px 32px;
-  border-bottom: 1px solid var(--rule);
-  margin-bottom: 32px;
-}
-
-.sidebar-section:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-}
-
-.sidebar-label {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ink-mid);
-  margin-bottom: 18px;
-  padding-bottom: 10px;
-  border-bottom: 1.5px solid var(--ink);
-}
-
-.sidebar-item {
-  padding: 12px 0;
-  border-bottom: 1px solid var(--rule);
-}
-
-.sidebar-item:last-child { border-bottom: none; }
-
-.sidebar-num {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--ink-lt);
-  margin-bottom: 4px;
-}
-
-.sidebar-title {
-  font-family: var(--f-text);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.4;
-  color: var(--ink);
-  margin-bottom: 4px;
-}
-
-.sidebar-date {
-  font-family: var(--f-label);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  color: var(--ink-lt);
-}
-
-/* Subscribe sidebar widget */
-.sidebar-subscribe {
-  background: var(--ink);
-  padding: 20px;
-  margin: 0 0 32px;
-}
-
-.sidebar-subscribe p {
-  font-family: var(--f-text);
-  font-size: 14px;
-  font-weight: 300;
-  line-height: 1.55;
-  color: oklch(72% 0.005 70);
-  margin-bottom: 14px;
-}
-
-.sidebar-subscribe .sub-form {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.sidebar-subscribe input {
-  font-family: var(--f-label);
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  padding: 10px 12px;
-  border: 1px solid oklch(38% 0.006 70);
-  background: oklch(20% 0.007 70);
-  color: var(--paper);
-  outline: none;
-}
-
-.sidebar-subscribe input::placeholder { color: oklch(48% 0.005 70); }
-
-.sidebar-subscribe button {
-  font-family: var(--f-label);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  background: var(--paper);
-  color: var(--ink);
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-}
-
-/* ── SECONDARY STORIES ── */
-.secondary-row {
+/* ── TWO-COLUMN ARTICLES ── */
+.article-cols {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  border-bottom: 1.5px solid var(--ink);
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  margin-top: 36px;
+  border-top: 1px solid var(--rule);
 }
-
-.secondary-story {
-  padding: 36px 36px 40px;
+.article-col {
+  padding: 28px 32px 0 0;
   border-right: 1px solid var(--rule);
 }
-
-.secondary-story:last-child { border-right: none; }
-
-.sec-headline {
+.article-col:last-child { border-right: none; padding-right: 0; padding-left: 32px; }
+.col-headline {
   font-family: var(--f-display);
-  font-size: clamp(22px, 2.8vw, 30px);
+  font-size: clamp(20px, 2.5vw, 26px);
   line-height: 1.05;
   letter-spacing: -0.01em;
   color: var(--ink);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
-
-.sec-deck {
+.col-deck {
   font-family: var(--f-text);
   font-size: 14px;
   font-weight: 300;
   font-style: italic;
-  line-height: 1.55;
+  line-height: 1.5;
   color: var(--ink-mid);
-  margin-bottom: 14px;
-  padding-bottom: 14px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--rule);
 }
-
-.sec-body {
+.col-text {
   font-family: var(--f-text);
   font-size: 14px;
   font-weight: 300;
   line-height: 1.65;
   color: var(--ink);
 }
+.col-text p { margin-bottom: 12px; }
+.col-text p:last-child { margin-bottom: 0; }
 
-.sec-body p { margin-bottom: 12px; }
-.sec-body p:last-child { margin-bottom: 0; }
-
-/* ── DOCKET UPCOMING ── */
-.docket-row {
-  background: var(--ink-surf);
-  padding: 48px 40px;
-  border-bottom: 1.5px solid var(--ink);
-}
-
-.docket-row-head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 28px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid oklch(35% 0.006 70);
-}
-
-.docket-row-title {
-  font-family: var(--f-display);
-  font-size: 28px;
-  letter-spacing: -0.01em;
-  color: var(--paper);
-}
-
-.docket-row-note {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: oklch(45% 0.005 70);
-}
-
-.docket-grid {
+/* ── THREE-COLUMN ARTICLES ── */
+.article-thirds {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: 2fr 1fr 1fr;
   gap: 0;
 }
+.article-third {
+  padding: 0 28px 0 0;
+  border-right: 1px solid var(--rule);
+}
+.article-third:last-child { border-right: none; padding-right: 0; padding-left: 28px; }
+.article-third:nth-child(2) { padding-left: 28px; }
 
-.docket-entry {
-  padding: 20px 24px 20px 0;
-  border-right: 1px solid oklch(30% 0.006 70);
+/* ── FIELD REPORTS — different bg ── */
+.section-block.field-reports-section {
+  background: var(--pale);
+}
+.field-report-inner {
+  max-width: 680px;
 }
 
-.docket-entry:last-child { border-right: none; }
-
-.de-num {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: oklch(45% 0.005 70);
-  margin-bottom: 8px;
+/* ── TOOLKIT — list format ── */
+.toolkit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
 }
-
-.de-title {
+.toolkit-item {
+  padding: 20px 28px 20px 0;
+  border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.toolkit-item:nth-child(even) {
+  padding-right: 0;
+  padding-left: 28px;
+  border-right: none;
+}
+.toolkit-item:nth-last-child(-n+2) { border-bottom: none; }
+.toolkit-num {
+  font-family: var(--f-display);
+  font-size: 28px;
+  line-height: 1;
+  color: var(--ink-lt);
+  flex-shrink: 0;
+  width: 32px;
+}
+.toolkit-body {}
+.toolkit-title {
   font-family: var(--f-label);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: oklch(85% 0.005 70);
-  line-height: 1.3;
+  color: var(--ink);
   margin-bottom: 6px;
 }
-
-.de-date {
+.toolkit-desc {
+  font-family: var(--f-text);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--ink-mid);
+}
+.toolkit-tag {
+  display: inline-block;
   font-family: var(--f-label);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  color: oklch(45% 0.005 70);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
+  border: 1px solid var(--rule);
+  padding: 2px 6px;
+  margin-top: 8px;
 }
 
 /* ── SUBSCRIBE CTA ── */
 .subscribe-cta {
-  background: var(--ink);
-  color: var(--paper);
-  padding: 64px 40px;
-  border-bottom: 1.5px solid var(--ink);
+  background: var(--ink-surf);
+  padding: 60px 40px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 60px;
   align-items: center;
 }
-
-.cta-left {}
-
 .cta-label {
   font-family: var(--f-label);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: oklch(45% 0.005 70);
-  display: block;
+  color: oklch(40% 0.005 70);
   margin-bottom: 14px;
+  display: block;
 }
-
 .cta-heading {
   font-family: var(--f-display);
-  font-size: clamp(28px, 4vw, 48px);
+  font-size: clamp(28px, 3.5vw, 44px);
   line-height: 1.05;
-  letter-spacing: -0.01em;
   color: var(--paper);
 }
-
 .cta-heading .x { color: var(--red); }
-
-.cta-right {}
-
 .cta-body {
   font-family: var(--f-text);
   font-size: 15px;
@@ -560,12 +497,7 @@ nav {
   color: oklch(72% 0.005 70);
   margin-bottom: 22px;
 }
-
-.cta-form {
-  display: flex;
-  gap: 0;
-}
-
+.cta-form { display: flex; }
 .cta-input {
   flex: 1;
   font-family: var(--f-label);
@@ -578,9 +510,7 @@ nav {
   color: var(--paper);
   outline: none;
 }
-
-.cta-input::placeholder { color: oklch(48% 0.005 70); }
-
+.cta-input::placeholder { color: oklch(45% 0.005 70); }
 .cta-btn {
   font-family: var(--f-label);
   font-size: 11px;
@@ -594,7 +524,6 @@ nav {
   cursor: pointer;
   white-space: nowrap;
 }
-
 .cta-fine {
   font-family: var(--f-label);
   font-size: 10px;
@@ -606,81 +535,26 @@ nav {
 /* ── FOOTER ── */
 footer {
   background: var(--ink);
-  color: oklch(45% 0.005 70);
   padding: 40px 40px;
 }
-
 .footer-inner {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 40px;
-  margin-bottom: 32px;
-  padding-bottom: 32px;
+  margin-bottom: 28px;
+  padding-bottom: 28px;
   border-bottom: 1px solid oklch(25% 0.006 70);
 }
-
-.footer-seal {
-  font-family: var(--f-display);
-  font-size: 16px;
-  color: var(--paper);
-  letter-spacing: -0.01em;
-}
-
+.footer-seal { font-family: var(--f-display); font-size: 16px; color: var(--paper); }
 .footer-seal .x { color: var(--red); }
-
-.footer-seal p {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: oklch(38% 0.005 70);
-  margin-top: 6px;
-}
-
-.footer-links {
-  display: flex;
-  gap: 52px;
-}
-
-.footer-col h4 {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: oklch(45% 0.005 70);
-  margin-bottom: 12px;
-}
-
-.footer-col a,
-.footer-col span {
-  display: block;
-  font-family: var(--f-label);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: oklch(38% 0.005 70);
-  text-decoration: none;
-  margin-bottom: 7px;
-  transition: color 0.15s;
-}
-
-.footer-col a:hover { color: oklch(65% 0.005 70); }
-
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.footer-bottom p {
-  font-family: var(--f-label);
-  font-size: 10px;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: oklch(30% 0.005 70);
-}
+.footer-seal p { font-family: var(--f-label); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: oklch(35% 0.005 70); margin-top: 6px; }
+.footer-links { display: flex; gap: 48px; }
+.footer-col h4 { font-family: var(--f-label); font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: oklch(40% 0.005 70); margin-bottom: 12px; }
+.footer-col a, .footer-col span { display: block; font-family: var(--f-label); font-size: 11px; letter-spacing: 0.06em; color: oklch(35% 0.005 70); text-decoration: none; margin-bottom: 6px; transition: color 0.15s; }
+.footer-col a:hover { color: oklch(62% 0.005 70); }
+.footer-bottom { display: flex; justify-content: space-between; }
+.footer-bottom p { font-family: var(--f-label); font-size: 10px; letter-spacing: 0.10em; text-transform: uppercase; color: oklch(28% 0.005 70); }
 
 </style>
 </head>
@@ -688,220 +562,339 @@ footer {
 
 <!-- PROCLAMATION BAR -->
 <div class="proclamation">
-  <span class="proclamation-text">An Independent Publication — Established 2025 — Issued Bi-Weekly</span>
-  <div class="proclamation-right">
-    <a href="#subscribe">Subscribe — Free</a>
+  <span class="proc-text">For Election Administration Professionals — Ongoing Publication</span>
+  <div class="proc-links">
+    <a href="#subscribe">Subscribe</a>
     <a href="editorial.html">Editorial</a>
   </div>
 </div>
 
 <!-- MASTHEAD -->
 <header class="masthead">
-  <p class="masthead-eyebrow">The Newsletter of Record on Machine Intelligence and Democratic Process</p>
+  <div class="masthead-left">Threat Intelligence &amp; Practitioner Guidance<br>on Artificial Intelligence in Election Administration</div>
   <h1 class="masthead-title">AI<span class="x">×</span>Elections</h1>
-  <p class="masthead-tagline">Bi-weekly dispatches from the intersection of artificial intelligence and democratic process</p>
+  <div class="masthead-right">Reported for the people who run elections, not the people who watch them.</div>
 </header>
 
-<!-- NAV -->
-<nav>
-  <ul class="nav-links">
-    <li><a href="#">Issues</a></li>
-    <li><a href="#docket">On the Docket</a></li>
-    <li><a href="#subscribe">Subscribe</a></li>
-  </ul>
-  <span class="nav-issue">Vol. I — Now Publishing</span>
-  <a href="#subscribe" class="nav-cta">Subscribe Free</a>
+<!-- PROFILE SELECTOR -->
+<div class="profile-bar">
+  <span class="profile-prompt">I work in:</span>
+  <div class="profile-btns">
+    <button class="profile-btn" data-profile="county-admin" onclick="setProfile(this)">County Administration</button>
+    <button class="profile-btn" data-profile="state-policy" onclick="setProfile(this)">State-Level Policy</button>
+    <button class="profile-btn" data-profile="it-security" onclick="setProfile(this)">IT &amp; Security</button>
+    <button class="profile-btn" data-profile="legal" onclick="setProfile(this)">Legal Counsel</button>
+  </div>
+</div>
+
+<!-- SECTION NAV -->
+<nav class="section-nav">
+  <button class="sec-btn active" data-filter="all" onclick="filterSection(this)">All</button>
+  <button class="sec-btn" data-filter="threat-watch" onclick="filterSection(this)"
+    data-priority-for="county-admin it-security">Threat Watch<span class="priority-dot"></span></button>
+  <button class="sec-btn" data-filter="vendor-desk" onclick="filterSection(this)"
+    data-priority-for="county-admin state-policy">Vendor Desk<span class="priority-dot"></span></button>
+  <button class="sec-btn" data-filter="on-your-desk" onclick="filterSection(this)"
+    data-priority-for="county-admin legal">On Your Desk<span class="priority-dot"></span></button>
+  <button class="sec-btn" data-filter="policy-law" onclick="filterSection(this)"
+    data-priority-for="state-policy legal it-security">Policy &amp; Law<span class="priority-dot"></span></button>
+  <button class="sec-btn" data-filter="field-reports" onclick="filterSection(this)"
+    data-priority-for="county-admin state-policy">Field Reports<span class="priority-dot"></span></button>
+  <button class="sec-btn" data-filter="toolkit" onclick="filterSection(this)"
+    data-priority-for="county-admin legal">Toolkit<span class="priority-dot"></span></button>
 </nav>
 
-<!-- DATELINE -->
-<div class="dateline">
-  <span>Vol. I, Issue No. 4 — Latest Issue</span>
-  <span>Published Bi-Weekly — Next Issue: Aug 15, 2025</span>
-</div>
+<!-- MAIN CONTENT -->
+<main class="main">
 
-<!-- FRONT PAGE: LEAD + SIDEBAR -->
-<div class="front-page">
-
-  <!-- LEAD STORY: Issue 01 -->
-  <article class="lead-story">
-    <div class="story-kicker">
-      <span class="kicker-rule"></span>
-      <span>Issue No. 01 — July 1, 2025 — Overview</span>
-    </div>
-    <h2 class="lead-headline">The Vacuum: Why Nobody Is Covering the Story of the Decade</h2>
-    <p class="lead-deck">Hundreds of outlets cover artificial intelligence. Dozens cover elections. The intersection — where the technology is actively reshaping democratic outcomes — is a dead zone.</p>
-
-    <div class="lead-body">
-      <p>In the eighteen months following the release of GPT-4, journalists produced thousands of words about artificial intelligence's potential to disrupt democratic institutions. Almost none of it was reported. It was speculated, extrapolated, and occasionally hallucinated — by the machines themselves, describing their own dangers with the credulous authority of a press release.</p>
-
-      <p>The beat that should exist looks like this: a reporter who understands how large language models work talks to election administrators who are actually confronted with AI-generated disinformation. Who has done that story? Across every major American outlet, you can count the instances on one hand.</p>
-
-      <p>The failure is structural. Political desks don't have technical fluency. Technology desks don't have relationships with county clerks in Maricopa or Fulton or Dane County. The result is a coverage pattern in which AI and elections are treated as adjacent phenomena — occasionally colliding in a dramatic incident, then retreating to their separate corners of the internet.</p>
-
-      <p><strong>AI × Elections was founded on the premise that this is the most important unreported beat in American journalism.</strong> Not because artificial intelligence will necessarily "steal" an election in the cinematic sense — but because the technology is already reshaping how campaigns target voters, how officials verify registrations, how disinformation spreads, and how regulators attempt to respond. All of this is happening in the open. None of it is being systematically documented.</p>
-
-      <p>This publication is an attempt to build that institutional record. Bi-weekly dispatches. Reported, not speculated. Written for the practitioners — election officials, campaign technologists, policy staff, researchers — who will be asked to make decisions about this intersection whether or not anyone is covering it.</p>
-
-      <p>We begin with the vacuum, because naming it is the first act of journalism. The void does not fill itself.</p>
-    </div>
-
-    <div class="byline">By the Editors — AI × Elections — Issue No. 01</div>
-    <a href="#" class="read-more">Read Full Issue</a>
-  </article>
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-
-    <div class="sidebar-subscribe">
-      <p>The only publication tracking AI and elections systematically. Free. Bi-weekly.</p>
-      <form class="sub-form" onsubmit="return false;">
-        <input type="email" placeholder="your@email.com">
-        <button type="submit">Subscribe Free</button>
-      </form>
-    </div>
-
-    <div class="sidebar-section">
-      <p class="sidebar-label">Previous Issues</p>
-
-      <div class="sidebar-item">
-        <div class="sidebar-num">Issue 03 — Aug 1, 2025</div>
-        <div class="sidebar-title">The Micro-Targeting Machine</div>
-        <div class="sidebar-date">Campaigns · Technology</div>
-      </div>
-
-      <div class="sidebar-item">
-        <div class="sidebar-num">Issue 02 — Jul 15, 2025</div>
-        <div class="sidebar-title">Deep Fakes on the Ballot</div>
-        <div class="sidebar-date">Disinformation · Media</div>
-      </div>
-
-      <div class="sidebar-item">
-        <div class="sidebar-num">Issue 01 — Jul 1, 2025</div>
-        <div class="sidebar-title">The Vacuum</div>
-        <div class="sidebar-date">Overview · Meta</div>
+  <!-- ── THREAT WATCH ── -->
+  <section class="section-block" data-section="threat-watch" data-priority-for="county-admin it-security">
+    <div class="section-hd">
+      <h2 class="section-name">Threat Watch</h2>
+      <div class="section-meta">
+        <span class="section-desc">Active AI threats hitting election offices now — specific, operational, current</span>
+        <span class="priority-label">Priority for your role</span>
       </div>
     </div>
 
-    <div class="sidebar-section">
-      <p class="sidebar-label">On the Docket</p>
-
-      <div class="sidebar-item">
-        <div class="sidebar-num">Issue 05 — Sep 1</div>
-        <div class="sidebar-title">Voter Roll Manipulation — A Technical Survey</div>
-        <div class="sidebar-date">Infrastructure</div>
+    <!-- LEAD: FOIA FLOOD -->
+    <div class="article-lead">
+      <div class="lead-body-col">
+        <div class="kicker"><span class="kicker-rule"></span> Threat Watch — Lead</div>
+        <h2 class="lead-headline">The FOIA Flood Is Here</h2>
+        <p class="lead-deck">Election offices in at least eleven states are reporting surges in public records requests with a shared signature: near-identical formatting, inhuman volume, and timing calibrated to hit before administrative deadlines. The goal is rarely the records.</p>
+        <div class="lead-text">
+          <p>A county clerk in a competitive Ohio district received 340 public records requests in a single week last October, up from a typical monthly volume of eight to twelve. Two staff members handle public records in that office. For ten days, they handled almost nothing else. Ballots for a primary were scheduled for mailing the following week. They were late.</p>
+          <p>The pattern has been documented in Ohio, Wisconsin, Arizona, Georgia, Pennsylvania, North Carolina, and Nevada — states sharing two characteristics: competitive federal races and active election denial organizing networks. It has an informal name inside CISA: AI-assisted records flooding. The objective is not the records. It is staff time.</p>
+          <p>Legally, the landscape offers little relief. Public records laws in most states do not permit offices to discriminate between human and automated requesters. The volume itself is not illegal. Some attorneys are exploring whether coordinated flooding constitutes obstruction, but no case has advanced past preliminary research.</p>
+          <p><strong>What to do:</strong> Document every anomalous request — volume, formatting patterns, requester information. CISA's election security team wants this data. Three states are drafting legislation allowing offices to charge processing fees for AI-generated volume. Model language is in the Toolkit section below.</p>
+        </div>
+        <a href="#" class="read-more">Read Full Report</a>
       </div>
-
-      <div class="sidebar-item">
-        <div class="sidebar-num">Issue 06 — Sep 15</div>
-        <div class="sidebar-title">The Chatbot Candidate</div>
-        <div class="sidebar-date">Campaigns</div>
+      <div class="lead-aside">
+        <p class="aside-label">Also in Threat Watch</p>
+        <div class="aside-item">
+          <div class="aside-tag">Audio Synthesis</div>
+          <div class="aside-title">Synthetic Audio Impersonating Local Election Officials</div>
+          <div class="aside-deck">Convincing approximations of county clerks announcing wrong dates. Cheaper to produce than you think.</div>
+        </div>
+        <div class="aside-item">
+          <div class="aside-tag">Polling Place Misinformation</div>
+          <div class="aside-title">AI-Generated Polling Place Notices</div>
+          <div class="aside-deck">Geographically specific flyers and texts claiming polling places have moved. The anatomy of a recent incident.</div>
+        </div>
+        <div class="aside-item">
+          <div class="aside-tag">Impersonation</div>
+          <div class="aside-title">Deepfake Secretary of State Announcements</div>
+          <div class="aside-deck">Two documented incidents, one with confirmed foreign-origin infrastructure. What SoS offices did.</div>
+        </div>
       </div>
+    </div>
 
-      <div class="sidebar-item">
-        <div class="sidebar-num">Issue 07 — Oct 1</div>
-        <div class="sidebar-title">Election Infrastructure — Attack Surface</div>
-        <div class="sidebar-date">Infrastructure · Security</div>
+    <!-- SECONDARY: two articles -->
+    <div class="article-cols">
+      <div class="article-col">
+        <div class="kicker"><span class="kicker-rule"></span> Audio Synthesis</div>
+        <h3 class="col-headline">Synthetic Audio Impersonating Local Officials</h3>
+        <p class="col-deck">Unlike deepfake video, synthetic audio is cheap, fast, and effective enough to fool most voters.</p>
+        <div class="col-text">
+          <p>A convincing approximation of a county clerk's voice can be generated in under an hour using freely available tools and three minutes of public audio from a county commission meeting posted to YouTube. The resulting clip is indistinguishable from authentic audio to most listeners and, in six documented cases over the past eight months, was widely shared before any official correction reached the same audience.</p>
+          <p>What distinguishes these incidents from generic disinformation: the content is hyper-local and operationally specific. Wrong dates. Wrong polling places. Wrong deadlines. Not national messaging — targeted disruption of a specific jurisdiction's voters.</p>
+        </div>
+        <a href="#" class="read-more">Read Report</a>
+      </div>
+      <div class="article-col">
+        <div class="kicker"><span class="kicker-rule"></span> Suppression Operations</div>
+        <h3 class="col-headline">AI-Generated Polling Place Notices Are Spreading</h3>
+        <p class="col-deck">Geographically specific content claiming polling places have closed or moved is the most common AI incident election offices are reporting.</p>
+        <div class="col-text">
+          <p>Most originate outside the target county. Many are specific enough — referencing actual street addresses, actual precinct names — to be convincing to voters who don't verify. The production cost is negligible. A flyer, a text blast, a Nextdoor post: each can be generated and distributed in an afternoon.</p>
+          <p>Three counties have now developed rapid-response protocols. The common elements: a pre-established relationship with local TV assignment desks, a templated correction post ready to deploy, and a direct line to their state CISA contact. The full protocol is documented in Field Reports.</p>
+        </div>
+        <a href="#" class="read-more">Read Report</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── VENDOR DESK ── -->
+  <section class="section-block" data-section="vendor-desk" data-priority-for="county-admin state-policy">
+    <div class="section-hd">
+      <h2 class="section-name">Vendor Desk</h2>
+      <div class="section-meta">
+        <span class="section-desc">AI tools being pitched to election offices — what the vendor claims, what the product does</span>
+        <span class="priority-label">Priority for your role</span>
       </div>
     </div>
 
-  </aside>
-</div>
+    <div class="article-lead">
+      <div class="lead-body-col">
+        <div class="kicker"><span class="kicker-rule"></span> Procurement Guide</div>
+        <h2 class="lead-headline">What Signature Verification AI Actually Does</h2>
+        <p class="lead-deck">Fourteen companies are marketing AI-powered signature verification for mail ballot processing. We asked all fourteen the same three questions. Most declined to answer.</p>
+        <div class="lead-text">
+          <p>The questions were not adversarial. We asked: what dataset was your model trained on; is that dataset certified or independently audited; and what is your published false rejection rate broken down by demographic group?</p>
+          <p>Six companies did not respond after two contact attempts. Four responded with marketing materials. Three provided partial technical documentation. One provided full specifications including third-party audit results. That company's product, it turned out, was trained predominantly on commercial check-processing data — a dataset that does not include election ballot signatures and skews toward populations that write checks frequently.</p>
+          <p><strong>The EAC certification gap:</strong> AI tools that touch vote-adjacent processes — signature matching, mail ballot sorting, voter roll deduplication — are not currently subject to EAC certification requirements. Those requirements apply to voting systems as defined under HAVA, and most vendors have structured their products to fall outside that definition. This is not necessarily intentional evasion; the regulatory framework predates AI-powered election tools. But the gap is real and documented.</p>
+        </div>
+        <a href="#" class="read-more">Read Full Evaluation</a>
+      </div>
+      <div class="lead-aside">
+        <p class="aside-label">Also in Vendor Desk</p>
+        <div class="aside-item">
+          <div class="aside-tag">Voter Rolls</div>
+          <div class="aside-title">Voter Roll Deduplication with LLMs</div>
+          <div class="aside-deck">Which major vendors are using language models in their matching pipelines, and what they disclose about it.</div>
+        </div>
+        <div class="aside-item">
+          <div class="aside-tag">Procurement</div>
+          <div class="aside-title">Fourteen Questions Before You Sign</div>
+          <div class="aside-deck">A framework for evaluating any AI vendor's claims — developed with county procurement officers.</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- SECONDARY STORIES -->
-<div class="secondary-row">
+  <!-- ── ON YOUR DESK ── -->
+  <section class="section-block" data-section="on-your-desk" data-priority-for="county-admin legal">
+    <div class="section-hd">
+      <h2 class="section-name">On Your Desk</h2>
+      <div class="section-meta">
+        <span class="section-desc">AI landing directly in your office — how to identify it, what to do, who to call</span>
+        <span class="priority-label">Priority for your role</span>
+      </div>
+    </div>
 
-  <article class="secondary-story">
-    <div class="story-kicker">
-      <span class="kicker-rule"></span>
-      <span>Issue No. 02 — Jul 15, 2025</span>
+    <div class="article-lead">
+      <div class="lead-body-col">
+        <div class="kicker"><span class="kicker-rule"></span> Incident Account</div>
+        <h2 class="lead-headline">When the Video Is Fake and the Phones Start Ringing</h2>
+        <p class="lead-deck">A mid-sized Georgia county's first AI impersonation incident: forty-seven calls before 10am, a synthetic video of the election director, and no communications plan.</p>
+        <div class="lead-text">
+          <p>On a Tuesday morning in March, a video circulating on Facebook and Nextdoor showed what appeared to be the county election director announcing that the voter registration deadline had been moved forward by two weeks. The video was synthetic — the voice a convincing approximation built from three YouTube recordings of county commission meetings, the background a stock image of a county government building.</p>
+          <p>By 9am, the Clerk's office had received forty-seven calls. By noon, a local TV station had called. By 3pm, the Secretary of State's office was involved. The county had no communications plan, no media contact on retainer, and a website that had not been updated since 2022.</p>
+          <p>"We have two people," the clerk told us. "One was on the phone all day. The other was trying to figure out who to call." CISA was not on the short list of people she thought to call. It is now.</p>
+          <p><strong>What she'd do differently:</strong> Pre-establish a relationship with the local TV assignment desk before any incident. Have a one-page template for corrections ready to deploy. Know your CISA regional contact's cell number. Have a statement that says "we are aware of the content, it is not from this office, here is how to verify official information from us" drafted before you ever need it.</p>
+        </div>
+        <a href="#" class="read-more">Read Full Account</a>
+      </div>
+      <div class="lead-aside">
+        <p class="aside-label">Also on Your Desk</p>
+        <div class="aside-item">
+          <div class="aside-tag">Public Records</div>
+          <div class="aside-title">Writing a Public Records Policy for AI Volume</div>
+          <div class="aside-deck">Model language from three jurisdictions that have updated their policies to address AI-generated request volume.</div>
+        </div>
+        <div class="aside-item">
+          <div class="aside-tag">Internal Comms</div>
+          <div class="aside-title">Explaining AI Threats to Your County Commissioners</div>
+          <div class="aside-deck">How to make the case for resources without sounding alarmist. Language that has worked.</div>
+        </div>
+      </div>
     </div>
-    <h2 class="sec-headline">Deep Fakes on the Ballot</h2>
-    <p class="sec-deck">Synthetic media ran in the 2024 cycle. Some was caught. Most wasn't. A post-mortem on what happened and what wasn't reported.</p>
-    <div class="sec-body">
-      <p>In the final weeks of the 2024 cycle, a robocall impersonating a presidential candidate told Democratic voters in New Hampshire that voting on primary day would "save your vote" for the November election. The audio was synthesized. The call reached tens of thousands of voters.</p>
-      <p>The incident was covered as a news story. It was not covered as a symptom. What the New Hampshire incident revealed was an infrastructure — for generating, distributing, and attributing synthetic political content — that had matured without systematic documentation. This issue maps that infrastructure.</p>
-    </div>
-    <a href="#" class="read-more">Read Issue 02</a>
-  </article>
+  </section>
 
-  <article class="secondary-story">
-    <div class="story-kicker">
-      <span class="kicker-rule"></span>
-      <span>Issue No. 03 — Aug 1, 2025</span>
+  <!-- ── POLICY & LAW ── -->
+  <section class="section-block" data-section="policy-law" data-priority-for="state-policy legal it-security">
+    <div class="section-hd">
+      <h2 class="section-name">Policy &amp; Law</h2>
+      <div class="section-meta">
+        <span class="section-desc">EAC guidance, CISA advisories, state legislation, court decisions — what changes the framework you operate in</span>
+        <span class="priority-label">Priority for your role</span>
+      </div>
     </div>
-    <h2 class="sec-headline">The Micro-Targeting Machine</h2>
-    <p class="sec-deck">How campaigns are using large language models to personalize political messaging at a scale that was impossible two years ago.</p>
-    <div class="sec-body">
-      <p>In the 2022 cycle, a campaign with a sophisticated digital operation might produce several hundred variations of a fundraising email. In 2024, LLM-assisted tools allowed campaigns to generate personalized outreach at the individual voter level — matching message, tone, and issue salience to each recipient's profile.</p>
-      <p>The technology is not secret. The vendors are registered. The capability is documented in marketing materials. What is absent is any systematic accounting of who deployed it, at what scale, targeting which voters — and whether existing disclosure frameworks cover it at all.</p>
-    </div>
-    <a href="#" class="read-more">Read Issue 03</a>
-  </article>
 
-  <article class="secondary-story">
-    <div class="story-kicker">
-      <span class="kicker-rule"></span>
-      <span>Issue No. 04 — Aug 15, 2025</span>
+    <div class="article-thirds">
+      <div class="article-third">
+        <div class="kicker"><span class="kicker-rule"></span> Federal Guidance</div>
+        <h3 class="col-headline">CISA's Election AI Guidance: A Close Reading</h3>
+        <p class="col-deck">CISA published guidance on AI threats to election infrastructure in December 2025. Four pages are directly relevant to election administration. Here is what those pages actually say.</p>
+        <div class="col-text">
+          <p>The document commits CISA to briefing state election officials on specific AI threat indicators, providing incident response support for AI-related incidents, and sharing threat intelligence with SoS offices through established channels. It does not create new reporting requirements for election offices, does not establish standards for AI vendor procurement, and does not address AI tools sold to campaigns — which fall outside CISA's jurisdiction.</p>
+          <p>What remains entirely unaddressed: AI-assisted public records flooding, synthetic media impersonating local (as opposed to statewide) officials, and the certification gap for AI tools in vote-adjacent processes.</p>
+        </div>
+        <a href="#" class="read-more">Read Analysis</a>
+      </div>
+      <div class="article-third">
+        <div class="kicker"><span class="kicker-rule"></span> State Legislation</div>
+        <h3 class="col-headline">What Your State's AI Bill Actually Changes</h3>
+        <p class="col-deck">Twenty-three states have enacted legislation mentioning AI in the context of elections. Three contain meaningful enforcement provisions. A tracker.</p>
+        <div class="col-text">
+          <p>Most state AI election bills create definitions, study requirements, or pilot program authorizations. They do not change what election administrators are permitted to do, required to do, or protected from liability for doing. The three exceptions — and what they actually require — are worth understanding.</p>
+        </div>
+        <a href="#" class="read-more">View Tracker</a>
+      </div>
+      <div class="article-third">
+        <div class="kicker"><span class="kicker-rule"></span> Liability</div>
+        <h3 class="col-headline">When an AI Vendor's Tool Gets It Wrong</h3>
+        <p class="col-deck">Two scenarios, what the contract language typically says, and what counsel is advising.</p>
+        <div class="col-text">
+          <p>Scenario one: an AI signature verification tool incorrectly rejects a statistically significant number of mail ballots in a demographic group. Scenario two: an AI voter roll deduplication tool incorrectly flags eligible voters for removal. In both cases, the question of liability lands first on the election office, not the vendor. Here is the contract language to look for and the indemnification terms that matter.</p>
+        </div>
+        <a href="#" class="read-more">Read Analysis</a>
+      </div>
     </div>
-    <h2 class="sec-headline">Who's Regulating AI in Elections?</h2>
-    <p class="sec-deck">Federal, state, and international frameworks. What has force of law, what is proposal, and what is guidance with no enforcement mechanism.</p>
-    <div class="sec-body">
-      <p>As of publication, twenty-three states have enacted legislation that mentions artificial intelligence in the context of elections. Three of those laws contain meaningful enforcement provisions. The remaining twenty contain definitions, study requirements, and pilot program authorizations that have produced no documented enforcement actions.</p>
-      <p>At the federal level, the FEC issued an advance notice of proposed rulemaking in August 2023. As of this issue, it has not finalized any rule. The FTC has taken one enforcement action related to AI-generated political content. This is the regulatory landscape. This issue maps it without euphemism.</p>
-    </div>
-    <a href="#" class="read-more">Read Issue 04</a>
-  </article>
+  </section>
 
-</div>
+  <!-- ── FIELD REPORTS ── -->
+  <section class="section-block field-reports-section" data-section="field-reports" data-priority-for="county-admin state-policy">
+    <div class="section-hd">
+      <h2 class="section-name">Field Reports</h2>
+      <div class="section-meta">
+        <span class="section-desc">What other jurisdictions are actually doing — peer accounts, not vendor case studies</span>
+        <span class="priority-label">Priority for your role</span>
+      </div>
+    </div>
 
-<!-- UPCOMING DOCKET -->
-<section class="docket-row" id="docket">
-  <div class="docket-row-head">
-    <h2 class="docket-row-title">On the Docket</h2>
-    <span class="docket-row-note">Issues 05–09 — September through November 2025</span>
-  </div>
-  <div class="docket-grid">
-    <div class="docket-entry">
-      <div class="de-num">Issue 05 — Sep 1</div>
-      <div class="de-title">Voter Roll Manipulation — A Technical Survey</div>
-      <div class="de-date">Infrastructure</div>
+    <div class="field-report-inner">
+      <div class="kicker"><span class="kicker-rule"></span> Incident Account — Anonymous</div>
+      <h2 class="lead-headline">"We Had Eight Days and No Playbook"</h2>
+      <p class="lead-deck">The election director of a 180,000-voter Mountain West county describes her office's first AI incident. She asked that her county not be named.</p>
+      <div class="lead-text">
+        <p>"The first call came from a poll worker, not a voter. She'd seen a video on Facebook — someone who looked and sounded like me, announcing that we were moving to a new ballot drop-off location because of a security situation at the courthouse. There was no security situation. There was no new drop-off location. And I had never made a video like that."</p>
+        <p>The video had been live for eleven hours before the election director's office learned of it. It had been shared 2,300 times. The office's Facebook page had 400 followers. "They had a bigger audience than we did."</p>
+        <p>Over the following eight days, the office coordinated with the SoS communications team, issued three formal corrections, briefed the county commissioners, and worked with Facebook to have the video removed — a process that took five days and required documentation of the synthetic origin the office was not equipped to provide on its own. CISA assisted with the technical analysis. That relationship, she said, had been established six months earlier at an EAC training. "If we hadn't done that training, I wouldn't have known who to call."</p>
+      </div>
+      <a href="#" class="read-more">Read Full Account</a>
     </div>
-    <div class="docket-entry">
-      <div class="de-num">Issue 06 — Sep 15</div>
-      <div class="de-title">The Chatbot Candidate</div>
-      <div class="de-date">Campaigns</div>
+  </section>
+
+  <!-- ── TOOLKIT ── -->
+  <section class="section-block" data-section="toolkit" data-priority-for="county-admin legal">
+    <div class="section-hd">
+      <h2 class="section-name">Toolkit</h2>
+      <div class="section-meta">
+        <span class="section-desc">Practical templates, checklists, and guides — ready to use</span>
+        <span class="priority-label">Priority for your role</span>
+      </div>
     </div>
-    <div class="docket-entry">
-      <div class="de-num">Issue 07 — Oct 1</div>
-      <div class="de-title">Election Infrastructure — Attack Surface</div>
-      <div class="de-date">Security</div>
+
+    <div class="toolkit-grid">
+      <div class="toolkit-item">
+        <div class="toolkit-num">01</div>
+        <div class="toolkit-body">
+          <div class="toolkit-title">14 Questions to Ask Any AI Vendor Before Procurement</div>
+          <div class="toolkit-desc">What dataset was this trained on? Has it been independently audited? What is your false rejection rate by demographic group? The full list, with what good answers look like.</div>
+          <span class="toolkit-tag">Procurement</span>
+        </div>
+      </div>
+      <div class="toolkit-item">
+        <div class="toolkit-num">02</div>
+        <div class="toolkit-body">
+          <div class="toolkit-title">Synthetic Media Response Template</div>
+          <div class="toolkit-desc">A ready-to-deploy statement template for when AI-generated content impersonating your office or staff begins circulating. Adapt with your office's information before you need it.</div>
+          <span class="toolkit-tag">Communications</span>
+        </div>
+      </div>
+      <div class="toolkit-item">
+        <div class="toolkit-num">03</div>
+        <div class="toolkit-body">
+          <div class="toolkit-title">How to Request a CISA Election Security Assessment</div>
+          <div class="toolkit-desc">What CISA offers to election offices at no cost, how to request it, how long it takes, and what to do with the results. CISA's election security team number and contact process.</div>
+          <span class="toolkit-tag">Security</span>
+        </div>
+      </div>
+      <div class="toolkit-item">
+        <div class="toolkit-num">04</div>
+        <div class="toolkit-body">
+          <div class="toolkit-title">Documenting an AI Public Records Flood</div>
+          <div class="toolkit-desc">How to log anomalous public records volume in a way that is useful for legal review, CISA reporting, and potential legislation. Model log format included.</div>
+          <span class="toolkit-tag">Legal / Operations</span>
+        </div>
+      </div>
+      <div class="toolkit-item">
+        <div class="toolkit-num">05</div>
+        <div class="toolkit-body">
+          <div class="toolkit-title">AI Public Records Policy Language</div>
+          <div class="toolkit-desc">Model policy language from three jurisdictions that have updated their public records policies to address AI-generated volume. Adapt to your state's records law.</div>
+          <span class="toolkit-tag">Policy</span>
+        </div>
+      </div>
+      <div class="toolkit-item">
+        <div class="toolkit-num">06</div>
+        <div class="toolkit-body">
+          <div class="toolkit-title">Briefing Your County Commissioners on AI Threats</div>
+          <div class="toolkit-desc">A one-page briefing template for non-technical decision-makers. Covers threat types, what resources are needed, and what other counties have done. Avoids alarming language.</div>
+          <span class="toolkit-tag">Internal Comms</span>
+        </div>
+      </div>
     </div>
-    <div class="docket-entry">
-      <div class="de-num">Issue 08 — Oct 15</div>
-      <div class="de-title">Monitoring the Monitors</div>
-      <div class="de-date">Oversight</div>
-    </div>
-    <div class="docket-entry">
-      <div class="de-num">Issue 09 — Nov 1</div>
-      <div class="de-title">The Information Environment</div>
-      <div class="de-date">Media</div>
-    </div>
-  </div>
-</section>
+  </section>
+
+</main>
 
 <!-- SUBSCRIBE CTA -->
 <section class="subscribe-cta" id="subscribe">
-  <div class="cta-left">
-    <span class="cta-label">Free — Bi-Weekly</span>
-    <h2 class="cta-heading">The only publication<br>covering this beat.<span class="x">×</span></h2>
+  <div>
+    <span class="cta-label">Free — For Election Administration Professionals</span>
+    <h2 class="cta-heading">Stay ahead of what's<br>landing on your desk.<span class="x">×</span></h2>
   </div>
-  <div class="cta-right">
-    <p class="cta-body">Election officials, campaign technologists, policy staff, journalists, and researchers — subscribe to stay ahead of the intersection that is reshaping democratic process.</p>
+  <div>
+    <p class="cta-body">Threat intelligence, vendor evaluations, policy analysis, and field reports — written for election officials, not observers. No jargon. No paywall.</p>
     <form class="cta-form" onsubmit="return false;">
-      <input type="email" class="cta-input" placeholder="your@email.com">
+      <input type="email" class="cta-input" placeholder="your@election-office.gov">
       <button class="cta-btn">Subscribe Free</button>
     </form>
-    <p class="cta-fine">No spam. No paywall. Unsubscribe any time.</p>
+    <p class="cta-fine">Sent when there is something worth reading. No filler.</p>
   </div>
 </section>
 
@@ -910,33 +903,97 @@ footer {
   <div class="footer-inner">
     <div class="footer-seal">
       <div>AI<span class="x">×</span>Elections</div>
-      <p>An Independent Publication — Est. 2025</p>
+      <p>For Election Administration Professionals</p>
     </div>
     <div class="footer-links">
       <div class="footer-col">
-        <h4>Publication</h4>
-        <a href="#">Issues</a>
-        <a href="#docket">On the Docket</a>
-        <a href="#subscribe">Subscribe</a>
+        <h4>Sections</h4>
+        <a href="#">Threat Watch</a>
+        <a href="#">Vendor Desk</a>
+        <a href="#">On Your Desk</a>
+        <a href="#">Policy &amp; Law</a>
+        <a href="#">Field Reports</a>
+        <a href="#">Toolkit</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="#">CISA Election Security</a>
+        <a href="#">EAC</a>
+        <a href="#">NIST Election Resources</a>
       </div>
       <div class="footer-col">
         <h4>Contact</h4>
         <span>editorial@ai-elections.com</span>
-        <span>press@ai-elections.com</span>
-      </div>
-      <div class="footer-col">
-        <h4>Publication</h4>
-        <span>Vol. I — 2025–2026</span>
-        <span>Bi-Weekly</span>
-        <span>Free to Subscribe</span>
+        <span>tips@ai-elections.com</span>
       </div>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025 AI × Elections. All rights reserved.</p>
-    <p>Not affiliated with any campaign, party, or government body.</p>
+    <p>© 2025 AI × Elections. Independent publication.</p>
+    <p>Not affiliated with any campaign, vendor, government body, or political party.</p>
   </div>
 </footer>
 
+<script>
+// ── PROFILE FILTER ──
+const profilePriority = {
+  'county-admin':  ['threat-watch', 'on-your-desk', 'vendor-desk', 'field-reports', 'toolkit'],
+  'state-policy':  ['policy-law', 'vendor-desk', 'field-reports', 'threat-watch'],
+  'it-security':   ['threat-watch', 'policy-law', 'vendor-desk'],
+  'legal':         ['policy-law', 'on-your-desk', 'vendor-desk', 'toolkit']
+};
+
+const navBtnPriority = {
+  'county-admin':  ['threat-watch', 'on-your-desk', 'toolkit', 'field-reports'],
+  'state-policy':  ['policy-law', 'vendor-desk', 'field-reports'],
+  'it-security':   ['threat-watch', 'policy-law'],
+  'legal':         ['policy-law', 'on-your-desk', 'toolkit']
+};
+
+function setProfile(btn) {
+  document.querySelectorAll('.profile-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const profile = btn.dataset.profile;
+
+  document.body.dataset.profile = profile;
+  document.body.classList.add('has-profile');
+
+  // Mark section blocks
+  document.querySelectorAll('.section-block').forEach(s => {
+    const priorities = (s.dataset.priorityFor || '').split(' ');
+    s.classList.toggle('priority', priorities.includes(profile));
+  });
+
+  // Mark nav buttons
+  document.querySelectorAll('.sec-btn[data-priority-for]').forEach(b => {
+    const priorities = (b.dataset.priorityFor || '').split(' ');
+    b.classList.toggle('priority', priorities.includes(profile));
+  });
+
+  localStorage.setItem('axe-profile', profile);
+}
+
+// ── SECTION FILTER ──
+function filterSection(btn) {
+  document.querySelectorAll('.sec-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filter = btn.dataset.filter;
+
+  document.querySelectorAll('.section-block').forEach(s => {
+    if (filter === 'all') {
+      s.classList.remove('hidden');
+    } else {
+      s.classList.toggle('hidden', s.dataset.section !== filter);
+    }
+  });
+}
+
+// ── RESTORE SAVED PROFILE ──
+const saved = localStorage.getItem('axe-profile');
+if (saved) {
+  const btn = document.querySelector(`.profile-btn[data-profile="${saved}"]`);
+  if (btn) setProfile(btn);
+}
+</script>
 </body>
 </html>
