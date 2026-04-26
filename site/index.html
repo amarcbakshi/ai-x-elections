@@ -44,7 +44,7 @@ body { background: var(--paper); color: var(--ink); font-family: var(--f-text); 
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: oklch(45% 0.005 70);
+  color: oklch(70% 0.005 70);
 }
 .proc-links { display: flex; gap: 20px; align-items: center; }
 .proc-links a {
@@ -53,7 +53,7 @@ body { background: var(--paper); color: var(--ink); font-family: var(--f-text); 
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: oklch(48% 0.005 70);
+  color: oklch(72% 0.005 70);
   text-decoration: none;
   transition: color 0.15s;
 }
@@ -99,71 +99,6 @@ body { background: var(--paper); color: var(--ink); font-family: var(--f-text); 
   margin-left: auto;
 }
 
-/* ── PROFILE SELECTOR ── */
-.profile-bar {
-  background: var(--pale);
-  border-bottom: 1px solid var(--rule);
-  padding: 10px 40px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.profile-prompt {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.profile-btns { display: flex; gap: 6px; flex-wrap: wrap; }
-.profile-btn {
-  font-family: var(--f-label);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 5px 12px;
-  border: 1.5px solid var(--pale-b);
-  background: transparent;
-  color: var(--ink-mid);
-  cursor: pointer;
-  transition: all 0.15s;
-  white-space: nowrap;
-}
-.profile-btn:hover { border-color: var(--ink-mid); color: var(--ink); }
-.profile-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-.profile-clear {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  display: none;
-  transition: color 0.15s;
-}
-.profile-clear:hover { color: var(--ink-mid); }
-body.has-profile .profile-clear { display: inline; }
-.cta-success {
-  display: none;
-  font-family: var(--f-label);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: var(--paper);
-  padding: 12px 0;
-  border-top: 1.5px solid oklch(38% 0.006 70);
-  margin-top: 2px;
-}
-
 /* ── SECTION NAV ── */
 .section-nav {
   border-bottom: 1.5px solid var(--ink);
@@ -191,30 +126,77 @@ body.has-profile .profile-clear { display: inline; }
   border-bottom: 2px solid transparent;
   white-space: nowrap;
   transition: all 0.15s;
-  position: relative;
 }
 .sec-btn:hover { color: var(--ink); }
 .sec-btn.active { color: var(--ink); border-bottom-color: var(--ink); }
-.sec-btn .priority-dot {
-  display: none;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--red);
-  position: absolute;
-  top: 10px;
-  right: 6px;
+
+/* ── SEARCH ── */
+.search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  padding: 8px 0 8px 16px;
+  flex-shrink: 0;
 }
-body.has-profile .sec-btn.priority .priority-dot { display: inline-block; }
+.search-input {
+  font-family: var(--f-label);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  width: 170px;
+  padding: 5px 10px;
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s, width 0.2s;
+}
+.search-input::placeholder { color: var(--ink-lt); font-weight: 400; letter-spacing: 0.04em; }
+.search-input:focus { border-color: var(--ink-mid); width: 210px; }
+.search-clear {
+  font-family: var(--f-label);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: none;
+  transition: color 0.15s;
+}
+.search-clear.visible { display: inline; }
+.search-clear:hover { color: var(--ink-mid); }
 
 /* ── MAIN CONTENT ── */
 .main { padding: 0; }
+
+/* ── LOADING STATE ── */
+.content-loading {
+  padding: 80px 40px;
+  text-align: center;
+  font-family: var(--f-label);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
+}
+.content-error {
+  padding: 60px 40px;
+  border-bottom: 1.5px solid var(--ink);
+  font-family: var(--f-text);
+  font-size: 14px;
+  color: var(--ink-mid);
+}
 
 /* ── SECTION BLOCK ── */
 .section-block {
   border-bottom: 1.5px solid var(--ink);
   padding: 48px 40px;
-  transition: opacity 0.2s;
 }
 .section-block.hidden { display: none; }
 
@@ -232,11 +214,6 @@ body.has-profile .sec-btn.priority .priority-dot { display: inline-block; }
   letter-spacing: -0.01em;
   color: var(--ink);
 }
-.section-meta {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
 .section-desc {
   font-family: var(--f-text);
   font-size: 13px;
@@ -244,18 +221,6 @@ body.has-profile .sec-btn.priority .priority-dot { display: inline-block; }
   font-style: italic;
   color: var(--ink-mid);
 }
-.priority-label {
-  display: none;
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-mid);
-  border: 1.5px solid var(--ink-mid);
-  padding: 2px 8px;
-}
-body.has-profile .section-block.priority .priority-label { display: inline-block; }
 
 /* ── ARTICLE KICKER ── */
 .kicker {
@@ -272,14 +237,13 @@ body.has-profile .section-block.priority .priority-label { display: inline-block
 }
 .kicker-rule { width: 20px; height: 1.5px; background: var(--ink); flex-shrink: 0; }
 
-/* ── LEAD ARTICLE (full width) ── */
+/* ── LEAD ARTICLE ── */
 .article-lead {
   display: grid;
   grid-template-columns: 3fr 2fr;
   gap: 48px;
   align-items: start;
 }
-.lead-body-col {}
 .lead-headline {
   font-family: var(--f-display);
   font-size: clamp(30px, 4vw, 46px);
@@ -399,224 +363,254 @@ body.has-profile .section-block.priority .priority-label { display: inline-block
   font-style: italic;
   line-height: 1.5;
   color: var(--ink-mid);
-  margin-bottom: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--rule);
+  margin-bottom: 16px;
 }
 .col-text {
   font-family: var(--f-text);
   font-size: 14px;
   font-weight: 300;
-  line-height: 1.65;
+  line-height: 1.68;
   color: var(--ink);
 }
-.col-text p { margin-bottom: 12px; }
+.col-text p { margin-bottom: 14px; }
 .col-text p:last-child { margin-bottom: 0; }
+.col-text strong { font-weight: 600; }
 
 /* ── THREE-COLUMN ARTICLES ── */
 .article-thirds {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 0;
+  margin-top: 36px;
+  border-top: 1px solid var(--rule);
 }
 .article-third {
-  padding: 0 28px 0 0;
+  padding: 24px 28px 0 0;
   border-right: 1px solid var(--rule);
 }
-.article-third:last-child { border-right: none; padding-right: 0; padding-left: 28px; }
 .article-third:nth-child(2) { padding-left: 28px; }
-
-/* ── FIELD REPORTS — different bg ── */
-.section-block.field-reports-section {
-  background: var(--pale);
+.article-third:last-child { border-right: none; padding-right: 0; padding-left: 28px; }
+.third-headline {
+  font-family: var(--f-display);
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 8px;
 }
-.field-report-inner {
-  max-width: 680px;
+.third-deck {
+  font-family: var(--f-text);
+  font-size: 13px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink-mid);
+  margin-bottom: 14px;
 }
 
-/* ── TOOLKIT — list format ── */
+/* ── TOOLKIT GRID ── */
 .toolkit-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 0;
+  margin-top: 36px;
+  border-top: 1px solid var(--rule);
 }
 .toolkit-item {
-  padding: 20px 28px 20px 0;
-  border-bottom: 1px solid var(--rule);
+  padding: 24px 28px 24px 0;
   border-right: 1px solid var(--rule);
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
+  border-bottom: 1px solid var(--rule);
 }
-.toolkit-item:nth-child(even) {
-  padding-right: 0;
-  padding-left: 28px;
-  border-right: none;
-}
+.toolkit-item:nth-child(even) { padding-left: 28px; padding-right: 0; border-right: none; }
 .toolkit-item:nth-last-child(-n+2) { border-bottom: none; }
 .toolkit-num {
   font-family: var(--f-display);
-  font-size: 28px;
-  line-height: 1;
+  font-size: 36px;
   color: var(--ink-lt);
-  flex-shrink: 0;
-  width: 32px;
+  line-height: 1;
+  margin-bottom: 8px;
 }
-.toolkit-body {}
-.toolkit-title {
+.toolkit-tag {
   font-family: var(--f-label);
-  font-size: 13px;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--ink);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
   margin-bottom: 6px;
+}
+.toolkit-title {
+  font-family: var(--f-text);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 8px;
 }
 .toolkit-desc {
   font-family: var(--f-text);
   font-size: 13px;
   font-weight: 300;
-  line-height: 1.55;
+  line-height: 1.6;
   color: var(--ink-mid);
 }
-.toolkit-tag {
-  display: inline-block;
-  font-family: var(--f-label);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
-  border: 1px solid var(--rule);
-  padding: 2px 6px;
-  margin-top: 8px;
+
+/* ── SEARCH RESULTS EMPTY STATE ── */
+.search-empty {
+  padding: 60px 0;
+  font-family: var(--f-text);
+  font-size: 16px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink-mid);
 }
+.search-empty a { color: var(--ink); text-decoration: underline; }
 
 /* ── SUBSCRIBE CTA ── */
 .subscribe-cta {
-  background: var(--ink-surf);
-  padding: 60px 40px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: center;
+  gap: 64px;
+  align-items: start;
+  background: var(--ink);
+  padding: 64px 40px;
 }
 .cta-label {
   font-family: var(--f-label);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: oklch(40% 0.005 70);
-  margin-bottom: 14px;
+  color: oklch(55% 0.005 70);
   display: block;
+  margin-bottom: 12px;
 }
 .cta-heading {
   font-family: var(--f-display);
-  font-size: clamp(28px, 3.5vw, 44px);
-  line-height: 1.05;
+  font-size: clamp(28px, 4vw, 46px);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
   color: var(--paper);
 }
 .cta-heading .x { color: var(--red); }
 .cta-body {
   font-family: var(--f-text);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 300;
-  line-height: 1.65;
+  line-height: 1.6;
   color: oklch(72% 0.005 70);
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
-.cta-form { display: flex; }
+.cta-form { display: flex; gap: 0; margin-bottom: 10px; }
 .cta-input {
-  flex: 1;
   font-family: var(--f-label);
   font-size: 12px;
-  letter-spacing: 0;
-  padding: 12px 16px;
-  border: 1.5px solid oklch(38% 0.006 70);
-  border-right: none;
-  background: oklch(20% 0.007 70);
+  letter-spacing: 0.06em;
+  flex: 1;
+  padding: 10px 14px;
+  border: 1.5px solid oklch(35% 0.005 70);
+  background: transparent;
   color: var(--paper);
-  outline: none; /* overridden by .cta-input:focus in polish block */
+  outline: none;
+  transition: border-color 0.15s;
 }
-.cta-input::placeholder { color: oklch(45% 0.005 70); letter-spacing: 0.06em; }
+.cta-input::placeholder { color: oklch(48% 0.005 70); }
 .cta-btn {
   font-family: var(--f-label);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  padding: 10px 20px;
   background: var(--paper);
   color: var(--ink);
   border: 1.5px solid var(--paper);
-  padding: 12px 20px;
   cursor: pointer;
   white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
 }
+.cta-btn:hover { background: oklch(90% 0.005 70); }
 .cta-fine {
   font-family: var(--f-label);
   font-size: 10px;
   letter-spacing: 0.08em;
-  color: oklch(38% 0.005 70);
-  margin-top: 10px;
+  color: oklch(45% 0.005 70);
+}
+.cta-success {
+  display: none;
+  font-family: var(--f-label);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--paper);
+  padding: 12px 0;
+  border-top: 1.5px solid oklch(38% 0.006 70);
+  margin-top: 2px;
 }
 
 /* ── FOOTER ── */
 footer {
   background: var(--ink);
-  padding: 40px 40px;
+  padding: 48px 40px 32px;
 }
 .footer-inner {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 40px;
-  margin-bottom: 28px;
-  padding-bottom: 28px;
-  border-bottom: 1px solid oklch(25% 0.006 70);
+  gap: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid oklch(25% 0.005 70);
+  margin-bottom: 24px;
 }
 .footer-seal { font-family: var(--f-display); font-size: 16px; color: var(--paper); }
 .footer-seal .x { color: var(--red); }
-.footer-seal p { font-family: var(--f-label); font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: oklch(35% 0.005 70); margin-top: 6px; }
+.footer-seal p {
+  font-family: var(--f-label);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: oklch(60% 0.005 70);
+  margin-top: 6px;
+}
 .footer-links { display: flex; gap: 48px; }
-.footer-col-title { font-family: var(--f-label); font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: oklch(40% 0.005 70); margin-bottom: 12px; }
-.footer-col a, .footer-col span { display: block; font-family: var(--f-label); font-size: 11px; letter-spacing: 0.06em; color: oklch(35% 0.005 70); text-decoration: none; margin-bottom: 6px; transition: color 0.15s; }
-.footer-col a:hover { color: oklch(62% 0.005 70); }
+.footer-col-title {
+  font-family: var(--f-label);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: oklch(55% 0.005 70);
+  margin-bottom: 12px;
+}
+.footer-col a, .footer-col span {
+  display: block;
+  font-family: var(--f-label);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: oklch(65% 0.005 70);
+  text-decoration: none;
+  margin-bottom: 6px;
+  transition: color 0.15s;
+}
+.footer-col a:hover { color: oklch(82% 0.005 70); }
 .footer-bottom { display: flex; justify-content: space-between; }
-.footer-bottom p { font-family: var(--f-label); font-size: 10px; letter-spacing: 0.10em; text-transform: uppercase; color: oklch(44% 0.005 70); }
-
-/* ── POLISH: CONTRAST FIXES ── */
-.footer-col a, .footer-col span { color: oklch(52% 0.005 70); }
-.footer-seal p { color: oklch(44% 0.005 70); }
-
-/* ── POLISH: HOVER STATES ── */
-.read-more:hover { color: var(--ink-mid); border-bottom-color: var(--ink-mid); }
-.cta-btn:hover { background: var(--pale); }
-
-/* ── POLISH: FOCUS STATES ── */
-.sr-only {
-  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+.footer-bottom p {
+  font-family: var(--f-label);
+  font-size: 10px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: oklch(50% 0.005 70);
 }
-.profile-btn:focus-visible,
-.profile-clear:focus-visible,
-.sec-btn:focus-visible,
-.read-more:focus-visible,
-.cta-btn:focus-visible,
-.proc-links a:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 2px;
-}
-.cta-input:focus {
-  outline: none;
-  border-color: var(--paper);
-  box-shadow: 0 0 0 2px oklch(62% 0.005 70);
-}
+
+/* ── SCREEN READER ONLY ── */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
 /* ── READ MORE EXPAND ── */
 .lead-text, .col-text { display: none; }
 .lead-text.expanded, .col-text.expanded { display: block; }
 
-/* ── ARTICLE ACTIONS (read more + share) ── */
+/* ── ARTICLE ACTIONS ── */
 .article-actions {
   display: flex;
   align-items: center;
@@ -649,14 +643,29 @@ footer {
 }
 .share-btn:hover { color: var(--ink); border-color: var(--ink-mid); }
 .share-btn.confirmed { color: var(--ink-mid); border-color: var(--ink-mid); }
-.share-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
-/* ── POLISH: REDUCED MOTION ── */
+/* ── FOCUS STATES ── */
+.sec-btn:focus-visible,
+.read-more:focus-visible,
+.cta-btn:focus-visible,
+.share-btn:focus-visible,
+.proc-links a:focus-visible,
+.search-input:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.cta-input:focus {
+  outline: none;
+  border-color: var(--paper);
+  box-shadow: 0 0 0 2px oklch(62% 0.005 70);
+}
+
+/* ── REDUCED MOTION ── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
 
-/* ── POLISH: MOBILE ── */
+/* ── MOBILE ── */
 @media (max-width: 768px) {
   .masthead {
     grid-template-columns: 1fr;
@@ -668,8 +677,6 @@ footer {
   .masthead-title { font-size: clamp(56px, 18vw, 88px); }
 
   .proclamation { padding: 8px 20px; }
-  .profile-bar { padding: 10px 20px; flex-wrap: wrap; gap: 10px; }
-  .profile-btns { flex-wrap: wrap; }
   .section-nav { padding: 0 20px; }
 
   .section-block { padding: 36px 20px; }
@@ -697,6 +704,8 @@ footer {
   .footer-inner { flex-direction: column; gap: 28px; }
   .footer-links { flex-direction: column; gap: 24px; }
   .footer-bottom { flex-direction: column; gap: 8px; }
+
+  .search-wrap { display: none; }
 }
 
 </style>
@@ -719,374 +728,25 @@ footer {
   <div class="masthead-right">Reported for the people who run elections, not the people who watch them.</div>
 </header>
 
-<!-- PROFILE SELECTOR -->
-<div class="profile-bar">
-  <span class="profile-prompt">Filter by role:</span>
-  <div class="profile-btns">
-    <button class="profile-btn" data-profile="county-admin" onclick="setProfile(this)">County Administration</button>
-    <button class="profile-btn" data-profile="state-policy" onclick="setProfile(this)">State-Level Policy</button>
-    <button class="profile-btn" data-profile="it-security" onclick="setProfile(this)">IT &amp; Security</button>
-    <button class="profile-btn" data-profile="legal" onclick="setProfile(this)">Legal Counsel</button>
-  </div>
-  <button class="profile-clear" onclick="clearProfile()">Clear</button>
-</div>
-
 <!-- SECTION NAV -->
 <nav class="section-nav" aria-label="Content sections">
   <button class="sec-btn active" data-filter="all" onclick="filterSection(this)">All</button>
-  <button class="sec-btn" data-filter="threat-watch" onclick="filterSection(this)"
-    data-priority-for="county-admin it-security">Threat Watch<span class="priority-dot" aria-hidden="true"></span></button>
-  <button class="sec-btn" data-filter="vendor-desk" onclick="filterSection(this)"
-    data-priority-for="county-admin state-policy">Vendor Desk<span class="priority-dot" aria-hidden="true"></span></button>
-  <button class="sec-btn" data-filter="on-your-desk" onclick="filterSection(this)"
-    data-priority-for="county-admin legal">On Your Desk<span class="priority-dot" aria-hidden="true"></span></button>
-  <button class="sec-btn" data-filter="policy-law" onclick="filterSection(this)"
-    data-priority-for="state-policy legal it-security">Policy &amp; Law<span class="priority-dot" aria-hidden="true"></span></button>
-  <button class="sec-btn" data-filter="field-reports" onclick="filterSection(this)"
-    data-priority-for="county-admin state-policy">Field Reports<span class="priority-dot" aria-hidden="true"></span></button>
-  <button class="sec-btn" data-filter="toolkit" onclick="filterSection(this)"
-    data-priority-for="county-admin legal">Toolkit<span class="priority-dot" aria-hidden="true"></span></button>
+  <button class="sec-btn" data-filter="threat-watch" onclick="filterSection(this)">Threat Watch</button>
+  <button class="sec-btn" data-filter="vendor-desk" onclick="filterSection(this)">Vendor Desk</button>
+  <button class="sec-btn" data-filter="on-your-desk" onclick="filterSection(this)">On Your Desk</button>
+  <button class="sec-btn" data-filter="policy-law" onclick="filterSection(this)">Policy &amp; Law</button>
+  <button class="sec-btn" data-filter="field-reports" onclick="filterSection(this)">Field Reports</button>
+  <button class="sec-btn" data-filter="toolkit" onclick="filterSection(this)">Toolkit</button>
+  <div class="search-wrap">
+    <label for="search-input" class="sr-only">Search articles</label>
+    <input type="search" id="search-input" class="search-input" placeholder="Search articles…" oninput="handleSearch(this.value)" autocomplete="off">
+    <button class="search-clear" id="search-clear" onclick="clearSearch()" aria-label="Clear search">Clear</button>
+  </div>
 </nav>
 
 <!-- MAIN CONTENT -->
-<main class="main">
-
-  <!-- ── THREAT WATCH ── -->
-  <section class="section-block" data-section="threat-watch" data-priority-for="county-admin it-security" aria-labelledby="hd-threat-watch">
-    <div class="section-hd">
-      <h2 class="section-name" id="hd-threat-watch">Threat Watch</h2>
-      <div class="section-meta">
-        <span class="section-desc">Active AI threats in election offices — specific and operational</span>
-        <span class="priority-label">Priority for your role</span>
-      </div>
-    </div>
-
-    <!-- LEAD: FOIA FLOOD -->
-    <div class="article-lead">
-      <div class="lead-body-col">
-        <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> Threat Watch</div>
-        <h3 class="lead-headline">The FOIA Flood Is Here</h3>
-        <p class="lead-deck">Election offices in at least eleven states are reporting surges in public records requests with a shared signature: near-identical formatting, inhuman volume, and timing calibrated to hit before administrative deadlines. The goal is rarely the records.</p>
-        <div class="lead-text">
-          <p>A county clerk in a competitive Ohio district received 340 public records requests in a single week last October, up from a typical monthly volume of eight to twelve. Two staff members handle public records in that office. For ten days, they handled almost nothing else. Ballots for a primary were scheduled for mailing the following week. They were late.</p>
-          <p>The pattern has been documented in Ohio, Wisconsin, Arizona, Georgia, Pennsylvania, North Carolina, and Nevada — states sharing two characteristics: competitive federal races and active election denial organizing networks. It has an informal name inside CISA: AI-assisted records flooding. The objective is not the records. It is staff time.</p>
-          <p>Legally, the landscape offers little relief. Public records laws in most states do not permit offices to discriminate between human and automated requesters. The volume itself is not illegal. Some attorneys are exploring whether coordinated flooding constitutes obstruction, but no case has advanced past preliminary research.</p>
-          <p><strong>What to do:</strong> Document every anomalous request — volume, formatting patterns, requester information. CISA's election security team wants this data. Three states are drafting legislation allowing offices to charge processing fees for AI-generated volume. Model language is in the Toolkit section below.</p>
-        </div>
-        <div class="article-actions">
-          <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
-          <div class="share-row">
-            <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
-            <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
-            <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
-          </div>
-        </div>
-      </div>
-      <div class="lead-aside">
-        <p class="aside-label">Also in Threat Watch</p>
-        <div class="aside-item">
-          <div class="aside-tag">Audio Synthesis</div>
-          <div class="aside-title">Synthetic Audio Impersonating Local Election Officials</div>
-          <div class="aside-deck">Convincing approximations of county clerks announcing wrong dates. Cheaper to produce than you think.</div>
-        </div>
-        <div class="aside-item">
-          <div class="aside-tag">Polling Place Misinformation</div>
-          <div class="aside-title">AI-Generated Polling Place Notices</div>
-          <div class="aside-deck">Geographically specific flyers and texts claiming polling places have moved. The anatomy of a recent incident.</div>
-        </div>
-        <div class="aside-item">
-          <div class="aside-tag">Impersonation</div>
-          <div class="aside-title">Deepfake Secretary of State Announcements</div>
-          <div class="aside-deck">Two documented incidents, one with confirmed foreign-origin infrastructure. What SoS offices did.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SECONDARY: two articles -->
-    <div class="article-cols">
-      <div class="article-col">
-        <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> Audio Synthesis</div>
-        <h3 class="col-headline">Synthetic Audio Impersonating Local Officials</h3>
-        <p class="col-deck">Unlike deepfake video, synthetic audio is cheap, fast, and effective enough to fool most voters.</p>
-        <div class="col-text">
-          <p>A convincing approximation of a county clerk's voice can be generated in under an hour using freely available tools and three minutes of public audio from a county commission meeting posted to YouTube. The resulting clip is indistinguishable from authentic audio to most listeners and, in six documented cases over the past eight months, was widely shared before any official correction reached the same audience.</p>
-          <p>What distinguishes these incidents from generic disinformation: the content is hyper-local and operationally specific. Wrong dates. Wrong polling places. Wrong deadlines. Not national messaging — targeted disruption of a specific jurisdiction's voters.</p>
-        </div>
-        <div class="article-actions">
-          <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
-          <div class="share-row">
-            <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
-            <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
-            <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
-          </div>
-        </div>
-      </div>
-      <div class="article-col">
-        <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> Suppression Operations</div>
-        <h3 class="col-headline">AI-Generated Polling Place Notices Are Spreading</h3>
-        <p class="col-deck">Geographically specific content claiming polling places have closed or moved is the most common AI incident election offices are reporting.</p>
-        <div class="col-text">
-          <p>Most originate outside the target county. Many are specific enough — referencing actual street addresses, actual precinct names — to be convincing to voters who don't verify. The production cost is negligible. A flyer, a text blast, a Nextdoor post: each can be generated and distributed in an afternoon.</p>
-          <p>Three counties have now developed rapid-response protocols. The common elements: a pre-established relationship with local TV assignment desks, a templated correction post ready to deploy, and a direct line to their state CISA contact. The full protocol is documented in Field Reports.</p>
-        </div>
-        <div class="article-actions">
-          <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
-          <div class="share-row">
-            <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
-            <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
-            <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── VENDOR DESK ── -->
-  <section class="section-block" data-section="vendor-desk" data-priority-for="county-admin state-policy" aria-labelledby="hd-vendor-desk">
-    <div class="section-hd">
-      <h2 class="section-name" id="hd-vendor-desk">Vendor Desk</h2>
-      <div class="section-meta">
-        <span class="section-desc">What vendors claim — and what their products actually do</span>
-        <span class="priority-label">Priority for your role</span>
-      </div>
-    </div>
-
-    <div class="article-lead">
-      <div class="lead-body-col">
-        <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> Vendor Desk</div>
-        <h3 class="lead-headline">What Signature Verification AI Actually Does</h3>
-        <p class="lead-deck">Fourteen companies are marketing AI-powered signature verification for mail ballot processing. We asked all fourteen the same three questions. Most declined to answer.</p>
-        <div class="lead-text">
-          <p>The questions were not adversarial. We asked: what dataset was your model trained on; is that dataset certified or independently audited; and what is your published false rejection rate broken down by demographic group?</p>
-          <p>Six companies did not respond after two contact attempts. Four responded with marketing materials. Three provided partial technical documentation. One provided full specifications including third-party audit results. That company's product, it turned out, was trained predominantly on commercial check-processing data — a dataset that does not include election ballot signatures and skews toward populations that write checks frequently.</p>
-          <p><strong>The EAC certification gap:</strong> AI tools that touch vote-adjacent processes — signature matching, mail ballot sorting, voter roll deduplication — are not currently subject to EAC certification requirements. Those requirements apply to voting systems as defined under HAVA, and most vendors have structured their products to fall outside that definition. This is not necessarily intentional evasion; the regulatory framework predates AI-powered election tools. But the gap is real and documented.</p>
-        </div>
-        <div class="article-actions">
-          <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
-          <div class="share-row">
-            <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
-            <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
-            <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
-          </div>
-        </div>
-      </div>
-      <div class="lead-aside">
-        <p class="aside-label">Also in Vendor Desk</p>
-        <div class="aside-item">
-          <div class="aside-tag">Voter Rolls</div>
-          <div class="aside-title">Voter Roll Deduplication with LLMs</div>
-          <div class="aside-deck">Which major vendors are using language models in their matching pipelines, and what they disclose about it.</div>
-        </div>
-        <div class="aside-item">
-          <div class="aside-tag">Procurement</div>
-          <div class="aside-title">Fourteen Questions Before You Sign</div>
-          <div class="aside-deck">A framework for evaluating any AI vendor's claims — developed with county procurement officers.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── ON YOUR DESK ── -->
-  <section class="section-block" data-section="on-your-desk" data-priority-for="county-admin legal" aria-labelledby="hd-on-your-desk">
-    <div class="section-hd">
-      <h2 class="section-name" id="hd-on-your-desk">On Your Desk</h2>
-      <div class="section-meta">
-        <span class="section-desc">AI in your office: how to identify it, respond, and report</span>
-        <span class="priority-label">Priority for your role</span>
-      </div>
-    </div>
-
-    <div class="article-lead">
-      <div class="lead-body-col">
-        <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> On Your Desk</div>
-        <h3 class="lead-headline">When the Video Is Fake and the Phones Start Ringing</h3>
-        <p class="lead-deck">A mid-sized Georgia county's first AI impersonation incident: forty-seven calls before 10am, a synthetic video of the election director, and no communications plan.</p>
-        <div class="lead-text">
-          <p>On a Tuesday morning in March, a video circulating on Facebook and Nextdoor showed what appeared to be the county election director announcing that the voter registration deadline had been moved forward by two weeks. The video was synthetic — the voice a convincing approximation built from three YouTube recordings of county commission meetings, the background a stock image of a county government building.</p>
-          <p>By 9am, the Clerk's office had received forty-seven calls. By noon, a local TV station had called. By 3pm, the Secretary of State's office was involved. The county had no communications plan, no media contact on retainer, and a website that had not been updated since 2022.</p>
-          <p>"We have two people," the clerk told us. "One was on the phone all day. The other was trying to figure out who to call." CISA was not on the short list of people she thought to call. It is now.</p>
-          <p><strong>What she'd do differently:</strong> Pre-establish a relationship with the local TV assignment desk before any incident. Have a one-page template for corrections ready to deploy. Know your CISA regional contact's cell number. Have a statement that says "we are aware of the content, it is not from this office, here is how to verify official information from us" drafted before you ever need it.</p>
-        </div>
-        <div class="article-actions">
-          <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
-          <div class="share-row">
-            <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
-            <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
-            <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
-          </div>
-        </div>
-      </div>
-      <div class="lead-aside">
-        <p class="aside-label">Also on Your Desk</p>
-        <div class="aside-item">
-          <div class="aside-tag">Public Records</div>
-          <div class="aside-title">Writing a Public Records Policy for AI Volume</div>
-          <div class="aside-deck">Model language from three jurisdictions that have updated their policies to address AI-generated request volume.</div>
-        </div>
-        <div class="aside-item">
-          <div class="aside-tag">Internal Comms</div>
-          <div class="aside-title">Explaining AI Threats to Your County Commissioners</div>
-          <div class="aside-deck">How to make the case for resources without sounding alarmist. Language that has worked.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── POLICY & LAW ── -->
-  <section class="section-block" data-section="policy-law" data-priority-for="state-policy legal it-security" aria-labelledby="hd-policy-law">
-    <div class="section-hd">
-      <h2 class="section-name" id="hd-policy-law">Policy &amp; Law</h2>
-      <div class="section-meta">
-        <span class="section-desc">EAC guidance, CISA advisories, legislation: what changes how you operate</span>
-        <span class="priority-label">Priority for your role</span>
-      </div>
-    </div>
-
-    <div class="article-thirds">
-      <div class="article-third">
-        <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> Federal Guidance</div>
-        <h3 class="col-headline">CISA's Election AI Guidance: A Close Reading</h3>
-        <p class="col-deck">CISA published guidance on AI threats to election infrastructure in December 2025. Four pages are directly relevant to election administration. Here is what those pages actually say.</p>
-        <div class="col-text">
-          <p>The document commits CISA to briefing state election officials on specific AI threat indicators, providing incident response support for AI-related incidents, and sharing threat intelligence with SoS offices through established channels. It does not create new reporting requirements for election offices, does not establish standards for AI vendor procurement, and does not address AI tools sold to campaigns — which fall outside CISA's jurisdiction.</p>
-          <p>What remains entirely unaddressed: AI-assisted public records flooding, synthetic media impersonating local (as opposed to statewide) officials, and the certification gap for AI tools in vote-adjacent processes.</p>
-        </div>
-        <div class="article-actions">
-          <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
-          <div class="share-row">
-            <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
-            <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
-            <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
-          </div>
-        </div>
-      </div>
-      <div class="article-third">
-        <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> State Legislation</div>
-        <h3 class="col-headline">What Your State's AI Bill Actually Changes</h3>
-        <p class="col-deck">Twenty-three states have enacted legislation mentioning AI in the context of elections. Three contain meaningful enforcement provisions. A tracker.</p>
-        <div class="col-text">
-          <p>Most state AI election bills create definitions, study requirements, or pilot program authorizations. They do not change what election administrators are permitted to do, required to do, or protected from liability for doing. The three exceptions — and what they actually require — are worth understanding.</p>
-        </div>
-        <div class="article-actions">
-          <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
-          <div class="share-row">
-            <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
-            <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
-            <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
-          </div>
-        </div>
-      </div>
-      <div class="article-third">
-        <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> Liability</div>
-        <h3 class="col-headline">When an AI Vendor's Tool Gets It Wrong</h3>
-        <p class="col-deck">Two scenarios, what the contract language typically says, and what counsel is advising.</p>
-        <div class="col-text">
-          <p>Scenario one: an AI signature verification tool incorrectly rejects a statistically significant number of mail ballots in a demographic group. Scenario two: an AI voter roll deduplication tool incorrectly flags eligible voters for removal. In both cases, the question of liability lands first on the election office, not the vendor. Here is the contract language to look for and the indemnification terms that matter.</p>
-        </div>
-        <div class="article-actions">
-          <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
-          <div class="share-row">
-            <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
-            <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
-            <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── FIELD REPORTS ── -->
-  <section class="section-block field-reports-section" data-section="field-reports" data-priority-for="county-admin state-policy" aria-labelledby="hd-field-reports">
-    <div class="section-hd">
-      <h2 class="section-name" id="hd-field-reports">Field Reports</h2>
-      <div class="section-meta">
-        <span class="section-desc">Peer accounts from other jurisdictions, not vendor case studies</span>
-        <span class="priority-label">Priority for your role</span>
-      </div>
-    </div>
-
-    <div class="field-report-inner">
-      <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> Field Report — Anonymous</div>
-      <h3 class="lead-headline">"We Had Eight Days and No Playbook"</h3>
-      <p class="lead-deck">The election director of a 180,000-voter Mountain West county describes her office's first AI incident. She asked that her county not be named.</p>
-      <div class="lead-text">
-        <p>"The first call came from a poll worker, not a voter. She'd seen a video on Facebook — someone who looked and sounded like me, announcing that we were moving to a new ballot drop-off location because of a security situation at the courthouse. There was no security situation. There was no new drop-off location. And I had never made a video like that."</p>
-        <p>The video had been live for eleven hours before the election director's office learned of it. It had been shared 2,300 times. The office's Facebook page had 400 followers. "They had a bigger audience than we did."</p>
-        <p>Over the following eight days, the office coordinated with the SoS communications team, issued three formal corrections, briefed the county commissioners, and worked with Facebook to have the video removed — a process that took five days and required documentation of the synthetic origin the office was not equipped to provide on its own. CISA assisted with the technical analysis. That relationship, she said, had been established six months earlier at an EAC training. "If we hadn't done that training, I wouldn't have known who to call."</p>
-      </div>
-      <div class="article-actions">
-        <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
-        <div class="share-row">
-          <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
-          <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
-          <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── TOOLKIT ── -->
-  <section class="section-block" data-section="toolkit" data-priority-for="county-admin legal" aria-labelledby="hd-toolkit">
-    <div class="section-hd">
-      <h2 class="section-name" id="hd-toolkit">Toolkit</h2>
-      <div class="section-meta">
-        <span class="section-desc">Practical templates, checklists, and guides — ready to use</span>
-        <span class="priority-label">Priority for your role</span>
-      </div>
-    </div>
-
-    <div class="toolkit-grid">
-      <div class="toolkit-item">
-        <div class="toolkit-num">01</div>
-        <div class="toolkit-body">
-          <div class="toolkit-title">14 Questions to Ask Any AI Vendor Before Procurement</div>
-          <div class="toolkit-desc">What dataset was this trained on? Has it been independently audited? What is your false rejection rate by demographic group? The full list, with what good answers look like.</div>
-          <span class="toolkit-tag">Procurement</span>
-        </div>
-      </div>
-      <div class="toolkit-item">
-        <div class="toolkit-num">02</div>
-        <div class="toolkit-body">
-          <div class="toolkit-title">Synthetic Media Response Template</div>
-          <div class="toolkit-desc">A ready-to-deploy statement template for when AI-generated content impersonating your office or staff begins circulating. Adapt with your office's information before you need it.</div>
-          <span class="toolkit-tag">Communications</span>
-        </div>
-      </div>
-      <div class="toolkit-item">
-        <div class="toolkit-num">03</div>
-        <div class="toolkit-body">
-          <div class="toolkit-title">How to Request a CISA Election Security Assessment</div>
-          <div class="toolkit-desc">What CISA offers to election offices at no cost, how to request it, how long it takes, and what to do with the results. CISA's election security team number and contact process.</div>
-          <span class="toolkit-tag">Security</span>
-        </div>
-      </div>
-      <div class="toolkit-item">
-        <div class="toolkit-num">04</div>
-        <div class="toolkit-body">
-          <div class="toolkit-title">Documenting an AI Public Records Flood</div>
-          <div class="toolkit-desc">How to log anomalous public records volume in a way that is useful for legal review, CISA reporting, and potential legislation. Model log format included.</div>
-          <span class="toolkit-tag">Legal / Operations</span>
-        </div>
-      </div>
-      <div class="toolkit-item">
-        <div class="toolkit-num">05</div>
-        <div class="toolkit-body">
-          <div class="toolkit-title">AI Public Records Policy Language</div>
-          <div class="toolkit-desc">Model policy language from three jurisdictions that have updated their public records policies to address AI-generated volume. Adapt to your state's records law.</div>
-          <span class="toolkit-tag">Policy</span>
-        </div>
-      </div>
-      <div class="toolkit-item">
-        <div class="toolkit-num">06</div>
-        <div class="toolkit-body">
-          <div class="toolkit-title">Briefing Your County Commissioners on AI Threats</div>
-          <div class="toolkit-desc">A one-page briefing template for non-technical decision-makers. Covers threat types, what resources are needed, and what other counties have done. Avoids alarming language.</div>
-          <span class="toolkit-tag">Internal Comms</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
+<main class="main" id="content-root">
+  <div class="content-loading">Loading…</div>
 </main>
 
 <!-- SUBSCRIBE CTA -->
@@ -1113,23 +773,23 @@ footer {
     <div class="footer-seal" id="about">
       <div>AI<span class="x">×</span>Elections</div>
       <p>For Election Administration Professionals</p>
-      <p style="margin-top: 10px; max-width: 28ch; font-family: var(--f-text); font-size: 12px; font-weight: 300; font-style: italic; line-height: 1.55; color: oklch(42% 0.005 70); text-transform: none; letter-spacing: 0;">Independent reporting on artificial intelligence threats, vendors, and policy for election administrators. Not affiliated with any vendor, campaign, political party, or government body.</p>
+      <p style="margin-top: 10px; max-width: 28ch; font-family: var(--f-text); font-size: 12px; font-weight: 300; font-style: italic; line-height: 1.55; color: oklch(58% 0.005 70); text-transform: none; letter-spacing: 0;">Independent reporting on artificial intelligence threats, vendors, and policy for election administrators. Not affiliated with any vendor, campaign, political party, or government body.</p>
     </div>
     <div class="footer-links">
       <div class="footer-col">
         <div class="footer-col-title">Sections</div>
-        <a href="#">Threat Watch</a>
-        <a href="#">Vendor Desk</a>
-        <a href="#">On Your Desk</a>
-        <a href="#">Policy &amp; Law</a>
-        <a href="#">Field Reports</a>
-        <a href="#">Toolkit</a>
+        <a href="#" onclick="jumpSection('threat-watch'); return false;">Threat Watch</a>
+        <a href="#" onclick="jumpSection('vendor-desk'); return false;">Vendor Desk</a>
+        <a href="#" onclick="jumpSection('on-your-desk'); return false;">On Your Desk</a>
+        <a href="#" onclick="jumpSection('policy-law'); return false;">Policy &amp; Law</a>
+        <a href="#" onclick="jumpSection('field-reports'); return false;">Field Reports</a>
+        <a href="#" onclick="jumpSection('toolkit'); return false;">Toolkit</a>
       </div>
       <div class="footer-col">
         <div class="footer-col-title">Resources</div>
-        <a href="#">CISA Election Security</a>
-        <a href="#">EAC</a>
-        <a href="#">NIST Election Resources</a>
+        <a href="https://www.cisa.gov/topics/election-security" target="_blank" rel="noopener">CISA Election Security</a>
+        <a href="https://www.eac.gov" target="_blank" rel="noopener">EAC</a>
+        <a href="https://www.nist.gov/topics/elections" target="_blank" rel="noopener">NIST Election Resources</a>
       </div>
       <div class="footer-col">
         <div class="footer-col-title">Contact</div>
@@ -1145,50 +805,261 @@ footer {
 </footer>
 
 <script>
-// ── PROFILE FILTER ──
-const profilePriority = {
-  'county-admin':  ['threat-watch', 'on-your-desk', 'vendor-desk', 'field-reports', 'toolkit'],
-  'state-policy':  ['policy-law', 'vendor-desk', 'field-reports', 'threat-watch'],
-  'it-security':   ['threat-watch', 'policy-law', 'vendor-desk'],
-  'legal':         ['policy-law', 'on-your-desk', 'vendor-desk', 'toolkit']
+// ── CONTENT DATA ──
+let allArticles = [];
+let allToolkit  = [];
+let activeFilter = 'all';
+
+// ── SECTION METADATA ──
+const SECTIONS = [
+  { id: 'threat-watch', name: 'Threat Watch',  desc: 'Active AI threats in election offices — specific and operational' },
+  { id: 'vendor-desk',  name: 'Vendor Desk',   desc: 'Independent evaluation of AI tools being sold to election offices' },
+  { id: 'on-your-desk', name: 'On Your Desk',  desc: 'Policy documents, guidance, and advisories requiring your attention' },
+  { id: 'policy-law',   name: 'Policy &amp; Law', desc: 'Legislation, regulation, and legal analysis affecting election AI' },
+  { id: 'field-reports',name: 'Field Reports', desc: 'First-hand accounts from election administrators in the field' },
+];
+
+// Maps Airtable "Section" field value to section ID
+const SECTION_SLUG = {
+  'Threat Watch':  'threat-watch',
+  'Vendor Desk':   'vendor-desk',
+  'On Your Desk':  'on-your-desk',
+  'Policy & Law':  'policy-law',
+  'Field Reports': 'field-reports',
 };
 
-const navBtnPriority = {
-  'county-admin':  ['threat-watch', 'on-your-desk', 'toolkit', 'field-reports'],
-  'state-policy':  ['policy-law', 'vendor-desk', 'field-reports'],
-  'it-security':   ['threat-watch', 'policy-law'],
-  'legal':         ['policy-law', 'on-your-desk', 'toolkit']
-};
+// ── UTILITY ──
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
 
-function setProfile(btn) {
-  document.querySelectorAll('.profile-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const profile = btn.dataset.profile;
+function renderBody(text) {
+  if (!text) return '';
+  return text.split(/\n+/).filter(p => p.trim()).map(p => {
+    p = p.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    return `<p>${esc(p).replace(/&lt;strong&gt;/g,'<strong>').replace(/&lt;\/strong&gt;/g,'</strong>')}</p>`;
+  }).join('');
+}
 
-  document.body.dataset.profile = profile;
-  document.body.classList.add('has-profile');
+function renderBodyRaw(text) {
+  // Renders body without double-escaping (for already-escaped content)
+  if (!text) return '';
+  return text.split(/\n+/).filter(p => p.trim()).map(p => {
+    p = p.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    return `<p>${p}</p>`;
+  }).join('');
+}
 
-  // Mark section blocks
-  document.querySelectorAll('.section-block').forEach(s => {
-    const priorities = (s.dataset.priorityFor || '').split(' ');
-    s.classList.toggle('priority', priorities.includes(profile));
+function renderActions() {
+  return `<div class="article-actions">
+    <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
+    <div class="share-row">
+      <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">&#x1D54F;</button>
+      <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
+      <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
+    </div>
+  </div>`;
+}
+
+// ── RENDER FUNCTIONS ──
+function renderLead(a) {
+  const bodyHtml = a.body ? `<div class="lead-text">${renderBodyRaw(a.body)}</div>` : '';
+  return `<div class="lead-body-col">
+    <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span>${esc(a.kicker || a.section)}</div>
+    <h3 class="lead-headline">${esc(a.title)}</h3>
+    <p class="lead-deck">${esc(a.deck)}</p>
+    ${bodyHtml}
+    ${renderActions()}
+  </div>`;
+}
+
+function renderAside(sectionName, items) {
+  const itemsHtml = items.map(a => `
+    <div class="aside-item">
+      <div class="aside-tag">${esc(a.kicker || a.section)}</div>
+      <div class="aside-title">${esc(a.title)}</div>
+      <div class="aside-deck">${esc(a.deck)}</div>
+    </div>`).join('');
+  return `<div class="lead-aside">
+    <p class="aside-label">Also in ${esc(sectionName)}</p>
+    ${itemsHtml}
+  </div>`;
+}
+
+function renderCol(a) {
+  const bodyHtml = a.body ? `<div class="col-text">${renderBodyRaw(a.body)}</div>` : '';
+  return `<div class="article-col">
+    <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span>${esc(a.kicker || a.section)}</div>
+    <h3 class="col-headline">${esc(a.title)}</h3>
+    <p class="col-deck">${esc(a.deck)}</p>
+    ${bodyHtml}
+    ${renderActions()}
+  </div>`;
+}
+
+function renderThird(a) {
+  const bodyHtml = a.body ? `<div class="col-text">${renderBodyRaw(a.body)}</div>` : '';
+  return `<div class="article-third">
+    <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span>${esc(a.kicker || a.section)}</div>
+    <h3 class="third-headline">${esc(a.title)}</h3>
+    <p class="third-deck">${esc(a.deck)}</p>
+    ${bodyHtml}
+    ${renderActions()}
+  </div>`;
+}
+
+function renderSection(section, articles) {
+  if (!articles.length) return '';
+
+  const leads = articles.filter(a => a.type === 'lead');
+  const cols   = articles.filter(a => a.type === 'col');
+  const thirds = articles.filter(a => a.type === 'third');
+
+  let contentHtml = '';
+
+  if (leads.length > 0) {
+    const lead = leads[0];
+    const asideItems = [...leads.slice(1), ...cols, ...thirds];
+    contentHtml = `<div class="article-lead">
+      ${renderLead(lead)}
+      ${asideItems.length ? renderAside(section.name.replace('&amp;','&'), asideItems) : ''}
+    </div>`;
+  } else if (thirds.length > 0) {
+    contentHtml = `<div class="article-thirds">${thirds.map(renderThird).join('')}</div>`;
+    if (cols.length) {
+      contentHtml += `<div class="article-cols" style="margin-top:0;">${cols.slice(0,2).map(renderCol).join('')}</div>`;
+    }
+  } else if (cols.length >= 2) {
+    contentHtml = `<div class="article-cols">${cols.slice(0,2).map(renderCol).join('')}</div>`;
+    if (cols.length > 2) {
+      contentHtml += `<div class="article-cols" style="margin-top:0;">${cols.slice(2,4).map(renderCol).join('')}</div>`;
+    }
+  } else if (cols.length === 1) {
+    // Lone col: render as lead-style for visual weight
+    const a = cols[0];
+    contentHtml = `<div class="lead-body-col">
+      <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span>${esc(a.kicker || a.section)}</div>
+      <h3 class="lead-headline">${esc(a.title)}</h3>
+      <p class="lead-deck">${esc(a.deck)}</p>
+      ${a.body ? `<div class="lead-text">${renderBodyRaw(a.body)}</div>` : ''}
+      ${renderActions()}
+    </div>`;
+  }
+
+  return `<section class="section-block" data-section="${section.id}" aria-labelledby="hd-${section.id}">
+    <div class="section-hd">
+      <h2 class="section-name" id="hd-${section.id}">${section.name}</h2>
+      <span class="section-desc">${section.desc}</span>
+    </div>
+    ${contentHtml}
+  </section>`;
+}
+
+function renderToolkitSection(items) {
+  if (!items.length) return '';
+  const itemsHtml = items.map(t => `
+    <div class="toolkit-item">
+      <div class="toolkit-num">${esc(t.number)}</div>
+      <div class="toolkit-tag">${esc(t.tag)}</div>
+      <div class="toolkit-title">${esc(t.title)}</div>
+      <p class="toolkit-desc">${esc(t.description)}</p>
+    </div>`).join('');
+
+  return `<section class="section-block" data-section="toolkit" aria-labelledby="hd-toolkit">
+    <div class="section-hd">
+      <h2 class="section-name" id="hd-toolkit">Toolkit</h2>
+      <span class="section-desc">Resources, templates, and guidance for election administrators</span>
+    </div>
+    <div class="toolkit-grid">${itemsHtml}</div>
+  </section>`;
+}
+
+// ── RENDER ALL SECTIONS ──
+function renderAll(articles, toolkit) {
+  const articlesBySection = {};
+  articles.forEach(a => {
+    const sid = SECTION_SLUG[a.section] || 'field-reports';
+    if (!articlesBySection[sid]) articlesBySection[sid] = [];
+    articlesBySection[sid].push(a);
   });
 
-  // Mark nav buttons
-  document.querySelectorAll('.sec-btn[data-priority-for]').forEach(b => {
-    const priorities = (b.dataset.priorityFor || '').split(' ');
-    b.classList.toggle('priority', priorities.includes(profile));
+  let html = '';
+  SECTIONS.forEach(sec => {
+    const arts = articlesBySection[sec.id] || [];
+    html += renderSection(sec, arts);
+  });
+  html += renderToolkitSection(toolkit);
+  return html;
+}
+
+// ── SEARCH RESULTS ──
+function renderSearchResults(query, matches) {
+  if (!matches.length) {
+    return `<section class="section-block" data-section="search-results">
+      <div class="section-hd">
+        <h2 class="section-name">No results</h2>
+        <span class="section-desc">Nothing matched "${esc(query)}"</span>
+      </div>
+      <p class="search-empty">Try different terms, or <a href="#" onclick="clearSearch(); return false;">browse all sections</a>.</p>
+    </section>`;
+  }
+
+  const bySection = {};
+  matches.forEach(a => {
+    const sid = SECTION_SLUG[a.section] || 'misc';
+    if (!bySection[sid]) bySection[sid] = [];
+    bySection[sid].push(a);
   });
 
-  localStorage.setItem('axe-profile', profile);
+  let html = `<section class="section-block" data-section="search-results">
+    <div class="section-hd">
+      <h2 class="section-name">${matches.length} result${matches.length !== 1 ? 's' : ''}</h2>
+      <span class="section-desc">Matching &ldquo;${esc(query)}&rdquo;</span>
+    </div>`;
+
+  // Render in two columns
+  html += `<div class="article-cols">${matches.slice(0,2).map(renderCol).join('')}</div>`;
+  if (matches.length > 2) {
+    for (let i = 2; i < matches.length; i += 2) {
+      const pair = matches.slice(i, i+2);
+      html += `<div class="article-cols" style="margin-top:0;">${pair.map(renderCol).join('')}</div>`;
+    }
+  }
+  html += `</section>`;
+  return html;
+}
+
+// ── FETCH CONTENT ──
+async function fetchContent() {
+  const root = document.getElementById('content-root');
+  try {
+    const res = await fetch('/api/content');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const { articles, toolkit } = await res.json();
+    allArticles = articles;
+    allToolkit  = toolkit;
+    root.innerHTML = renderAll(articles, toolkit);
+    applyFilter(activeFilter);
+  } catch (err) {
+    console.error('fetchContent error', err);
+    root.innerHTML = `<div class="content-error">Content is temporarily unavailable. Please refresh or try again shortly.</div>`;
+  }
 }
 
 // ── SECTION FILTER ──
 function filterSection(btn) {
   document.querySelectorAll('.sec-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  const filter = btn.dataset.filter;
+  activeFilter = btn.dataset.filter;
+  clearSearch(true);
+  applyFilter(activeFilter);
+}
 
+function applyFilter(filter) {
   document.querySelectorAll('.section-block').forEach(s => {
     if (filter === 'all') {
       s.classList.remove('hidden');
@@ -1198,14 +1069,66 @@ function filterSection(btn) {
   });
 }
 
-// ── CLEAR PROFILE ──
-function clearProfile() {
-  document.querySelectorAll('.profile-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.section-block').forEach(s => s.classList.remove('priority'));
-  document.querySelectorAll('.sec-btn').forEach(b => b.classList.remove('priority'));
-  document.body.classList.remove('has-profile');
-  delete document.body.dataset.profile;
-  localStorage.removeItem('axe-profile');
+// ── SEARCH ──
+let searchTimer = null;
+function handleSearch(value) {
+  const q = value.trim();
+  const clearBtn = document.getElementById('search-clear');
+  clearBtn.classList.toggle('visible', q.length > 0);
+
+  clearTimeout(searchTimer);
+  if (!q) {
+    clearSearch(true);
+    return;
+  }
+  searchTimer = setTimeout(() => runSearch(q), 180);
+}
+
+function runSearch(query) {
+  const q = query.toLowerCase();
+  const matches = allArticles.filter(a =>
+    (a.title  || '').toLowerCase().includes(q) ||
+    (a.deck   || '').toLowerCase().includes(q) ||
+    (a.body   || '').toLowerCase().includes(q) ||
+    (a.section|| '').toLowerCase().includes(q)
+  );
+  const root = document.getElementById('content-root');
+  root.innerHTML = renderSearchResults(query, matches);
+
+  // Disable section nav buttons during search
+  document.querySelectorAll('.sec-btn').forEach(b => {
+    b.classList.remove('active');
+    b.style.opacity = '0.4';
+    b.style.pointerEvents = 'none';
+  });
+}
+
+function clearSearch(silent) {
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-clear').classList.remove('visible');
+  document.querySelectorAll('.sec-btn').forEach(b => {
+    b.style.opacity = '';
+    b.style.pointerEvents = '';
+  });
+  if (!silent) {
+    const allBtn = document.querySelector('.sec-btn[data-filter="all"]');
+    if (allBtn) filterSection(allBtn);
+  }
+  const root = document.getElementById('content-root');
+  if (!silent && allArticles.length) {
+    root.innerHTML = renderAll(allArticles, allToolkit);
+    applyFilter(activeFilter);
+  }
+}
+
+// ── JUMP TO SECTION ──
+function jumpSection(sectionId) {
+  const el = document.querySelector(`.section-block[data-section="${sectionId}"]`);
+  if (el) {
+    const navBtn = document.querySelector(`.sec-btn[data-filter="${sectionId}"]`);
+    if (navBtn) filterSection(navBtn);
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 // ── SUBSCRIBE FORM ──
@@ -1223,7 +1146,7 @@ function handleSubscribe(e) {
 
 // ── READ MORE EXPAND ──
 function toggleReadMore(btn) {
-  const parent = btn.closest('.lead-body-col, .article-col, .article-third, .field-report-inner');
+  const parent = btn.closest('.lead-body-col, .article-col, .article-third');
   const content = parent && parent.querySelector('.lead-text, .col-text');
   if (!content) return;
   const expanding = !content.classList.contains('expanded');
@@ -1233,8 +1156,8 @@ function toggleReadMore(btn) {
 
 // ── SHARE ──
 function shareArticle(btn, platform) {
-  const article = btn.closest('.lead-body-col, .article-col, .article-third, .field-report-inner');
-  const headline = article && (article.querySelector('h3, h4')?.textContent?.trim() || '');
+  const article = btn.closest('.lead-body-col, .article-col, .article-third');
+  const headline = article && (article.querySelector('h3')?.textContent?.trim() || '');
   const url = window.location.href.split('?')[0].split('#')[0];
   if (platform === 'twitter') {
     const text = headline ? `${headline} — AI × Elections` : 'AI × Elections';
@@ -1243,36 +1166,28 @@ function shareArticle(btn, platform) {
     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank', 'noopener');
   } else if (platform === 'copy') {
     const orig = btn.textContent;
-    (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(() => {
-      btn.textContent = 'Copied';
-      btn.classList.add('confirmed');
-      setTimeout(() => { btn.textContent = orig; btn.classList.remove('confirmed'); }, 2000);
-    }).catch(() => {
-      const ta = Object.assign(document.createElement('textarea'), { value: url });
-      Object.assign(ta.style, { position: 'fixed', opacity: '0' });
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      btn.textContent = 'Copied';
-      btn.classList.add('confirmed');
-      setTimeout(() => { btn.textContent = orig; btn.classList.remove('confirmed'); }, 2000);
-    });
+    (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject())
+      .then(() => flash(btn, 'Copied', orig))
+      .catch(() => {
+        const ta = Object.assign(document.createElement('textarea'), { value: url });
+        Object.assign(ta.style, { position:'fixed', opacity:'0' });
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        flash(btn, 'Copied', orig);
+      });
   }
 }
 
-// ── RESTORE SAVED PROFILE ──
-const saved = localStorage.getItem('axe-profile');
-if (saved) {
-  const btn = document.querySelector(`.profile-btn[data-profile="${saved}"]`);
-  if (btn) setProfile(btn);
+function flash(btn, msg, orig) {
+  btn.textContent = msg;
+  btn.classList.add('confirmed');
+  setTimeout(() => { btn.textContent = orig; btn.classList.remove('confirmed'); }, 2000);
 }
 
-// ── INIT SECTION FILTER ──
-document.addEventListener('DOMContentLoaded', () => {
-  const active = document.querySelector('.sec-btn.active');
-  if (active) filterSection(active);
-});
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', fetchContent);
 </script>
 </body>
 </html>
