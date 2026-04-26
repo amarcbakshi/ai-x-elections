@@ -3,26 +3,40 @@ const BASE_ID       = 'appiZRyyiWDKl7YnP';
 const ARTICLES_TBL  = 'tblnraTb6k0ZXobtP';
 const TOOLKIT_TBL   = 'tblXhVSPVZfEVIqWy';
 
-async function airtableFetch(table, formula) {
-  const params = new URLSearchParams({
-    'sort[0][field]':     'Sort Order',
-    'sort[0][direction]': 'asc',
+// Normalise Airtable Type values to internal slugs
+function normaliseType(raw) {
+  const t = (raw || '').toLowerCase().trim();
+  if (t === 'lead')          return 'lead';
+  if (t === 'column')        return 'col';
+  if (t === 'third')         return 'third';
+  if (t === 'field report')  return 'col';   // render like a column article
+  return 'col';
+}
+
+async function airtableFetch(table, params) {
+  const url = new URL(`https://api.airtable.com/v0/${BASE_ID}/${table}`);
+  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+  const res = await fetch(url.toString(), {
+    headers: { Authorization: `Bearer ${process.env.AIRTABLE_TOKEN}` },
   });
-  if (formula) params.set('filterByFormula', formula);
-  const res = await fetch(
-    `https://api.airtable.com/v0/${BASE_ID}/${table}?${params}`,
-    { headers: { Authorization: `Bearer ${process.env.AIRTABLE_TOKEN}` } }
-  );
   if (!res.ok) throw new Error(`Airtable ${table}: HTTP ${res.status}`);
-  return (await res.json()).records;
+  return (await res.json()).records || [];
 }
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).end();
   try {
     const [artRecs, toolRecs] = await Promise.all([
-      airtableFetch(ARTICLES_TBL, "{Status}='Published'"),
-      airtableFetch(TOOLKIT_TBL,  "{Status}='Active'"),
+      airtableFetch(ARTICLES_TBL, {
+        filterByFormula:     "{Status}='Published'",
+        'sort[0][field]':    'Sort Order',
+        'sort[0][direction]':'asc',
+      }),
+      airtableFetch(TOOLKIT_TBL, {
+        filterByFormula:     "{Status}='Published'",
+        'sort[0][field]':    'Number',
+        'sort[0][direction]':'asc',
+      }),
     ]);
 
     const articles = artRecs.map(r => ({
@@ -30,7 +44,7 @@ module.exports = async function handler(req, res) {
       title:     r.fields['Title']          || '',
       section:   r.fields['Section']        || '',
       kicker:    r.fields['Kicker']         || '',
-      type:      (r.fields['Type'] || 'col').toLowerCase(),
+      type:      normaliseType(r.fields['Type']),
       deck:      r.fields['Deck']           || '',
       body:      r.fields['Body']           || '',
       sortOrder: Number(r.fields['Sort Order']) || 999,
