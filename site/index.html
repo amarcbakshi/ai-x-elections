@@ -151,15 +151,6 @@ body { background: var(--paper); color: var(--ink); font-family: var(--f-text); 
 }
 .profile-clear:hover { color: var(--ink-mid); }
 body.has-profile .profile-clear { display: inline; }
-.profile-microcopy {
-  font-family: var(--f-text);
-  font-size: 12px;
-  font-weight: 300;
-  font-style: italic;
-  color: var(--ink-lt);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
 .cta-success {
   display: none;
   font-family: var(--f-label);
@@ -599,7 +590,7 @@ footer {
 
 <!-- PROCLAMATION BAR -->
 <div class="proclamation">
-  <span class="proc-text">For Election Administration Professionals — Ongoing Publication</span>
+  <span class="proc-text">For Election Administration Professionals</span>
   <div class="proc-links">
     <a href="#subscribe">Subscribe</a>
     <a href="#about">About</a>
@@ -608,22 +599,21 @@ footer {
 
 <!-- MASTHEAD -->
 <header class="masthead">
-  <div class="masthead-left">Threat Intelligence &amp; Practitioner Guidance<br>on Artificial Intelligence in Election Administration</div>
+  <div class="masthead-left">Threat Intelligence<br>For Election Officials</div>
   <h1 class="masthead-title">AI<span class="x">×</span>Elections</h1>
   <div class="masthead-right">Reported for the people who run elections, not the people who watch them.</div>
 </header>
 
 <!-- PROFILE SELECTOR -->
 <div class="profile-bar">
-  <span class="profile-prompt">I work in:</span>
+  <span class="profile-prompt">Filter by role:</span>
   <div class="profile-btns">
     <button class="profile-btn" data-profile="county-admin" onclick="setProfile(this)">County Administration</button>
     <button class="profile-btn" data-profile="state-policy" onclick="setProfile(this)">State-Level Policy</button>
     <button class="profile-btn" data-profile="it-security" onclick="setProfile(this)">IT &amp; Security</button>
     <button class="profile-btn" data-profile="legal" onclick="setProfile(this)">Legal Counsel</button>
   </div>
-  <span class="profile-microcopy">Prioritizes sections relevant to your role</span>
-  <button class="profile-clear" onclick="clearProfile()">Clear ×</button>
+  <button class="profile-clear" onclick="clearProfile()">Clear</button>
 </div>
 
 <!-- SECTION NAV -->
@@ -651,7 +641,7 @@ footer {
     <div class="section-hd">
       <h2 class="section-name">Threat Watch</h2>
       <div class="section-meta">
-        <span class="section-desc">Active AI threats hitting election offices now — specific, operational, current</span>
+        <span class="section-desc">Active AI threats in election offices — specific and operational</span>
         <span class="priority-label">Priority for your role</span>
       </div>
     </div>
@@ -659,7 +649,7 @@ footer {
     <!-- LEAD: FOIA FLOOD -->
     <div class="article-lead">
       <div class="lead-body-col">
-        <div class="kicker"><span class="kicker-rule"></span> Threat Watch — Lead</div>
+        <div class="kicker"><span class="kicker-rule"></span> Threat Watch</div>
         <h3 class="lead-headline">The FOIA Flood Is Here</h3>
         <p class="lead-deck">Election offices in at least eleven states are reporting surges in public records requests with a shared signature: near-identical formatting, inhuman volume, and timing calibrated to hit before administrative deadlines. The goal is rarely the records.</p>
         <div class="lead-text">
@@ -720,14 +710,14 @@ footer {
     <div class="section-hd">
       <h2 class="section-name">Vendor Desk</h2>
       <div class="section-meta">
-        <span class="section-desc">AI tools being pitched to election offices — what the vendor claims, what the product does</span>
+        <span class="section-desc">What vendors claim — and what their products actually do</span>
         <span class="priority-label">Priority for your role</span>
       </div>
     </div>
 
     <div class="article-lead">
       <div class="lead-body-col">
-        <div class="kicker"><span class="kicker-rule"></span> Procurement Guide</div>
+        <div class="kicker"><span class="kicker-rule"></span> Vendor Desk</div>
         <h3 class="lead-headline">What Signature Verification AI Actually Does</h3>
         <p class="lead-deck">Fourteen companies are marketing AI-powered signature verification for mail ballot processing. We asked all fourteen the same three questions. Most declined to answer.</p>
         <div class="lead-text">
@@ -758,14 +748,14 @@ footer {
     <div class="section-hd">
       <h2 class="section-name">On Your Desk</h2>
       <div class="section-meta">
-        <span class="section-desc">AI landing directly in your office — how to identify it, what to do, who to call</span>
+        <span class="section-desc">AI in your office: how to identify it, respond, and report</span>
         <span class="priority-label">Priority for your role</span>
       </div>
     </div>
 
     <div class="article-lead">
       <div class="lead-body-col">
-        <div class="kicker"><span class="kicker-rule"></span> Incident Account</div>
+        <div class="kicker"><span class="kicker-rule"></span> On Your Desk</div>
         <h3 class="lead-headline">When the Video Is Fake and the Phones Start Ringing</h3>
         <p class="lead-deck">A mid-sized Georgia county's first AI impersonation incident: forty-seven calls before 10am, a synthetic video of the election director, and no communications plan.</p>
         <div class="lead-text">
@@ -797,7 +787,7 @@ footer {
     <div class="section-hd">
       <h2 class="section-name">Policy &amp; Law</h2>
       <div class="section-meta">
-        <span class="section-desc">EAC guidance, CISA advisories, state legislation, court decisions — what changes the framework you operate in</span>
+        <span class="section-desc">EAC guidance, CISA advisories, legislation: what changes how you operate</span>
         <span class="priority-label">Priority for your role</span>
       </div>
     </div>
@@ -839,13 +829,13 @@ footer {
     <div class="section-hd">
       <h2 class="section-name">Field Reports</h2>
       <div class="section-meta">
-        <span class="section-desc">What other jurisdictions are actually doing — peer accounts, not vendor case studies</span>
+        <span class="section-desc">Peer accounts from other jurisdictions, not vendor case studies</span>
         <span class="priority-label">Priority for your role</span>
       </div>
     </div>
 
     <div class="field-report-inner">
-      <div class="kicker"><span class="kicker-rule"></span> Incident Account — Anonymous</div>
+      <div class="kicker"><span class="kicker-rule"></span> Field Report — Anonymous</div>
       <h3 class="lead-headline">"We Had Eight Days and No Playbook"</h3>
       <p class="lead-deck">The election director of a 180,000-voter Mountain West county describes her office's first AI incident. She asked that her county not be named.</p>
       <div class="lead-text">
@@ -924,8 +914,8 @@ footer {
 <!-- SUBSCRIBE CTA -->
 <section class="subscribe-cta" id="subscribe">
   <div>
-    <span class="cta-label">Free — For Election Administration Professionals</span>
-    <h2 class="cta-heading">Stay ahead of what's<br>landing on your desk.<span class="x">×</span></h2>
+    <span class="cta-label">Free. For Election Administration Professionals.</span>
+    <h2 class="cta-heading">Stay ahead of what's<br>landing on your desk<span class="x">×</span></h2>
   </div>
   <div>
     <p class="cta-body">Threat intelligence, vendor evaluations, policy analysis, and field reports — written for election officials, not observers. No jargon. No paywall.</p>
