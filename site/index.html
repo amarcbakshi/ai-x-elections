@@ -536,7 +536,7 @@ body.has-profile .section-block.priority .priority-label { display: inline-block
   border-right: none;
   background: oklch(20% 0.007 70);
   color: var(--paper);
-  outline: none;
+  outline: none; /* overridden by .cta-input:focus in polish block */
 }
 .cta-input::placeholder { color: oklch(45% 0.005 70); letter-spacing: 0.06em; }
 .cta-btn {
@@ -582,7 +582,122 @@ footer {
 .footer-col a, .footer-col span { display: block; font-family: var(--f-label); font-size: 11px; letter-spacing: 0.06em; color: oklch(35% 0.005 70); text-decoration: none; margin-bottom: 6px; transition: color 0.15s; }
 .footer-col a:hover { color: oklch(62% 0.005 70); }
 .footer-bottom { display: flex; justify-content: space-between; }
-.footer-bottom p { font-family: var(--f-label); font-size: 10px; letter-spacing: 0.10em; text-transform: uppercase; color: oklch(28% 0.005 70); }
+.footer-bottom p { font-family: var(--f-label); font-size: 10px; letter-spacing: 0.10em; text-transform: uppercase; color: oklch(44% 0.005 70); }
+
+/* ── POLISH: CONTRAST FIXES ── */
+.footer-col a, .footer-col span { color: oklch(52% 0.005 70); }
+.footer-seal p { color: oklch(44% 0.005 70); }
+
+/* ── POLISH: HOVER STATES ── */
+.read-more:hover { color: var(--ink-mid); border-bottom-color: var(--ink-mid); }
+.cta-btn:hover { background: var(--pale); }
+
+/* ── POLISH: FOCUS STATES ── */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+.profile-btn:focus-visible,
+.profile-clear:focus-visible,
+.sec-btn:focus-visible,
+.read-more:focus-visible,
+.cta-btn:focus-visible,
+.proc-links a:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.cta-input:focus {
+  outline: none;
+  border-color: var(--paper);
+  box-shadow: 0 0 0 2px oklch(62% 0.005 70);
+}
+
+/* ── READ MORE EXPAND ── */
+.lead-text, .col-text { display: none; }
+.lead-text.expanded, .col-text.expanded { display: block; }
+
+/* ── ARTICLE ACTIONS (read more + share) ── */
+.article-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.article-actions .read-more { margin-top: 0; }
+.share-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+}
+.share-btn {
+  font-family: var(--f-label);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
+  background: none;
+  border: 1px solid var(--rule);
+  padding: 4px 8px;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.15s, border-color 0.15s;
+  display: inline-flex;
+  align-items: center;
+}
+.share-btn:hover { color: var(--ink); border-color: var(--ink-mid); }
+.share-btn.confirmed { color: var(--ink-mid); border-color: var(--ink-mid); }
+.share-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* ── POLISH: REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+
+/* ── POLISH: MOBILE ── */
+@media (max-width: 768px) {
+  .masthead {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 24px 20px 20px;
+    gap: 0;
+  }
+  .masthead-left, .masthead-right { display: none; }
+  .masthead-title { font-size: clamp(56px, 18vw, 88px); }
+
+  .proclamation { padding: 8px 20px; }
+  .profile-bar { padding: 10px 20px; flex-wrap: wrap; gap: 10px; }
+  .profile-btns { flex-wrap: wrap; }
+  .section-nav { padding: 0 20px; }
+
+  .section-block { padding: 36px 20px; }
+
+  .article-lead { grid-template-columns: 1fr; gap: 32px; }
+  .lead-aside { border-left: none; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 24px; }
+
+  .article-cols { grid-template-columns: 1fr; }
+  .article-col { padding: 24px 0 0 0; border-right: none; }
+  .article-col:last-child { padding-left: 0; padding-top: 24px; border-top: 1px solid var(--rule); }
+
+  .article-thirds { grid-template-columns: 1fr; }
+  .article-third { padding: 24px 0; border-right: none; border-bottom: 1px solid var(--rule); }
+  .article-third:last-child { border-bottom: none; padding-bottom: 0; }
+  .article-third:nth-child(2) { padding-left: 0; }
+
+  .toolkit-grid { grid-template-columns: 1fr; }
+  .toolkit-item, .toolkit-item:nth-child(even) { padding: 20px 0; border-right: none; padding-left: 0; }
+  .toolkit-item:nth-last-child(-n+2) { border-bottom: 1px solid var(--rule); }
+  .toolkit-item:last-child { border-bottom: none; }
+
+  .subscribe-cta { grid-template-columns: 1fr; gap: 32px; padding: 48px 20px; }
+
+  footer { padding: 32px 20px; }
+  .footer-inner { flex-direction: column; gap: 28px; }
+  .footer-links { flex-direction: column; gap: 24px; }
+  .footer-bottom { flex-direction: column; gap: 8px; }
+}
 
 </style>
 </head>
@@ -617,29 +732,29 @@ footer {
 </div>
 
 <!-- SECTION NAV -->
-<nav class="section-nav">
+<nav class="section-nav" aria-label="Content sections">
   <button class="sec-btn active" data-filter="all" onclick="filterSection(this)">All</button>
   <button class="sec-btn" data-filter="threat-watch" onclick="filterSection(this)"
-    data-priority-for="county-admin it-security">Threat Watch<span class="priority-dot"></span></button>
+    data-priority-for="county-admin it-security">Threat Watch<span class="priority-dot" aria-hidden="true"></span></button>
   <button class="sec-btn" data-filter="vendor-desk" onclick="filterSection(this)"
-    data-priority-for="county-admin state-policy">Vendor Desk<span class="priority-dot"></span></button>
+    data-priority-for="county-admin state-policy">Vendor Desk<span class="priority-dot" aria-hidden="true"></span></button>
   <button class="sec-btn" data-filter="on-your-desk" onclick="filterSection(this)"
-    data-priority-for="county-admin legal">On Your Desk<span class="priority-dot"></span></button>
+    data-priority-for="county-admin legal">On Your Desk<span class="priority-dot" aria-hidden="true"></span></button>
   <button class="sec-btn" data-filter="policy-law" onclick="filterSection(this)"
-    data-priority-for="state-policy legal it-security">Policy &amp; Law<span class="priority-dot"></span></button>
+    data-priority-for="state-policy legal it-security">Policy &amp; Law<span class="priority-dot" aria-hidden="true"></span></button>
   <button class="sec-btn" data-filter="field-reports" onclick="filterSection(this)"
-    data-priority-for="county-admin state-policy">Field Reports<span class="priority-dot"></span></button>
+    data-priority-for="county-admin state-policy">Field Reports<span class="priority-dot" aria-hidden="true"></span></button>
   <button class="sec-btn" data-filter="toolkit" onclick="filterSection(this)"
-    data-priority-for="county-admin legal">Toolkit<span class="priority-dot"></span></button>
+    data-priority-for="county-admin legal">Toolkit<span class="priority-dot" aria-hidden="true"></span></button>
 </nav>
 
 <!-- MAIN CONTENT -->
 <main class="main">
 
   <!-- ── THREAT WATCH ── -->
-  <section class="section-block" data-section="threat-watch" data-priority-for="county-admin it-security">
+  <section class="section-block" data-section="threat-watch" data-priority-for="county-admin it-security" aria-labelledby="hd-threat-watch">
     <div class="section-hd">
-      <h2 class="section-name">Threat Watch</h2>
+      <h2 class="section-name" id="hd-threat-watch">Threat Watch</h2>
       <div class="section-meta">
         <span class="section-desc">Active AI threats in election offices — specific and operational</span>
         <span class="priority-label">Priority for your role</span>
@@ -649,7 +764,7 @@ footer {
     <!-- LEAD: FOIA FLOOD -->
     <div class="article-lead">
       <div class="lead-body-col">
-        <div class="kicker"><span class="kicker-rule"></span> Threat Watch</div>
+        <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> Threat Watch</div>
         <h3 class="lead-headline">The FOIA Flood Is Here</h3>
         <p class="lead-deck">Election offices in at least eleven states are reporting surges in public records requests with a shared signature: near-identical formatting, inhuman volume, and timing calibrated to hit before administrative deadlines. The goal is rarely the records.</p>
         <div class="lead-text">
@@ -658,7 +773,14 @@ footer {
           <p>Legally, the landscape offers little relief. Public records laws in most states do not permit offices to discriminate between human and automated requesters. The volume itself is not illegal. Some attorneys are exploring whether coordinated flooding constitutes obstruction, but no case has advanced past preliminary research.</p>
           <p><strong>What to do:</strong> Document every anomalous request — volume, formatting patterns, requester information. CISA's election security team wants this data. Three states are drafting legislation allowing offices to charge processing fees for AI-generated volume. Model language is in the Toolkit section below.</p>
         </div>
-        <a href="#" class="read-more">Read Full Report</a>
+        <div class="article-actions">
+          <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
+          <div class="share-row">
+            <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
+            <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
+            <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
+          </div>
+        </div>
       </div>
       <div class="lead-aside">
         <p class="aside-label">Also in Threat Watch</p>
@@ -683,32 +805,46 @@ footer {
     <!-- SECONDARY: two articles -->
     <div class="article-cols">
       <div class="article-col">
-        <div class="kicker"><span class="kicker-rule"></span> Audio Synthesis</div>
+        <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> Audio Synthesis</div>
         <h3 class="col-headline">Synthetic Audio Impersonating Local Officials</h3>
         <p class="col-deck">Unlike deepfake video, synthetic audio is cheap, fast, and effective enough to fool most voters.</p>
         <div class="col-text">
           <p>A convincing approximation of a county clerk's voice can be generated in under an hour using freely available tools and three minutes of public audio from a county commission meeting posted to YouTube. The resulting clip is indistinguishable from authentic audio to most listeners and, in six documented cases over the past eight months, was widely shared before any official correction reached the same audience.</p>
           <p>What distinguishes these incidents from generic disinformation: the content is hyper-local and operationally specific. Wrong dates. Wrong polling places. Wrong deadlines. Not national messaging — targeted disruption of a specific jurisdiction's voters.</p>
         </div>
-        <a href="#" class="read-more">Read Report</a>
+        <div class="article-actions">
+          <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
+          <div class="share-row">
+            <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
+            <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
+            <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
+          </div>
+        </div>
       </div>
       <div class="article-col">
-        <div class="kicker"><span class="kicker-rule"></span> Suppression Operations</div>
+        <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> Suppression Operations</div>
         <h3 class="col-headline">AI-Generated Polling Place Notices Are Spreading</h3>
         <p class="col-deck">Geographically specific content claiming polling places have closed or moved is the most common AI incident election offices are reporting.</p>
         <div class="col-text">
           <p>Most originate outside the target county. Many are specific enough — referencing actual street addresses, actual precinct names — to be convincing to voters who don't verify. The production cost is negligible. A flyer, a text blast, a Nextdoor post: each can be generated and distributed in an afternoon.</p>
           <p>Three counties have now developed rapid-response protocols. The common elements: a pre-established relationship with local TV assignment desks, a templated correction post ready to deploy, and a direct line to their state CISA contact. The full protocol is documented in Field Reports.</p>
         </div>
-        <a href="#" class="read-more">Read Report</a>
+        <div class="article-actions">
+          <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
+          <div class="share-row">
+            <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
+            <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
+            <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ── VENDOR DESK ── -->
-  <section class="section-block" data-section="vendor-desk" data-priority-for="county-admin state-policy">
+  <section class="section-block" data-section="vendor-desk" data-priority-for="county-admin state-policy" aria-labelledby="hd-vendor-desk">
     <div class="section-hd">
-      <h2 class="section-name">Vendor Desk</h2>
+      <h2 class="section-name" id="hd-vendor-desk">Vendor Desk</h2>
       <div class="section-meta">
         <span class="section-desc">What vendors claim — and what their products actually do</span>
         <span class="priority-label">Priority for your role</span>
@@ -717,7 +853,7 @@ footer {
 
     <div class="article-lead">
       <div class="lead-body-col">
-        <div class="kicker"><span class="kicker-rule"></span> Vendor Desk</div>
+        <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> Vendor Desk</div>
         <h3 class="lead-headline">What Signature Verification AI Actually Does</h3>
         <p class="lead-deck">Fourteen companies are marketing AI-powered signature verification for mail ballot processing. We asked all fourteen the same three questions. Most declined to answer.</p>
         <div class="lead-text">
@@ -725,7 +861,14 @@ footer {
           <p>Six companies did not respond after two contact attempts. Four responded with marketing materials. Three provided partial technical documentation. One provided full specifications including third-party audit results. That company's product, it turned out, was trained predominantly on commercial check-processing data — a dataset that does not include election ballot signatures and skews toward populations that write checks frequently.</p>
           <p><strong>The EAC certification gap:</strong> AI tools that touch vote-adjacent processes — signature matching, mail ballot sorting, voter roll deduplication — are not currently subject to EAC certification requirements. Those requirements apply to voting systems as defined under HAVA, and most vendors have structured their products to fall outside that definition. This is not necessarily intentional evasion; the regulatory framework predates AI-powered election tools. But the gap is real and documented.</p>
         </div>
-        <a href="#" class="read-more">Read Full Evaluation</a>
+        <div class="article-actions">
+          <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
+          <div class="share-row">
+            <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
+            <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
+            <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
+          </div>
+        </div>
       </div>
       <div class="lead-aside">
         <p class="aside-label">Also in Vendor Desk</p>
@@ -744,9 +887,9 @@ footer {
   </section>
 
   <!-- ── ON YOUR DESK ── -->
-  <section class="section-block" data-section="on-your-desk" data-priority-for="county-admin legal">
+  <section class="section-block" data-section="on-your-desk" data-priority-for="county-admin legal" aria-labelledby="hd-on-your-desk">
     <div class="section-hd">
-      <h2 class="section-name">On Your Desk</h2>
+      <h2 class="section-name" id="hd-on-your-desk">On Your Desk</h2>
       <div class="section-meta">
         <span class="section-desc">AI in your office: how to identify it, respond, and report</span>
         <span class="priority-label">Priority for your role</span>
@@ -755,7 +898,7 @@ footer {
 
     <div class="article-lead">
       <div class="lead-body-col">
-        <div class="kicker"><span class="kicker-rule"></span> On Your Desk</div>
+        <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> On Your Desk</div>
         <h3 class="lead-headline">When the Video Is Fake and the Phones Start Ringing</h3>
         <p class="lead-deck">A mid-sized Georgia county's first AI impersonation incident: forty-seven calls before 10am, a synthetic video of the election director, and no communications plan.</p>
         <div class="lead-text">
@@ -764,7 +907,14 @@ footer {
           <p>"We have two people," the clerk told us. "One was on the phone all day. The other was trying to figure out who to call." CISA was not on the short list of people she thought to call. It is now.</p>
           <p><strong>What she'd do differently:</strong> Pre-establish a relationship with the local TV assignment desk before any incident. Have a one-page template for corrections ready to deploy. Know your CISA regional contact's cell number. Have a statement that says "we are aware of the content, it is not from this office, here is how to verify official information from us" drafted before you ever need it.</p>
         </div>
-        <a href="#" class="read-more">Read Full Account</a>
+        <div class="article-actions">
+          <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
+          <div class="share-row">
+            <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
+            <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
+            <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
+          </div>
+        </div>
       </div>
       <div class="lead-aside">
         <p class="aside-label">Also on Your Desk</p>
@@ -783,9 +933,9 @@ footer {
   </section>
 
   <!-- ── POLICY & LAW ── -->
-  <section class="section-block" data-section="policy-law" data-priority-for="state-policy legal it-security">
+  <section class="section-block" data-section="policy-law" data-priority-for="state-policy legal it-security" aria-labelledby="hd-policy-law">
     <div class="section-hd">
-      <h2 class="section-name">Policy &amp; Law</h2>
+      <h2 class="section-name" id="hd-policy-law">Policy &amp; Law</h2>
       <div class="section-meta">
         <span class="section-desc">EAC guidance, CISA advisories, legislation: what changes how you operate</span>
         <span class="priority-label">Priority for your role</span>
@@ -794,40 +944,61 @@ footer {
 
     <div class="article-thirds">
       <div class="article-third">
-        <div class="kicker"><span class="kicker-rule"></span> Federal Guidance</div>
+        <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> Federal Guidance</div>
         <h3 class="col-headline">CISA's Election AI Guidance: A Close Reading</h3>
         <p class="col-deck">CISA published guidance on AI threats to election infrastructure in December 2025. Four pages are directly relevant to election administration. Here is what those pages actually say.</p>
         <div class="col-text">
           <p>The document commits CISA to briefing state election officials on specific AI threat indicators, providing incident response support for AI-related incidents, and sharing threat intelligence with SoS offices through established channels. It does not create new reporting requirements for election offices, does not establish standards for AI vendor procurement, and does not address AI tools sold to campaigns — which fall outside CISA's jurisdiction.</p>
           <p>What remains entirely unaddressed: AI-assisted public records flooding, synthetic media impersonating local (as opposed to statewide) officials, and the certification gap for AI tools in vote-adjacent processes.</p>
         </div>
-        <a href="#" class="read-more">Read Analysis</a>
+        <div class="article-actions">
+          <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
+          <div class="share-row">
+            <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
+            <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
+            <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
+          </div>
+        </div>
       </div>
       <div class="article-third">
-        <div class="kicker"><span class="kicker-rule"></span> State Legislation</div>
+        <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> State Legislation</div>
         <h3 class="col-headline">What Your State's AI Bill Actually Changes</h3>
         <p class="col-deck">Twenty-three states have enacted legislation mentioning AI in the context of elections. Three contain meaningful enforcement provisions. A tracker.</p>
         <div class="col-text">
           <p>Most state AI election bills create definitions, study requirements, or pilot program authorizations. They do not change what election administrators are permitted to do, required to do, or protected from liability for doing. The three exceptions — and what they actually require — are worth understanding.</p>
         </div>
-        <a href="#" class="read-more">View Tracker</a>
+        <div class="article-actions">
+          <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
+          <div class="share-row">
+            <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
+            <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
+            <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
+          </div>
+        </div>
       </div>
       <div class="article-third">
-        <div class="kicker"><span class="kicker-rule"></span> Liability</div>
+        <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> Liability</div>
         <h3 class="col-headline">When an AI Vendor's Tool Gets It Wrong</h3>
         <p class="col-deck">Two scenarios, what the contract language typically says, and what counsel is advising.</p>
         <div class="col-text">
           <p>Scenario one: an AI signature verification tool incorrectly rejects a statistically significant number of mail ballots in a demographic group. Scenario two: an AI voter roll deduplication tool incorrectly flags eligible voters for removal. In both cases, the question of liability lands first on the election office, not the vendor. Here is the contract language to look for and the indemnification terms that matter.</p>
         </div>
-        <a href="#" class="read-more">Read Analysis</a>
+        <div class="article-actions">
+          <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
+          <div class="share-row">
+            <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
+            <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
+            <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ── FIELD REPORTS ── -->
-  <section class="section-block field-reports-section" data-section="field-reports" data-priority-for="county-admin state-policy">
+  <section class="section-block field-reports-section" data-section="field-reports" data-priority-for="county-admin state-policy" aria-labelledby="hd-field-reports">
     <div class="section-hd">
-      <h2 class="section-name">Field Reports</h2>
+      <h2 class="section-name" id="hd-field-reports">Field Reports</h2>
       <div class="section-meta">
         <span class="section-desc">Peer accounts from other jurisdictions, not vendor case studies</span>
         <span class="priority-label">Priority for your role</span>
@@ -835,7 +1006,7 @@ footer {
     </div>
 
     <div class="field-report-inner">
-      <div class="kicker"><span class="kicker-rule"></span> Field Report — Anonymous</div>
+      <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span> Field Report — Anonymous</div>
       <h3 class="lead-headline">"We Had Eight Days and No Playbook"</h3>
       <p class="lead-deck">The election director of a 180,000-voter Mountain West county describes her office's first AI incident. She asked that her county not be named.</p>
       <div class="lead-text">
@@ -843,14 +1014,21 @@ footer {
         <p>The video had been live for eleven hours before the election director's office learned of it. It had been shared 2,300 times. The office's Facebook page had 400 followers. "They had a bigger audience than we did."</p>
         <p>Over the following eight days, the office coordinated with the SoS communications team, issued three formal corrections, briefed the county commissioners, and worked with Facebook to have the video removed — a process that took five days and required documentation of the synthetic origin the office was not equipped to provide on its own. CISA assisted with the technical analysis. That relationship, she said, had been established six months earlier at an EAC training. "If we hadn't done that training, I wouldn't have known who to call."</p>
       </div>
-      <a href="#" class="read-more">Read Full Account</a>
+      <div class="article-actions">
+        <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
+        <div class="share-row">
+          <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">𝕏</button>
+          <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
+          <button class="share-btn" onclick="shareArticle(this,'copy')" aria-label="Copy link">Copy</button>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ── TOOLKIT ── -->
-  <section class="section-block" data-section="toolkit" data-priority-for="county-admin legal">
+  <section class="section-block" data-section="toolkit" data-priority-for="county-admin legal" aria-labelledby="hd-toolkit">
     <div class="section-hd">
-      <h2 class="section-name">Toolkit</h2>
+      <h2 class="section-name" id="hd-toolkit">Toolkit</h2>
       <div class="section-meta">
         <span class="section-desc">Practical templates, checklists, and guides — ready to use</span>
         <span class="priority-label">Priority for your role</span>
@@ -919,8 +1097,9 @@ footer {
   </div>
   <div>
     <p class="cta-body">Threat intelligence, vendor evaluations, policy analysis, and field reports — written for election officials, not observers. No jargon. No paywall.</p>
-    <form class="cta-form" id="subscribe-form" onsubmit="handleSubscribe(event);">
-      <input type="email" class="cta-input" id="subscribe-email" placeholder="your@election-office.gov" required>
+    <form class="cta-form" id="subscribe-form" onsubmit="handleSubscribe(event);" aria-label="Subscribe to AI × Elections">
+      <label for="subscribe-email" class="sr-only">Email address</label>
+      <input type="email" class="cta-input" id="subscribe-email" placeholder="your@election-office.gov" required autocomplete="email">
       <button class="cta-btn" type="submit">Subscribe Free</button>
     </form>
     <div class="cta-success" id="subscribe-success">Subscribed — we'll be in touch.</div>
@@ -1042,12 +1221,58 @@ function handleSubscribe(e) {
   document.getElementById('subscribe-success').style.display = 'block';
 }
 
+// ── READ MORE EXPAND ──
+function toggleReadMore(btn) {
+  const parent = btn.closest('.lead-body-col, .article-col, .article-third, .field-report-inner');
+  const content = parent && parent.querySelector('.lead-text, .col-text');
+  if (!content) return;
+  const expanding = !content.classList.contains('expanded');
+  content.classList.toggle('expanded', expanding);
+  btn.textContent = expanding ? 'Read less' : 'Read more';
+}
+
+// ── SHARE ──
+function shareArticle(btn, platform) {
+  const article = btn.closest('.lead-body-col, .article-col, .article-third, .field-report-inner');
+  const headline = article && (article.querySelector('h3, h4')?.textContent?.trim() || '');
+  const url = window.location.href.split('?')[0].split('#')[0];
+  if (platform === 'twitter') {
+    const text = headline ? `${headline} — AI × Elections` : 'AI × Elections';
+    window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank', 'noopener');
+  } else if (platform === 'linkedin') {
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank', 'noopener');
+  } else if (platform === 'copy') {
+    const orig = btn.textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(() => {
+      btn.textContent = 'Copied';
+      btn.classList.add('confirmed');
+      setTimeout(() => { btn.textContent = orig; btn.classList.remove('confirmed'); }, 2000);
+    }).catch(() => {
+      const ta = Object.assign(document.createElement('textarea'), { value: url });
+      Object.assign(ta.style, { position: 'fixed', opacity: '0' });
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = 'Copied';
+      btn.classList.add('confirmed');
+      setTimeout(() => { btn.textContent = orig; btn.classList.remove('confirmed'); }, 2000);
+    });
+  }
+}
+
 // ── RESTORE SAVED PROFILE ──
 const saved = localStorage.getItem('axe-profile');
 if (saved) {
   const btn = document.querySelector(`.profile-btn[data-profile="${saved}"]`);
   if (btn) setProfile(btn);
 }
+
+// ── INIT SECTION FILTER ──
+document.addEventListener('DOMContentLoaded', () => {
+  const active = document.querySelector('.sec-btn.active');
+  if (active) filterSection(active);
+});
 </script>
 </body>
 </html>
