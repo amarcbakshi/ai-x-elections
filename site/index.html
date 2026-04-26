@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI × Elections — The Newsletter of Record</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+
+/* ── PALETTE 2: STARK MONOCHROME + VERMILLION ── */
+:root {
+  --paper:    oklch(98%  0.005  82);
+  --pale:     oklch(94%  0.005  70);
+  --pale-b:   oklch(84%  0.007  70);
+  --ink:      oklch(13%  0.007  70);
+  --ink-mid:  oklch(40%  0.006  70);
+  --ink-lt:   oklch(62%  0.006  70);
+  --rule:     oklch(82%  0.007  70);
+  --red:      oklch(57%  0.22   22);   /* vermillion — × only */
+  --ink-surf: oklch(18%  0.007  70);
+
+  --f-display: 'Abril Fatface', Georgia, serif;
+  --f-text:    'Spectral', Georgia, serif;
+  --f-label:   'Barlow Condensed', Arial, sans-serif;
+  --f-body:    'Barlow', Arial, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--f-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── UTILITIES ── */
+.label {
+  font-family: var(--f-label);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+}
+
+.rule-top    { border-top: 1.5px solid var(--ink); }
+.rule-bottom { border-bottom: 1.5px solid var(--ink); }
+.thin-rule   { border-top: 1px solid var(--rule); }
+.red         { color: var(--red); }
+
+/* ── PROCLAMATION BAR ── */
+.proclamation {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 10px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.proclamation-text {
+  font-family: var(--f-label);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: oklch(75% 0.006 70);
+}
+
+.proclamation-badge {
+  font-family: var(--f-label);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--paper);
+  border: 1px solid oklch(50% 0.006 70);
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+/* ── REGISTRATION STRIP ── */
+.registration {
+  background: var(--pale);
+  border-bottom: 1.5px solid var(--ink);
+  padding: 8px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.registration-vol {
+  font-family: var(--f-label);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+}
+
+.registration-date {
+  font-family: var(--f-label);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
+}
+
+/* ── NAV ── */
+nav {
+  border-bottom: 1.5px solid var(--ink);
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+
+.nav-wordmark {
+  font-family: var(--f-display);
+  font-size: 22px;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+
+.nav-wordmark .x { color: var(--red); }
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--f-label);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.nav-links a:hover { color: var(--ink); }
+
+.nav-cta {
+  font-family: var(--f-label);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  padding: 9px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.nav-cta:hover { background: var(--ink-surf); }
+
+/* ── HERO ── */
+.hero {
+  padding: 60px 40px 0;
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.hero-overline {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.hero-overline-bar {
+  width: 32px;
+  height: 2px;
+  background: var(--ink);
+  flex-shrink: 0;
+}
+
+.hero-title {
+  font-family: var(--f-display);
+  font-size: clamp(88px, 14vw, 172px);
+  line-height: 0.88;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 40px;
+}
+
+.hero-title .x { color: var(--red); }
+
+.hero-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.hero-decree {
+  padding: 36px 40px 48px 0;
+  border-right: 1px solid var(--rule);
+}
+
+.hero-decree p {
+  font-family: var(--f-text);
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--ink);
+  margin-bottom: 20px;
+  max-width: 52ch;
+}
+
+.hero-decree p strong {
+  font-weight: 600;
+}
+
+.subscribe-form {
+  display: flex;
+  gap: 0;
+  margin-top: 32px;
+}
+
+.subscribe-input {
+  flex: 1;
+  font-family: var(--f-label);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  padding: 12px 16px;
+  border: 1.5px solid var(--ink);
+  border-right: none;
+  background: var(--paper);
+  color: var(--ink);
+  outline: none;
+}
+
+.subscribe-input::placeholder { color: var(--ink-lt); }
+
+.subscribe-btn {
+  font-family: var(--f-label);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1.5px solid var(--ink);
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.subscribe-btn:hover { background: var(--ink-surf); }
+
+.hero-schedule {
+  padding: 36px 0 48px 40px;
+}
+
+.schedule-heading {
+  font-family: var(--f-label);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  margin-bottom: 20px;
+}
+
+.docket-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.docket-table tr {
+  border-bottom: 1px solid var(--rule);
+}
+
+.docket-table tr:last-child { border-bottom: none; }
+
+.docket-table td {
+  padding: 7px 0;
+  font-family: var(--f-label);
+  font-size: 12px;
+  vertical-align: top;
+}
+
+.docket-num {
+  color: var(--ink-lt);
+  width: 30px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding-right: 12px;
+}
+
+.docket-title {
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.docket-date {
+  color: var(--ink-mid);
+  text-align: right;
+  width: 60px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+/* ── VACUUM SECTION ── */
+.vacuum {
+  background: var(--ink-surf);
+  color: var(--paper);
+  padding: 72px 40px;
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.vacuum-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.vacuum-statement {
+  font-family: var(--f-display);
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+}
+
+.vacuum-statement .x { color: var(--red); }
+
+.vacuum-right {}
+
+.vacuum-body {
+  font-family: var(--f-text);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: oklch(78% 0.005 70);
+  margin-bottom: 48px;
+}
+
+.vacuum-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid oklch(35% 0.006 70);
+}
+
+.stat {
+  padding: 24px 20px 0 0;
+  border-right: 1px solid oklch(35% 0.006 70);
+}
+
+.stat:last-child {
+  border-right: none;
+  padding-right: 0;
+  padding-left: 20px;
+}
+
+.stat:nth-child(2) {
+  padding-left: 20px;
+}
+
+.stat-num {
+  font-family: var(--f-display);
+  font-size: 42px;
+  line-height: 1;
+  color: var(--paper);
+  display: block;
+}
+
+.stat-num .x { color: var(--red); }
+
+.stat-label {
+  font-family: var(--f-label);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: oklch(55% 0.005 70);
+  display: block;
+  margin-top: 6px;
+}
+
+/* ── FULL DOCKET TABLE SECTION ── */
+.docket-section {
+  padding: 72px 40px;
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.section-title {
+  font-family: var(--f-display);
+  font-size: 36px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.section-note {
+  font-family: var(--f-label);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
+}
+
+.full-docket {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.full-docket thead tr {
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.full-docket thead th {
+  font-family: var(--f-label);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  padding: 0 0 10px;
+  text-align: left;
+}
+
+.full-docket thead th:last-child { text-align: right; }
+
+.full-docket tbody tr {
+  border-bottom: 1px solid var(--rule);
+  transition: background 0.1s;
+}
+
+.full-docket tbody tr:hover { background: var(--pale); }
+
+.full-docket tbody td {
+  padding: 14px 16px 14px 0;
+  vertical-align: top;
+}
+
+.full-docket tbody td:last-child {
+  text-align: right;
+  padding-right: 0;
+}
+
+.fd-num {
+  font-family: var(--f-label);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--ink-lt);
+  width: 40px;
+}
+
+.fd-title {
+  font-family: var(--f-label);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+.fd-sub {
+  font-family: var(--f-text);
+  font-size: 13px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink-mid);
+  margin-top: 2px;
+}
+
+.fd-topic {
+  font-family: var(--f-label);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-lt);
+  width: 120px;
+}
+
+.fd-date {
+  font-family: var(--f-label);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--ink-mid);
+  white-space: nowrap;
+}
+
+/* ── AUDIENCE + DISTRIBUTION ── */
+.audience {
+  padding: 72px 40px;
+  border-bottom: 1.5px solid var(--ink);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+}
+
+.audience-col {}
+
+.audience-col h2 {
+  font-family: var(--f-display);
+  font-size: 28px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1.5px solid var(--ink);
+}
+
+.audience-col p {
+  font-family: var(--f-text);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+.audience-col p:last-child { margin-bottom: 0; }
+
+.audience-list {
+  list-style: none;
+  margin-top: 20px;
+}
+
+.audience-list li {
+  font-family: var(--f-label);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  padding: 9px 0;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.audience-list li::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--ink);
+  flex-shrink: 0;
+}
+
+/* ── SUBSCRIBE CTA ── */
+.subscribe-cta {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 80px 40px;
+  border-bottom: 1.5px solid var(--ink);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.cta-left {}
+
+.cta-label {
+  font-family: var(--f-label);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: oklch(55% 0.005 70);
+  display: block;
+  margin-bottom: 16px;
+}
+
+.cta-heading {
+  font-family: var(--f-display);
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+}
+
+.cta-heading .x { color: var(--red); }
+
+.cta-right {}
+
+.cta-body {
+  font-family: var(--f-text);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: oklch(78% 0.005 70);
+  margin-bottom: 28px;
+}
+
+.cta-form {
+  display: flex;
+  gap: 0;
+}
+
+.cta-input {
+  flex: 1;
+  font-family: var(--f-label);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  padding: 13px 16px;
+  border: 1.5px solid oklch(40% 0.006 70);
+  border-right: none;
+  background: oklch(20% 0.007 70);
+  color: var(--paper);
+  outline: none;
+}
+
+.cta-input::placeholder { color: oklch(50% 0.005 70); }
+
+.cta-btn {
+  font-family: var(--f-label);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1.5px solid var(--paper);
+  padding: 13px 22px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.cta-btn:hover {
+  background: var(--pale);
+  border-color: var(--pale);
+}
+
+.cta-fine {
+  font-family: var(--f-label);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: oklch(45% 0.005 70);
+  margin-top: 10px;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink);
+  color: oklch(55% 0.005 70);
+  padding: 48px 40px;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  margin-bottom: 36px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid oklch(28% 0.006 70);
+}
+
+.footer-seal {
+  font-family: var(--f-display);
+  font-size: 18px;
+  color: var(--paper);
+  letter-spacing: -0.01em;
+}
+
+.footer-seal .x { color: var(--red); }
+
+.footer-seal p {
+  font-family: var(--f-label);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: oklch(45% 0.005 70);
+  margin-top: 6px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 60px;
+}
+
+.footer-col h4 {
+  font-family: var(--f-label);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: oklch(55% 0.005 70);
+  margin-bottom: 14px;
+}
+
+.footer-col a,
+.footer-col span {
+  display: block;
+  font-family: var(--f-label);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: oklch(45% 0.005 70);
+  text-decoration: none;
+  margin-bottom: 8px;
+  transition: color 0.15s;
+}
+
+.footer-col a:hover { color: oklch(72% 0.005 70); }
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-bottom p {
+  font-family: var(--f-label);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: oklch(35% 0.005 70);
+}
+
+</style>
+</head>
+<body>
+
+<!-- PROCLAMATION BAR -->
+<div class="proclamation">
+  <span class="proclamation-text">An Independent Publication — Established 2025 — Issued Bi-Weekly</span>
+  <span class="proclamation-badge">Now Accepting Subscriptions</span>
+</div>
+
+<!-- REGISTRATION STRIP -->
+<div class="registration">
+  <span class="registration-vol">Vol. I — Issue No. 0 — The Inaugural Edition</span>
+  <span class="registration-date">July 1, 2025</span>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-wordmark">AI<span class="x">×</span>Elections</a>
+  <ul class="nav-links">
+    <li><a href="#docket">The Docket</a></li>
+    <li><a href="#audience">About</a></li>
+    <li><a href="#subscribe">Subscribe</a></li>
+  </ul>
+  <a href="#subscribe" class="nav-cta">Subscribe — Free</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-overline">
+    <div class="hero-overline-bar"></div>
+    <span class="label">The Newsletter of Record on Machine Intelligence and Democratic Process</span>
+  </div>
+
+  <h1 class="hero-title">AI<span class="x">×</span><br>Elections</h1>
+
+  <div class="hero-columns">
+    <div class="hero-decree">
+      <p>Artificial intelligence is rewriting how campaigns persuade, how votes are counted, how disinformation spreads, and how regulators respond. <strong>No publication is tracking it systematically.</strong></p>
+      <p>AI × Elections fills that vacuum. Bi-weekly dispatches covering the technology, the politics, and the policy — reported from the intersection where the two fields actually collide.</p>
+
+      <form class="subscribe-form" onsubmit="return false;">
+        <input type="email" class="subscribe-input" placeholder="your@email.com">
+        <button class="subscribe-btn">Subscribe — Free</button>
+      </form>
+    </div>
+
+    <div class="hero-schedule">
+      <p class="schedule-heading">Schedule of Issues — Volume I</p>
+      <table class="docket-table">
+        <tbody>
+          <tr><td class="docket-num">01</td><td class="docket-title">The Vacuum — Why This Beat Needs Covering</td><td class="docket-date">Jul 1</td></tr>
+          <tr><td class="docket-num">02</td><td class="docket-title">Deep Fakes on the Ballot</td><td class="docket-date">Jul 15</td></tr>
+          <tr><td class="docket-num">03</td><td class="docket-title">The Micro-Targeting Machine</td><td class="docket-date">Aug 1</td></tr>
+          <tr><td class="docket-num">04</td><td class="docket-title">Who's Regulating AI in Elections?</td><td class="docket-date">Aug 15</td></tr>
+          <tr><td class="docket-num">05</td><td class="docket-title">Voter Roll Manipulation — A Technical Survey</td><td class="docket-date">Sep 1</td></tr>
+          <tr><td class="docket-num">06</td><td class="docket-title">The Chatbot Candidate</td><td class="docket-date">Sep 15</td></tr>
+          <tr><td class="docket-num">07</td><td class="docket-title">Election Infrastructure — Attack Surface</td><td class="docket-date">Oct 1</td></tr>
+          <tr><td class="docket-num">08</td><td class="docket-title">Monitoring the Monitors</td><td class="docket-date">Oct 15</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- VACUUM SECTION -->
+<section class="vacuum" id="about">
+  <div class="vacuum-inner">
+    <div class="vacuum-left">
+      <h2 class="vacuum-statement">A beat this important deserves a publication this serious. Nothing exists.<br><span class="x">×</span></h2>
+    </div>
+    <div class="vacuum-right">
+      <p class="vacuum-body">Hundreds of outlets cover AI. Dozens cover elections. The Venn diagram intersection — where the technology actually meets democratic process — is reported episodically, breathlessly, and without institutional memory. AI × Elections changes that.</p>
+      <div class="vacuum-stats">
+        <div class="stat">
+          <span class="stat-num">~100K</span>
+          <span class="stat-label">Target subscribers by end of Year 1</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">Jul 1</span>
+          <span class="stat-label">First issue — inaugural edition</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num"><span class="x">×</span>0</span>
+          <span class="stat-label">Comparable publications currently operating</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FULL DOCKET TABLE -->
+<section class="docket-section" id="docket">
+  <div class="section-head">
+    <h2 class="section-title">The Full Docket</h2>
+    <span class="section-note">14 Issues — Volume I — July 2025 through January 2026</span>
+  </div>
+
+  <table class="full-docket">
+    <thead>
+      <tr>
+        <th style="width:40px">No.</th>
+        <th>Issue Title &amp; Description</th>
+        <th style="width:120px">Topic</th>
+        <th style="width:80px">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fd-num">01</td>
+        <td><div class="fd-title">The Vacuum</div><div class="fd-sub">Why this beat needs covering — the state of AI × Elections coverage today</div></td>
+        <td class="fd-topic">Meta / Overview</td>
+        <td class="fd-date">Jul 1</td>
+      </tr>
+      <tr>
+        <td class="fd-num">02</td>
+        <td><div class="fd-title">Deep Fakes on the Ballot</div><div class="fd-sub">Synthetic media in the 2024 cycle — what ran, what was caught, what wasn't</div></td>
+        <td class="fd-topic">Disinformation</td>
+        <td class="fd-date">Jul 15</td>
+      </tr>
+      <tr>
+        <td class="fd-num">03</td>
+        <td><div class="fd-title">The Micro-Targeting Machine</div><div class="fd-sub">How campaigns are using LLMs to personalize at scale — vendors, reach, legality</div></td>
+        <td class="fd-topic">Campaigns</td>
+        <td class="fd-date">Aug 1</td>
+      </tr>
+      <tr>
+        <td class="fd-num">04</td>
+        <td><div class="fd-title">Who's Regulating AI in Elections?</div><div class="fd-sub">Federal, state, and international frameworks — what's law, what's proposed, what's toothless</div></td>
+        <td class="fd-topic">Policy</td>
+        <td class="fd-date">Aug 15</td>
+      </tr>
+      <tr>
+        <td class="fd-num">05</td>
+        <td><div class="fd-title">Voter Roll Manipulation — A Technical Survey</div><div class="fd-sub">The threat surface: how AI can be used to challenge registrations, suppress turnout</div></td>
+        <td class="fd-topic">Infrastructure</td>
+        <td class="fd-date">Sep 1</td>
+      </tr>
+      <tr>
+        <td class="fd-num">06</td>
+        <td><div class="fd-title">The Chatbot Candidate</div><div class="fd-sub">AI-generated campaign content — where the line is, and who's crossing it</div></td>
+        <td class="fd-topic">Campaigns</td>
+        <td class="fd-date">Sep 15</td>
+      </tr>
+      <tr>
+        <td class="fd-num">07</td>
+        <td><div class="fd-title">Election Infrastructure — Attack Surface</div><div class="fd-sub">Voting systems, tabulators, and the AI-powered threat actors targeting them</div></td>
+        <td class="fd-topic">Infrastructure</td>
+        <td class="fd-date">Oct 1</td>
+      </tr>
+      <tr>
+        <td class="fd-num">08</td>
+        <td><div class="fd-title">Monitoring the Monitors</div><div class="fd-sub">AI-assisted election observation — tools, vendors, and civil society deployments</div></td>
+        <td class="fd-topic">Oversight</td>
+        <td class="fd-date">Oct 15</td>
+      </tr>
+      <tr>
+        <td class="fd-num">09</td>
+        <td><div class="fd-title">The Information Environment</div><div class="fd-sub">How AI-generated content is reshaping the news diet of swing voters</div></td>
+        <td class="fd-topic">Media</td>
+        <td class="fd-date">Nov 1</td>
+      </tr>
+      <tr>
+        <td class="fd-num">10</td>
+        <td><div class="fd-title">Post-Election Audit</div><div class="fd-sub">AI in the canvass, recount, and certification process — promise and peril</div></td>
+        <td class="fd-topic">Infrastructure</td>
+        <td class="fd-date">Nov 15</td>
+      </tr>
+      <tr>
+        <td class="fd-num">11</td>
+        <td><div class="fd-title">International Dispatch</div><div class="fd-sub">How other democracies are managing the AI × Elections problem — lessons for the US</div></td>
+        <td class="fd-topic">Global</td>
+        <td class="fd-date">Dec 1</td>
+      </tr>
+      <tr>
+        <td class="fd-num">12</td>
+        <td><div class="fd-title">The Vendors</div><div class="fd-sub">A directory of companies selling AI tools to campaigns, election officials, and parties</div></td>
+        <td class="fd-topic">Industry</td>
+        <td class="fd-date">Dec 15</td>
+      </tr>
+      <tr>
+        <td class="fd-num">13</td>
+        <td><div class="fd-title">What the Research Says</div><div class="fd-sub">Academic literature review — what we actually know about AI's electoral effects</div></td>
+        <td class="fd-topic">Research</td>
+        <td class="fd-date">Jan 1</td>
+      </tr>
+      <tr>
+        <td class="fd-num">14</td>
+        <td><div class="fd-title">Year One — The State of the Beat</div><div class="fd-sub">What changed in AI × Elections over the publication's first year of coverage</div></td>
+        <td class="fd-topic">Meta / Overview</td>
+        <td class="fd-date">Jan 15</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- AUDIENCE + DISTRIBUTION -->
+<section class="audience" id="audience">
+  <div class="audience-col">
+    <h2>Who Reads This</h2>
+    <p>AI × Elections is written for professionals who need to understand this intersection as part of their work — not as spectators, but as practitioners who will be asked about it, advise on it, or act on it.</p>
+    <ul class="audience-list">
+      <li>Election officials and administrators</li>
+      <li>Campaign technologists and strategists</li>
+      <li>Election security researchers</li>
+      <li>Policy staff and legislative counsel</li>
+      <li>Journalists covering elections or AI</li>
+      <li>Civil society and advocacy organizations</li>
+      <li>Technology companies operating in this space</li>
+    </ul>
+  </div>
+
+  <div class="audience-col">
+    <h2>How We Distribute</h2>
+    <p>The newsletter is free. Distribution begins with a curated seed list drawn from the election administration, campaign technology, and policy communities. Referrals and partnerships with election law firms, academic centers, and civil society organizations accelerate growth.</p>
+    <p>By end of Year 1, we target 100,000 subscribers across the policy, technology, and practitioner communities who are shaping — or being shaped by — the AI × Elections moment.</p>
+    <p>Paid sponsorship from election technology vendors, law firms, and foundations opens no later than Issue 4.</p>
+  </div>
+</section>
+
+<!-- SUBSCRIBE CTA -->
+<section class="subscribe-cta" id="subscribe">
+  <div class="cta-left">
+    <span class="cta-label">The Newsletter of Record</span>
+    <h2 class="cta-heading">Join before<br>Issue No. 1<br>drops.<span class="x">×</span></h2>
+  </div>
+  <div class="cta-right">
+    <p class="cta-body">Free. Bi-weekly. The only publication tracking the intersection of machine intelligence and democratic process with the seriousness the beat demands.</p>
+    <form class="cta-form" onsubmit="return false;">
+      <input type="email" class="cta-input" placeholder="your@email.com">
+      <button class="cta-btn">Subscribe Free</button>
+    </form>
+    <p class="cta-fine">No spam. No paywall. Unsubscribe any time.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-seal">
+      <div>AI<span class="x">×</span>Elections</div>
+      <p>An Independent Publication — Est. 2025</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Publication</h4>
+        <a href="#docket">The Docket</a>
+        <a href="#about">About</a>
+        <a href="#subscribe">Subscribe</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <span>editorial@ai-elections.com</span>
+        <span>press@ai-elections.com</span>
+      </div>
+      <div class="footer-col">
+        <h4>Frequency</h4>
+        <span>Bi-Weekly</span>
+        <span>July 2025 — Ongoing</span>
+        <span>Free to Subscribe</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 AI × Elections. All rights reserved.</p>
+    <p>An independent publication. Not affiliated with any campaign, party, or government body.</p>
+  </div>
+</footer>
+
+</body>
+</html>

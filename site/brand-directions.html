@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI × Elections — Brand Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&family=Spectral:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: oklch(14% 0.005 240);
+  font-family: 'Barlow', sans-serif;
+  color: white;
+}
+
+/* ─── NAV LABEL STRIP ─── */
+.direction-label {
+  padding: 10px 40px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: oklch(14% 0.005 240);
+  color: oklch(55% 0 0);
+}
+.direction-label .num {
+  color: oklch(75% 0 0);
+}
+.direction-label .tag {
+  background: oklch(25% 0.005 240);
+  color: oklch(65% 0 0);
+  padding: 3px 10px;
+  border-radius: 2px;
+  letter-spacing: 0.08em;
+}
+.direction-label .desc {
+  color: oklch(45% 0 0);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+/* ─── SWATCH ROW ─── */
+.swatches {
+  display: flex;
+  gap: 0;
+  padding: 0 40px 20px;
+  background: oklch(14% 0.005 240);
+  align-items: flex-end;
+}
+.swatch {
+  width: 48px;
+  height: 28px;
+  border-radius: 3px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+.swatch-label {
+  font-family: 'Barlow', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: oklch(40% 0 0);
+  text-transform: uppercase;
+  line-height: 1.4;
+  margin-right: 16px;
+  padding-bottom: 2px;
+}
+
+.direction-divider {
+  height: 1px;
+  background: oklch(22% 0.005 240);
+  margin: 16px 0;
+}
+
+
+/* ═══════════════════════════════════════════
+   DIRECTION 1: "THE WIRE"
+   Dark/drenched · Condensed grotesque · Green
+   Scene: 11pm, election security officer
+═══════════════════════════════════════════ */
+
+.wire {
+  --bg:        oklch(11%  0.012 240);
+  --bg-mid:    oklch(15%  0.01  240);
+  --surface:   oklch(18%  0.01  240);
+  --text:      oklch(88%  0.008 80);
+  --muted:     oklch(50%  0.006 240);
+  --green:     oklch(68%  0.24  145);
+  --green-dim: oklch(40%  0.14  145);
+  --red:       oklch(58%  0.20  22);
+
+  background: var(--bg);
+  font-family: 'Barlow', sans-serif;
+  color: var(--text);
+}
+
+.wire-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 40px;
+  border-bottom: 1px solid oklch(22% 0.01 240);
+  background: var(--bg);
+}
+.wire-wordmark {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.wire-wordmark span { color: var(--green); }
+.wire-nav-links {
+  display: flex;
+  gap: 28px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.wire-pill {
+  background: var(--green-dim);
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 2px;
+}
+
+.wire-ticker {
+  background: var(--surface);
+  border-bottom: 1px solid oklch(22% 0.01 240);
+  padding: 7px 40px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  gap: 32px;
+}
+.wire-ticker strong { color: var(--green); font-weight: 700; }
+
+.wire-hero {
+  padding: 70px 40px 60px;
+  max-width: 860px;
+}
+.wire-kicker {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.wire-kicker::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--green);
+}
+.wire-headline {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(60px, 9vw, 100px);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 28px;
+}
+.wire-headline em {
+  font-style: normal;
+  color: var(--green);
+}
+.wire-body {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: oklch(68% 0.006 240);
+  max-width: 560px;
+  margin-bottom: 36px;
+  border-left: 2px solid oklch(25% 0.01 240);
+  padding-left: 20px;
+}
+.wire-form {
+  display: flex;
+  gap: 0;
+  max-width: 460px;
+}
+.wire-form input {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid oklch(28% 0.01 240);
+  border-right: none;
+  color: var(--text);
+  font-family: 'Barlow', sans-serif;
+  font-size: 13px;
+  padding: 12px 16px;
+  outline: none;
+}
+.wire-form input::placeholder { color: var(--muted); }
+.wire-form button {
+  background: var(--green);
+  color: oklch(10% 0.01 145);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+}
+
+.wire-stats {
+  display: flex;
+  gap: 0;
+  border-top: 1px solid oklch(22% 0.01 240);
+  padding-top: 32px;
+  margin-top: 48px;
+}
+.wire-stat {
+  padding: 0 40px 0 0;
+  border-right: 1px solid oklch(22% 0.01 240);
+  margin-right: 40px;
+}
+.wire-stat:last-child { border-right: none; }
+.wire-stat .num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--green);
+  letter-spacing: -0.02em;
+  display: block;
+  line-height: 1;
+}
+.wire-stat .label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-top: 4px;
+}
+
+
+/* ═══════════════════════════════════════════
+   DIRECTION 2: "THE RECORD"
+   Print/newsprint · Restrained · Burgundy
+   Scene: Printed, stapled, Tuesday morning
+═══════════════════════════════════════════ */
+
+.record {
+  --paper:     oklch(97%  0.012 78);
+  --paper-mid: oklch(93%  0.014 76);
+  --ink:       oklch(16%  0.005 70);
+  --ink-mid:   oklch(38%  0.006 70);
+  --rule:      oklch(75%  0.008 70);
+  --burg:      oklch(36%  0.11  15);
+  --burg-pale: oklch(90%  0.024 15);
+
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Source Serif 4', serif;
+}
+
+.record-nav {
+  padding: 14px 40px;
+  border-bottom: 2px solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--paper);
+}
+.record-dateline {
+  font-family: 'Barlow', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+}
+.record-wordmark {
+  font-family: 'Spectral', serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  text-align: center;
+  flex: 1;
+}
+.record-nav-right {
+  font-family: 'Barlow', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  text-align: right;
+}
+.record-rule {
+  height: 1px;
+  background: var(--rule);
+  margin: 0;
+}
+
+.record-kicker-bar {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 6px 40px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: flex;
+  gap: 32px;
+}
+.record-kicker-bar span { color: oklch(70% 0.012 78); }
+
+.record-hero {
+  padding: 52px 40px 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 60px;
+  border-bottom: 2px solid var(--ink);
+}
+.record-left {}
+.record-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: 8px;
+}
+.record-section-label {
+  font-family: 'Barlow', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--burg);
+  margin-bottom: 14px;
+}
+.record-headline {
+  font-family: 'Spectral', serif;
+  font-size: clamp(38px, 5.5vw, 62px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 20px;
+}
+.record-headline em {
+  font-style: italic;
+  color: var(--burg);
+}
+.record-deck {
+  font-family: 'Source Serif 4', serif;
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--ink-mid);
+  border-top: 1px solid var(--rule);
+  padding-top: 16px;
+  margin-top: 4px;
+}
+.record-summary {
+  font-family: 'Source Serif 4', serif;
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--ink-mid);
+  margin-bottom: 24px;
+}
+.record-form {
+  display: flex;
+  gap: 0;
+}
+.record-form input {
+  flex: 1;
+  background: var(--paper-mid);
+  border: 1px solid var(--rule);
+  border-right: none;
+  color: var(--ink);
+  font-family: 'Source Serif 4', serif;
+  font-size: 13px;
+  padding: 10px 14px;
+  outline: none;
+}
+.record-form input::placeholder { color: var(--rule); }
+.record-form button {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: 'Barlow', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+.record-note {
+  font-family: 'Barlow', sans-serif;
+  font-size: 10px;
+  color: oklch(55% 0.006 70);
+  margin-top: 8px;
+  letter-spacing: 0.04em;
+}
+
+.record-footer-strip {
+  background: var(--paper-mid);
+  border-top: 1px solid var(--rule);
+  padding: 14px 40px;
+  display: flex;
+  gap: 40px;
+}
+.record-footer-item {
+  font-family: 'Barlow', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+}
+.record-footer-item strong {
+  font-weight: 700;
+  color: var(--ink);
+  display: block;
+  font-size: 16px;
+  font-family: 'Spectral', serif;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.1;
+  margin-bottom: 3px;
+}
+
+
+/* ═══════════════════════════════════════════
+   DIRECTION 3: "THE SIGNAL"
+   White dominant · Teal structural · Civic
+   Scene: iPad, legislative hearing briefing
+═══════════════════════════════════════════ */
+
+.signal {
+  --white:     oklch(99%  0.003 200);
+  --off:       oklch(95%  0.005 195);
+  --teal:      oklch(40%  0.10  195);
+  --teal-mid:  oklch(54%  0.11  195);
+  --teal-pale: oklch(88%  0.032 195);
+  --amber:     oklch(72%  0.15  68);
+  --amber-dark:oklch(52%  0.14  68);
+  --ink:       oklch(18%  0.008 240);
+  --ink-mid:   oklch(42%  0.007 240);
+  --ink-light: oklch(62%  0.006 240);
+
+  background: var(--white);
+  color: var(--ink);
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.signal-nav {
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid oklch(90% 0.005 200);
+  background: var(--white);
+}
+.signal-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+.signal-wordmark-icon {
+  width: 28px;
+  height: 28px;
+  background: var(--teal);
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0;
+  flex-shrink: 0;
+}
+.signal-nav-links {
+  display: flex;
+  gap: 24px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-light);
+}
+.signal-nav-cta {
+  background: var(--teal);
+  color: white;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 8px 20px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.signal-announcement {
+  background: var(--teal-pale);
+  padding: 8px 40px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--teal);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.signal-announcement::before {
+  content: '◆';
+  font-size: 8px;
+}
+
+.signal-hero {
+  padding: 72px 40px 60px;
+  max-width: 900px;
+}
+.signal-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--off);
+  border: 1px solid oklch(88% 0.01 200);
+  border-radius: 100px;
+  padding: 5px 14px 5px 6px;
+  margin-bottom: 28px;
+}
+.signal-eyebrow-dot {
+  width: 18px;
+  height: 18px;
+  background: var(--amber);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 8px;
+}
+.signal-eyebrow span {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+}
+.signal-headline {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(44px, 7vw, 82px);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+.signal-headline em {
+  font-style: normal;
+  color: var(--teal-mid);
+}
+.signal-headline .amp {
+  color: var(--amber-dark);
+  font-style: normal;
+}
+.signal-body {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--ink-mid);
+  max-width: 580px;
+  margin-bottom: 36px;
+}
+.signal-form {
+  display: flex;
+  gap: 8px;
+  max-width: 480px;
+}
+.signal-form input {
+  flex: 1;
+  background: var(--off);
+  border: 1px solid oklch(86% 0.008 200);
+  border-radius: 6px;
+  color: var(--ink);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 11px 16px;
+  outline: none;
+}
+.signal-form input:focus {
+  border-color: var(--teal-mid);
+  background: var(--white);
+}
+.signal-form input::placeholder { color: var(--ink-light); }
+.signal-form button {
+  background: var(--teal);
+  color: white;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 11px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.signal-trust-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid oklch(90% 0.005 200);
+}
+.signal-trust-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-light);
+}
+.signal-trust-icon {
+  width: 16px;
+  height: 16px;
+  background: var(--teal-pale);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--teal);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.signal-cards {
+  display: flex;
+  gap: 0;
+  border-top: 1px solid oklch(90% 0.005 200);
+  background: var(--off);
+  padding: 0 40px;
+  overflow: hidden;
+}
+.signal-card {
+  flex: 1;
+  padding: 24px 24px 24px 0;
+  border-right: 1px solid oklch(88% 0.005 200);
+  margin-right: 24px;
+}
+.signal-card:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+.signal-card-tag {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 2px;
+  margin-bottom: 10px;
+}
+.signal-card-tag.amber { background: oklch(92% 0.06 68); color: var(--amber-dark); }
+.signal-card-tag.teal { background: var(--teal-pale); color: var(--teal); }
+.signal-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.signal-card-date {
+  font-size: 11px;
+  color: var(--ink-light);
+}
+
+/* ─── PAGE INTRO ─── */
+.intro {
+  background: oklch(14% 0.005 240);
+  padding: 48px 40px 36px;
+  text-align: center;
+}
+.intro h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: oklch(50% 0 0);
+  margin-bottom: 10px;
+}
+.intro p {
+  font-size: 13px;
+  color: oklch(38% 0 0);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.compare-cta {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: oklch(42% 0 0);
+  padding: 6px 0;
+  border-bottom: 1px solid oklch(28% 0 0);
+}
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <h1>AI × Elections — Brand Directions</h1>
+  <p>Three distinct visual identities. Each built from a different physical scene and color commitment. Current direction (Direction A) is the navy site already in the folder.</p>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     DIRECTION 1: THE WIRE
+     Dark/drenched · Terminal energy · Green accent
+════════════════════════════════════════════ -->
+
+<div class="direction-label">
+  <span class="num">B</span>
+  <span class="tag">The Wire</span>
+  <span>Drenched dark · Condensed grotesque · Electric green</span>
+  <span class="desc" style="margin-left:auto">Scene: 11pm, election security officer scanning threat feeds after polls close</span>
+</div>
+
+<div class="wire">
+  <nav class="wire-nav">
+    <div class="wire-wordmark">AI<span>×</span>Elections</div>
+    <div class="wire-nav-links">
+      <span>Issues</span>
+      <span>About</span>
+      <span>Archive</span>
+    </div>
+    <div class="wire-pill">Issue 01 — June 2</div>
+  </nav>
+  <div class="wire-ticker">
+    <span><strong>14</strong> issues</span>
+    <span><strong>Jun 2 — Nov 10</strong></span>
+    <span><strong>civitech.io</strong> / BallotReady distribution</span>
+    <span>For election administrators</span>
+  </div>
+  <div class="wire-hero">
+    <div class="wire-kicker">Practitioner intelligence · Election cycle 2026</div>
+    <div class="wire-headline">AI<em>×</em><br>Elections</div>
+    <div class="wire-body">
+      The threat landscape changes weekly. Eagle AI has 100,000 pending voter challenges in Georgia alone. A QR code tabulation crisis hits its legislative deadline July 1. The officials responsible don't have a dedicated publication. Until now.
+    </div>
+    <div class="wire-form">
+      <input type="email" placeholder="your@county.gov">
+      <button>Subscribe</button>
+    </div>
+    <div class="wire-stats">
+      <div class="wire-stat">
+        <span class="num">~100K</span>
+        <span class="label">Pending voter challenges, Georgia</span>
+      </div>
+      <div class="wire-stat">
+        <span class="num">Jul 1</span>
+        <span class="label">QR code deadline, GA SoS</span>
+      </div>
+      <div class="wire-stat">
+        <span class="num">3,000+</span>
+        <span class="label">Officials, target by issue 5</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="swatches" style="padding-top:16px;">
+  <div class="swatch" style="background:oklch(11% 0.012 240)"></div>
+  <div class="swatch-label">BG</div>
+  <div class="swatch" style="background:oklch(18% 0.01 240)"></div>
+  <div class="swatch-label">Surface</div>
+  <div class="swatch" style="background:oklch(68% 0.24 145)"></div>
+  <div class="swatch-label">Green</div>
+  <div class="swatch" style="background:oklch(88% 0.008 80)"></div>
+  <div class="swatch-label">Text</div>
+  <div class="swatch" style="background:oklch(58% 0.20 22)"></div>
+  <div class="swatch-label">Alert</div>
+</div>
+
+
+<div class="direction-divider"></div>
+
+
+<!-- ═══════════════════════════════════════════
+     DIRECTION 2: THE RECORD
+     Print/newsprint · Restrained · Burgundy
+     Scene: Printed, stapled, Tuesday morning
+════════════════════════════════════════════ -->
+
+<div class="direction-label">
+  <span class="num">C</span>
+  <span class="tag">The Record</span>
+  <span>Restrained · Serif-led · Burgundy rule</span>
+  <span class="desc" style="margin-left:auto">Scene: Printed out and stapled, read before a Tuesday morning county board meeting</span>
+</div>
+
+<div class="record">
+  <nav class="record-nav">
+    <div class="record-dateline">Vol. 1, Issue 01 · June 2, 2026</div>
+    <div class="record-wordmark">AI × Elections</div>
+    <div class="record-nav-right">Election Administrators' Intelligence<br>civitech.io / BallotReady</div>
+  </nav>
+  <div class="record-kicker-bar">
+    <span>14 Issues · June through November 2026</span>
+    <span>Practitioner-Level Coverage</span>
+    <span>Free to Subscribe</span>
+  </div>
+  <div class="record-rule"></div>
+  <div class="record-hero">
+    <div class="record-left">
+      <div class="record-section-label">Launch Issue</div>
+      <div class="record-headline">The AI threat<br>landscape <em>officials</em><br>need to know</div>
+      <div class="record-deck">
+        A bi-weekly practitioner intelligence briefing for the county and state administrators who run American elections — covering AI tools, vendor developments, legal frameworks, and threat patterns.
+      </div>
+    </div>
+    <div class="record-right">
+      <div class="record-summary">
+        There is no professional publication for election officials. No clearinghouse for "what do I do when I receive a 1,000-voter challenge list." No trade magazine covering AI at the county level. AI x Elections fills that gap with the voice and depth of a serious practitioner journal.
+      </div>
+      <div class="record-form">
+        <input type="email" placeholder="your@county.gov">
+        <button>Subscribe Free</button>
+      </div>
+      <div class="record-note">Distributed through civitech.io · BallotReady · 14 issues, June–November</div>
+    </div>
+  </div>
+  <div style="display:flex; gap:0; padding:0 40px; background:oklch(93% 0.014 76); border-top:1px solid oklch(75% 0.008 70);">
+    <div class="record-footer-item" style="padding:20px 40px 20px 0; border-right:1px solid oklch(75% 0.008 70); margin-right:40px;">
+      <strong>~100K</strong>
+      Eagle AI challenges pending in Georgia
+    </div>
+    <div class="record-footer-item" style="padding:20px 40px 20px 0; border-right:1px solid oklch(75% 0.008 70); margin-right:40px;">
+      <strong>Jul 1</strong>
+      QR code tabulation deadline, GA
+    </div>
+    <div class="record-footer-item" style="padding:20px 0 20px 0;">
+      <strong>14</strong>
+      Issues · June 2 through Nov 10, 2026
+    </div>
+  </div>
+</div>
+
+<div class="swatches" style="padding-top:16px; background:oklch(14% 0.005 240);">
+  <div class="swatch" style="background:oklch(97% 0.012 78)"></div>
+  <div class="swatch-label">Paper</div>
+  <div class="swatch" style="background:oklch(16% 0.005 70)"></div>
+  <div class="swatch-label">Ink</div>
+  <div class="swatch" style="background:oklch(36% 0.11 15)"></div>
+  <div class="swatch-label">Burgundy</div>
+  <div class="swatch" style="background:oklch(75% 0.008 70)"></div>
+  <div class="swatch-label">Rule</div>
+</div>
+
+
+<div class="direction-divider"></div>
+
+
+<!-- ═══════════════════════════════════════════
+     DIRECTION 3: THE SIGNAL
+     White dominant · Teal structural · Civic modern
+     Scene: iPad, legislative hearing briefing
+════════════════════════════════════════════ -->
+
+<div class="direction-label">
+  <span class="num">D</span>
+  <span class="tag">The Signal</span>
+  <span>Full palette · Space Grotesk · Teal + amber</span>
+  <span class="desc" style="margin-left:auto">Scene: State election director scanning it on an iPad during a legislative hearing</span>
+</div>
+
+<div class="signal">
+  <nav class="signal-nav">
+    <div class="signal-wordmark">
+      <div class="signal-wordmark-icon">AI</div>
+      AI × Elections
+    </div>
+    <div class="signal-nav-links">
+      <span>Issues</span>
+      <span>About</span>
+      <span>Archive</span>
+    </div>
+    <button class="signal-nav-cta">Subscribe Free</button>
+  </nav>
+  <div class="signal-announcement">
+    Issue 01 launches June 2, 2026 · Distributed through civitech.io / BallotReady to election officials nationwide
+  </div>
+  <div class="signal-hero">
+    <div class="signal-eyebrow">
+      <div class="signal-eyebrow-dot">◆</div>
+      <span>Practitioner intelligence · 14 issues · June–November 2026</span>
+    </div>
+    <div class="signal-headline">
+      The AI threat<br>landscape,<br><em>decoded</em> for<br>election officials
+    </div>
+    <div class="signal-body">
+      A bi-weekly professional newsletter for the county and state administrators who run American elections. Covering AI tools, vendor pitches, legal frameworks, and field intelligence — with the depth your Signal thread can't provide.
+    </div>
+    <div class="signal-form">
+      <input type="email" placeholder="your@county.gov">
+      <button>Get every issue</button>
+    </div>
+    <div class="signal-trust-row">
+      <div class="signal-trust-item">
+        <div class="signal-trust-icon">✓</div>
+        Free to subscribe
+      </div>
+      <div class="signal-trust-item">
+        <div class="signal-trust-icon">✓</div>
+        Practitioner-only voice
+      </div>
+      <div class="signal-trust-item">
+        <div class="signal-trust-icon">✓</div>
+        civitech.io / BallotReady distribution
+      </div>
+    </div>
+  </div>
+  <div class="signal-cards">
+    <div class="signal-card">
+      <div class="signal-card-tag amber">Deadline</div>
+      <div class="signal-card-title">The QR Code Tabulation Crisis: What Georgia Officials Need to Do Before July 1</div>
+      <div class="signal-card-date">Issue 03 · June 30</div>
+    </div>
+    <div class="signal-card">
+      <div class="signal-card-tag teal">Field Intel</div>
+      <div class="signal-card-title">Eagle AI's 100,000-Challenge List: A Legal Framework for County Responses</div>
+      <div class="signal-card-date">Issue 04 · July 14</div>
+    </div>
+    <div class="signal-card">
+      <div class="signal-card-tag teal">Analysis</div>
+      <div class="signal-card-title">Polling Place Consolidation: The Impact Analysis Tool That Doesn't Exist Yet</div>
+      <div class="signal-card-date">Issue 06 · Aug 11</div>
+    </div>
+  </div>
+</div>
+
+<div class="swatches" style="padding-top:16px; background:oklch(14% 0.005 240);">
+  <div class="swatch" style="background:oklch(40% 0.10 195)"></div>
+  <div class="swatch-label">Teal</div>
+  <div class="swatch" style="background:oklch(88% 0.032 195)"></div>
+  <div class="swatch-label">Teal pale</div>
+  <div class="swatch" style="background:oklch(72% 0.15 68)"></div>
+  <div class="swatch-label">Amber</div>
+  <div class="swatch" style="background:oklch(18% 0.008 240)"></div>
+  <div class="swatch-label">Ink</div>
+  <div class="swatch" style="background:oklch(99% 0.003 200)"></div>
+  <div class="swatch-label">White</div>
+</div>
+
+<div style="background:oklch(14% 0.005 240); padding:32px 40px; text-align:center;">
+  <p style="font-family:'Barlow',sans-serif; font-size:11px; color:oklch(32% 0 0); letter-spacing:0.08em; text-transform:uppercase;">
+    Current direction (A): Navy · Libre Baskerville · Committed — see index.html
+  </p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Direction G — Palette Options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: oklch(11% 0.004 240); font-family: 'Barlow', sans-serif; }
+
+/* ─── chrome ─── */
+.intro {
+  padding: 40px 40px 28px; text-align: center;
+  background: oklch(11% 0.004 240);
+}
+.intro h1 {
+  font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase; color: oklch(40% 0 0); margin-bottom: 8px;
+}
+.intro p { font-size: 12px; color: oklch(32% 0 0); line-height: 1.6; }
+
+.pal-label {
+  padding: 10px 40px;
+  background: oklch(11% 0.004 240);
+  display: flex; align-items: center; gap: 14px;
+  font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; color: oklch(48% 0 0);
+}
+.pal-label .num { color: oklch(72% 0 0); font-size: 13px; }
+.pal-label .tag {
+  background: oklch(20% 0.004 240); color: oklch(60% 0 0);
+  padding: 3px 10px; border-radius: 2px; letter-spacing: 0.08em;
+}
+.pal-label .note { color: oklch(34% 0 0); font-weight: 400; font-size: 10px;
+  letter-spacing: 0.06em; font-style: italic; text-transform: none; margin-left: auto; }
+
+.swatches {
+  display: flex; align-items: flex-end;
+  padding: 10px 40px 20px; background: oklch(11% 0.004 240);
+}
+.sw { width: 44px; height: 24px; border-radius: 3px; margin-right: 8px; flex-shrink: 0; }
+.sw-l {
+  font-size: 9px; letter-spacing: 0.06em; color: oklch(32% 0 0);
+  text-transform: uppercase; margin-right: 14px; padding-bottom: 2px;
+}
+.divider { height: 2px; background: oklch(16% 0.004 240); }
+
+/* ─── shared G skeleton ─── */
+.g {
+  font-family: 'Spectral', serif;
+}
+.g-proc {
+  padding: 10px 40px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.g-proc-l {
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+}
+.g-proc-r {
+  font-family: 'Spectral', serif; font-size: 10px; font-weight: 300; letter-spacing: 0.08em;
+}
+.g-reg {
+  padding: 8px 40px; display: flex; justify-content: space-between;
+  border-bottom: 1px solid;
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.g-hero { padding: 40px 40px 0; }
+.g-hdr {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: 1px solid; padding-bottom: 10px; margin-bottom: 28px;
+}
+.g-vol {
+  font-family: 'Spectral', serif; font-size: 11px; font-weight: 300;
+  letter-spacing: 0.08em;
+}
+.g-pub {
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+}
+.g-title {
+  font-family: 'Abril Fatface', serif;
+  font-size: clamp(72px, 12vw, 148px);
+  font-weight: 400; line-height: 0.90; letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.g-sub {
+  font-family: 'Spectral', serif; font-size: 12px; font-weight: 300;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  padding-bottom: 32px; margin-bottom: 0;
+  border-bottom: 1px solid;
+}
+.g-body {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0 60px;
+  padding: 32px 0 44px;
+}
+.g-decree {
+  font-family: 'Spectral', serif; font-size: 18px; font-weight: 400;
+  font-style: italic; line-height: 1.52; margin-bottom: 20px; max-width: 52ch;
+}
+.g-copy {
+  font-family: 'Spectral', serif; font-size: 14px; font-weight: 300;
+  line-height: 1.82; max-width: 54ch; margin-bottom: 28px;
+}
+.g-sub-head {
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+}
+.g-sub-head::after { content: ''; flex: 1; height: 1px; }
+.g-form { display: flex; }
+.g-form input {
+  flex: 1; border-right: none;
+  font-family: 'Spectral', serif; font-size: 13px; font-style: italic;
+  padding: 11px 16px; outline: none; border-width: 1px; border-style: solid;
+}
+.g-form button {
+  font-family: 'Barlow', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 11px 20px; border: none; cursor: pointer; white-space: nowrap;
+}
+.g-docket { border-width: 1px; border-style: solid; padding: 20px 24px; }
+.g-docket-hdr {
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  margin-bottom: 14px; padding-bottom: 10px; border-bottom-width: 1px; border-bottom-style: solid;
+}
+.g-docket-row {
+  font-family: 'Spectral', serif; font-size: 13px; line-height: 1.5;
+  padding: 8px 0; border-bottom-width: 1px; border-bottom-style: solid;
+  display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
+}
+.g-docket-row:last-child { border-bottom: none; }
+.g-docket-title { font-weight: 600; }
+.g-docket-date {
+  font-family: 'Barlow', sans-serif; font-size: 10px; font-weight: 600;
+  letter-spacing: 0.06em; white-space: nowrap; flex-shrink: 0;
+}
+.g-seal {
+  padding: 14px 40px; display: flex; justify-content: space-between; align-items: center;
+}
+.g-seal-l {
+  font-family: 'Spectral', serif; font-size: 11px; font-style: italic; font-weight: 300;
+}
+.g-seal-r {
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+}
+
+
+/* ══════════════════════════════════════
+   PALETTE 1 — FEDERAL BLUE
+   That specific muted blue of US government forms.
+   Think IRS, Social Security card, USPS.
+══════════════════════════════════════ */
+.p-blue {
+  --s:      oklch(50%  0.095  232);   /* structural */
+  --s-d:    oklch(30%  0.070  230);   /* dark text on structural */
+  --s-p:    oklch(93%  0.020  233);   /* pale structural bg */
+  --s-b:    oklch(85%  0.032  233);   /* structural border */
+  --paper:  oklch(97%  0.008  78);
+  --ink:    oklch(14%  0.007  70);
+  --ink-m:  oklch(42%  0.006  70);
+  --rule:   oklch(82%  0.008  70);
+  background: var(--paper);
+  color: var(--ink);
+}
+.p-blue .g-proc { background: var(--s); }
+.p-blue .g-proc-l { color: var(--s-d); }
+.p-blue .g-proc-r { color: var(--s-d); }
+.p-blue .g-reg { background: var(--s-p); border-color: var(--rule); color: oklch(50% 0.008 68); }
+.p-blue .g-hero { background: var(--paper); }
+.p-blue .g-hdr { border-color: var(--rule); }
+.p-blue .g-vol { color: var(--ink-m); }
+.p-blue .g-pub { color: oklch(50% 0.007 68); }
+.p-blue .g-title { color: var(--ink); }
+.p-blue .g-title .x { color: var(--s); }
+.p-blue .g-sub { color: var(--ink-m); border-color: var(--rule); }
+.p-blue .g-decree { color: var(--ink); }
+.p-blue .g-copy { color: var(--ink-m); }
+.p-blue .g-sub-head { color: var(--s-d); }
+.p-blue .g-sub-head::after { background: var(--rule); }
+.p-blue .g-form input { background: var(--paper); border-color: var(--rule); color: var(--ink); }
+.p-blue .g-form input::placeholder { color: oklch(63% 0.006 72); }
+.p-blue .g-form button { background: var(--s); color: oklch(97% 0.004 78); }
+.p-blue .g-docket { background: var(--s-p); border-color: var(--s-b); }
+.p-blue .g-docket-hdr { color: var(--s-d); border-color: var(--s-b); }
+.p-blue .g-docket-row { color: var(--ink-m); border-color: oklch(88% 0.016 233); }
+.p-blue .g-docket-title { color: var(--ink); }
+.p-blue .g-docket-date { color: var(--s-d); }
+.p-blue .g-seal { background: var(--ink); }
+.p-blue .g-seal-l { color: oklch(48% 0.006 70); }
+.p-blue .g-seal-r { color: oklch(30% 0.005 70); }
+
+
+/* ══════════════════════════════════════
+   PALETTE 2 — STARK MONOCHROME
+   Near-black structural. Vermillion × only.
+   Everything else ink and paper.
+   The × is the only color on the page.
+══════════════════════════════════════ */
+.p-stark {
+  --red:    oklch(57%  0.22   22);   /* vermillion — × only */
+  --s:      oklch(14%  0.007  70);   /* near-black structural */
+  --s-d:    oklch(55%  0.007  70);   /* muted text on near-black */
+  --s-p:    oklch(94%  0.005  70);   /* pale near-white bg */
+  --s-b:    oklch(82%  0.006  70);   /* rule/border */
+  --paper:  oklch(98%  0.005  78);
+  --ink:    oklch(13%  0.007  70);
+  --ink-m:  oklch(40%  0.006  70);
+  --rule:   oklch(83%  0.007  70);
+  background: var(--paper);
+  color: var(--ink);
+}
+.p-stark .g-proc { background: var(--s); }
+.p-stark .g-proc-l { color: var(--s-d); }
+.p-stark .g-proc-r { color: oklch(35% 0.005 70); }
+.p-stark .g-reg { background: var(--s-p); border-color: var(--rule); color: oklch(50% 0.006 70); }
+.p-stark .g-hero { background: var(--paper); }
+.p-stark .g-hdr { border-color: var(--rule); }
+.p-stark .g-vol { color: var(--ink-m); }
+.p-stark .g-pub { color: oklch(50% 0.006 70); }
+.p-stark .g-title { color: var(--ink); }
+.p-stark .g-title .x { color: var(--red); }
+.p-stark .g-sub { color: var(--ink-m); border-color: var(--rule); }
+.p-stark .g-decree { color: var(--ink); }
+.p-stark .g-copy { color: var(--ink-m); }
+.p-stark .g-sub-head { color: oklch(38% 0.006 70); }
+.p-stark .g-sub-head::after { background: var(--rule); }
+.p-stark .g-form input { background: var(--paper); border-color: var(--rule); color: var(--ink); }
+.p-stark .g-form input::placeholder { color: oklch(63% 0.006 70); }
+.p-stark .g-form button { background: var(--ink); color: oklch(88% 0.007 78); }
+.p-stark .g-docket { background: var(--s-p); border-color: var(--s-b); }
+.p-stark .g-docket-hdr { color: var(--ink-m); border-color: var(--s-b); }
+.p-stark .g-docket-row { color: var(--ink-m); border-color: oklch(88% 0.005 70); }
+.p-stark .g-docket-title { color: var(--ink); }
+.p-stark .g-docket-date { color: var(--red); }
+.p-stark .g-seal { background: var(--s); }
+.p-stark .g-seal-l { color: oklch(45% 0.005 70); }
+.p-stark .g-seal-r { color: oklch(28% 0.005 70); }
+
+
+/* ══════════════════════════════════════
+   PALETTE 3 — OLIVE DISPATCH
+   Army Corps, USDA, field manual green.
+   Not the scholarly forest green of Dir. F —
+   warmer, more utilitarian, more "operations."
+══════════════════════════════════════ */
+.p-olive {
+  --s:      oklch(48%  0.088  104);  /* warm olive */
+  --s-d:    oklch(28%  0.060  102);  /* dark text on olive */
+  --s-p:    oklch(94%  0.026  104);  /* pale olive tint */
+  --s-b:    oklch(85%  0.038  104);  /* olive border */
+  --paper:  oklch(97%  0.012  84);   /* warm paper */
+  --ink:    oklch(15%  0.008  72);
+  --ink-m:  oklch(40%  0.007  72);
+  --rule:   oklch(81%  0.010  78);
+  background: var(--paper);
+  color: var(--ink);
+}
+.p-olive .g-proc { background: var(--s); }
+.p-olive .g-proc-l { color: var(--s-d); }
+.p-olive .g-proc-r { color: var(--s-d); }
+.p-olive .g-reg { background: var(--s-p); border-color: var(--rule); color: oklch(50% 0.008 80); }
+.p-olive .g-hero { background: var(--paper); }
+.p-olive .g-hdr { border-color: var(--rule); }
+.p-olive .g-vol { color: var(--ink-m); }
+.p-olive .g-pub { color: oklch(50% 0.007 72); }
+.p-olive .g-title { color: var(--ink); }
+.p-olive .g-title .x { color: var(--s); }
+.p-olive .g-sub { color: var(--ink-m); border-color: var(--rule); }
+.p-olive .g-decree { color: var(--ink); }
+.p-olive .g-copy { color: var(--ink-m); }
+.p-olive .g-sub-head { color: var(--s-d); }
+.p-olive .g-sub-head::after { background: var(--rule); }
+.p-olive .g-form input { background: var(--paper); border-color: var(--rule); color: var(--ink); }
+.p-olive .g-form input::placeholder { color: oklch(62% 0.007 78); }
+.p-olive .g-form button { background: var(--s); color: oklch(97% 0.006 84); }
+.p-olive .g-docket { background: var(--s-p); border-color: var(--s-b); }
+.p-olive .g-docket-hdr { color: var(--s-d); border-color: var(--s-b); }
+.p-olive .g-docket-row { color: var(--ink-m); border-color: oklch(88% 0.025 104); }
+.p-olive .g-docket-title { color: var(--ink); }
+.p-olive .g-docket-date { color: var(--s-d); }
+.p-olive .g-seal { background: var(--ink); }
+.p-olive .g-seal-l { color: oklch(46% 0.006 72); }
+.p-olive .g-seal-r { color: oklch(30% 0.005 72); }
+
+
+/* ══════════════════════════════════════
+   PALETTE 4 — COUNTY SEAL VIOLET
+   The purple-gray of old county recorder stamps,
+   notary seals, official certification ink.
+   Dignified, specific, reads as civic authority.
+══════════════════════════════════════ */
+.p-violet {
+  --s:      oklch(44%  0.080  295);  /* muted civic violet */
+  --s-d:    oklch(25%  0.056  292);  /* dark text on violet */
+  --s-p:    oklch(94%  0.018  292);  /* pale violet tint */
+  --s-b:    oklch(85%  0.028  292);  /* violet border */
+  --paper:  oklch(97%  0.008  78);
+  --ink:    oklch(14%  0.007  70);
+  --ink-m:  oklch(40%  0.006  70);
+  --rule:   oklch(82%  0.008  70);
+  background: var(--paper);
+  color: var(--ink);
+}
+.p-violet .g-proc { background: var(--s); }
+.p-violet .g-proc-l { color: var(--s-d); }
+.p-violet .g-proc-r { color: oklch(30% 0.050 292); }
+.p-violet .g-reg { background: var(--s-p); border-color: var(--rule); color: oklch(50% 0.007 70); }
+.p-violet .g-hero { background: var(--paper); }
+.p-violet .g-hdr { border-color: var(--rule); }
+.p-violet .g-vol { color: var(--ink-m); }
+.p-violet .g-pub { color: oklch(50% 0.006 70); }
+.p-violet .g-title { color: var(--ink); }
+.p-violet .g-title .x { color: var(--s); }
+.p-violet .g-sub { color: var(--ink-m); border-color: var(--rule); }
+.p-violet .g-decree { color: var(--ink); }
+.p-violet .g-copy { color: var(--ink-m); }
+.p-violet .g-sub-head { color: var(--s-d); }
+.p-violet .g-sub-head::after { background: var(--rule); }
+.p-violet .g-form input { background: var(--paper); border-color: var(--rule); color: var(--ink); }
+.p-violet .g-form input::placeholder { color: oklch(62% 0.006 70); }
+.p-violet .g-form button { background: var(--s); color: oklch(97% 0.004 78); }
+.p-violet .g-docket { background: var(--s-p); border-color: var(--s-b); }
+.p-violet .g-docket-hdr { color: var(--s-d); border-color: var(--s-b); }
+.p-violet .g-docket-row { color: var(--ink-m); border-color: oklch(88% 0.018 292); }
+.p-violet .g-docket-title { color: var(--ink); }
+.p-violet .g-docket-date { color: var(--s-d); }
+.p-violet .g-seal { background: var(--ink); }
+.p-violet .g-seal-l { color: oklch(46% 0.006 70); }
+.p-violet .g-seal-r { color: oklch(30% 0.005 70); }
+
+
+.page-foot {
+  background: oklch(11% 0.004 240); padding: 24px 40px 44px; text-align: center;
+  font-family: 'Barlow', sans-serif; font-size: 10px; color: oklch(26% 0 0);
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <h1>Direction G — Palette Options</h1>
+  <p>Same structure, four different structural colors. The × changes color along with the proclamation bar, docket panel, and button.</p>
+</div>
+
+
+<!-- ══════ PALETTE 1: FEDERAL BLUE ══════ -->
+<div class="pal-label">
+  <span class="num">1</span>
+  <span class="tag">Federal Blue</span>
+  <span>The exact blue of US government forms — IRS, Social Security, USPS</span>
+  <span class="note">oklch(50% 0.095 232) — muted, institutional, not corporate</span>
+</div>
+<div class="g p-blue">
+  <div class="g-proc">
+    <div class="g-proc-l">Official Publication · Election Administration Intelligence · United States</div>
+    <div class="g-proc-r">Reg. No. AIE-2026 · Vol. I · Published bi-weekly</div>
+  </div>
+  <div class="g-reg">
+    <span>civitech.io / BallotReady Distribution Network</span>
+    <span>For county and state election officials</span>
+    <span>June 2 through November 10, 2026</span>
+  </div>
+  <div class="g-hero">
+    <div class="g-hdr">
+      <div class="g-vol">Volume I, Issue 1 · June 2, 2026 · 14 Issues This Cycle</div>
+      <div class="g-pub">AI × Elections · Practitioner Intelligence</div>
+    </div>
+    <div class="g-title">AI<span class="x">×</span><br>Elec<br>tions</div>
+    <div class="g-sub">Practitioner intelligence for election administrators · 2026 cycle · Free to subscribe</div>
+    <div class="g-body">
+      <div>
+        <div class="g-decree">Election officials are navigating the most consequential midterm cycle in a generation without a professional information source. That changes now.</div>
+        <div class="g-copy">AI × Elections is a bi-weekly practitioner newsletter for the administrators who run American elections. Fourteen issues, June 2 through November 10. Distributed through civitech.io and BallotReady nationwide.</div>
+        <div class="g-sub-head">Subscribe · Free · No advertising</div>
+        <div class="g-form">
+          <input type="email" placeholder="your@county.gov">
+          <button>Submit</button>
+        </div>
+      </div>
+      <div>
+        <div class="g-docket">
+          <div class="g-docket-hdr">Schedule of Issues · 2026 Cycle</div>
+          <div class="g-docket-row"><span class="g-docket-title">Launch: The AI Threat Landscape</span><span class="g-docket-date">Jun 2</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Georgia QR Code Tabulation Crisis</span><span class="g-docket-date">Jun 30</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Eagle AI Challenge Response Framework</span><span class="g-docket-date">Jul 14</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Polling Place Consolidation Analysis</span><span class="g-docket-date">Aug 11</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Pre-Election Security Briefing</span><span class="g-docket-date">Oct 27</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Election Day Intelligence · Final Issue</span><span class="g-docket-date">Nov 10</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-seal">
+    <div class="g-seal-l">A professional publication for the people who run American elections</div>
+    <div class="g-seal-r">AI × Elections · Vol. I · 2026</div>
+  </div>
+</div>
+<div class="swatches">
+  <div class="sw" style="background:oklch(50% 0.095 232)"></div><div class="sw-l">Federal Blue</div>
+  <div class="sw" style="background:oklch(93% 0.020 233)"></div><div class="sw-l">Blue Pale</div>
+  <div class="sw" style="background:oklch(97% 0.008 78)"></div><div class="sw-l">Paper</div>
+  <div class="sw" style="background:oklch(14% 0.007 70)"></div><div class="sw-l">Ink</div>
+</div>
+
+<div class="divider"></div>
+
+
+<!-- ══════ PALETTE 2: STARK MONOCHROME ══════ -->
+<div class="pal-label">
+  <span class="num">2</span>
+  <span class="tag">Stark Monochrome</span>
+  <span>Near-black structural. Vermillion × only — the single color on the entire page</span>
+  <span class="note">oklch(57% 0.22 22) for × · everything else ink and paper · most radical option</span>
+</div>
+<div class="g p-stark">
+  <div class="g-proc">
+    <div class="g-proc-l">Official Publication · Election Administration Intelligence · United States</div>
+    <div class="g-proc-r">Reg. No. AIE-2026 · Vol. I · Published bi-weekly</div>
+  </div>
+  <div class="g-reg">
+    <span>civitech.io / BallotReady Distribution Network</span>
+    <span>For county and state election officials</span>
+    <span>June 2 through November 10, 2026</span>
+  </div>
+  <div class="g-hero">
+    <div class="g-hdr">
+      <div class="g-vol">Volume I, Issue 1 · June 2, 2026 · 14 Issues This Cycle</div>
+      <div class="g-pub">AI × Elections · Practitioner Intelligence</div>
+    </div>
+    <div class="g-title">AI<span class="x">×</span><br>Elec<br>tions</div>
+    <div class="g-sub">Practitioner intelligence for election administrators · 2026 cycle · Free to subscribe</div>
+    <div class="g-body">
+      <div>
+        <div class="g-decree">Election officials are navigating the most consequential midterm cycle in a generation without a professional information source. That changes now.</div>
+        <div class="g-copy">AI × Elections is a bi-weekly practitioner newsletter for the administrators who run American elections. Fourteen issues, June 2 through November 10. Distributed through civitech.io and BallotReady nationwide.</div>
+        <div class="g-sub-head">Subscribe · Free · No advertising</div>
+        <div class="g-form">
+          <input type="email" placeholder="your@county.gov">
+          <button>Submit</button>
+        </div>
+      </div>
+      <div>
+        <div class="g-docket">
+          <div class="g-docket-hdr">Schedule of Issues · 2026 Cycle</div>
+          <div class="g-docket-row"><span class="g-docket-title">Launch: The AI Threat Landscape</span><span class="g-docket-date">Jun 2</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Georgia QR Code Tabulation Crisis</span><span class="g-docket-date">Jun 30</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Eagle AI Challenge Response Framework</span><span class="g-docket-date">Jul 14</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Polling Place Consolidation Analysis</span><span class="g-docket-date">Aug 11</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Pre-Election Security Briefing</span><span class="g-docket-date">Oct 27</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Election Day Intelligence · Final Issue</span><span class="g-docket-date">Nov 10</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-seal">
+    <div class="g-seal-l">A professional publication for the people who run American elections</div>
+    <div class="g-seal-r">AI × Elections · Vol. I · 2026</div>
+  </div>
+</div>
+<div class="swatches">
+  <div class="sw" style="background:oklch(14% 0.007 70)"></div><div class="sw-l">Near-Black</div>
+  <div class="sw" style="background:oklch(57% 0.22 22)"></div><div class="sw-l">Vermillion ×</div>
+  <div class="sw" style="background:oklch(94% 0.005 70)"></div><div class="sw-l">Pale Gray</div>
+  <div class="sw" style="background:oklch(98% 0.005 78)"></div><div class="sw-l">Paper</div>
+</div>
+
+<div class="divider"></div>
+
+
+<!-- ══════ PALETTE 3: OLIVE DISPATCH ══════ -->
+<div class="pal-label">
+  <span class="num">3</span>
+  <span class="tag">Olive Dispatch</span>
+  <span>Army Corps · USDA · Field manual green — warmer and more operational than Direction F</span>
+  <span class="note">oklch(48% 0.088 104) — utilitarian authority, not institutional prestige</span>
+</div>
+<div class="g p-olive">
+  <div class="g-proc">
+    <div class="g-proc-l">Official Publication · Election Administration Intelligence · United States</div>
+    <div class="g-proc-r">Reg. No. AIE-2026 · Vol. I · Published bi-weekly</div>
+  </div>
+  <div class="g-reg">
+    <span>civitech.io / BallotReady Distribution Network</span>
+    <span>For county and state election officials</span>
+    <span>June 2 through November 10, 2026</span>
+  </div>
+  <div class="g-hero">
+    <div class="g-hdr">
+      <div class="g-vol">Volume I, Issue 1 · June 2, 2026 · 14 Issues This Cycle</div>
+      <div class="g-pub">AI × Elections · Practitioner Intelligence</div>
+    </div>
+    <div class="g-title">AI<span class="x">×</span><br>Elec<br>tions</div>
+    <div class="g-sub">Practitioner intelligence for election administrators · 2026 cycle · Free to subscribe</div>
+    <div class="g-body">
+      <div>
+        <div class="g-decree">Election officials are navigating the most consequential midterm cycle in a generation without a professional information source. That changes now.</div>
+        <div class="g-copy">AI × Elections is a bi-weekly practitioner newsletter for the administrators who run American elections. Fourteen issues, June 2 through November 10. Distributed through civitech.io and BallotReady nationwide.</div>
+        <div class="g-sub-head">Subscribe · Free · No advertising</div>
+        <div class="g-form">
+          <input type="email" placeholder="your@county.gov">
+          <button>Submit</button>
+        </div>
+      </div>
+      <div>
+        <div class="g-docket">
+          <div class="g-docket-hdr">Schedule of Issues · 2026 Cycle</div>
+          <div class="g-docket-row"><span class="g-docket-title">Launch: The AI Threat Landscape</span><span class="g-docket-date">Jun 2</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Georgia QR Code Tabulation Crisis</span><span class="g-docket-date">Jun 30</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Eagle AI Challenge Response Framework</span><span class="g-docket-date">Jul 14</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Polling Place Consolidation Analysis</span><span class="g-docket-date">Aug 11</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Pre-Election Security Briefing</span><span class="g-docket-date">Oct 27</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Election Day Intelligence · Final Issue</span><span class="g-docket-date">Nov 10</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-seal">
+    <div class="g-seal-l">A professional publication for the people who run American elections</div>
+    <div class="g-seal-r">AI × Elections · Vol. I · 2026</div>
+  </div>
+</div>
+<div class="swatches">
+  <div class="sw" style="background:oklch(48% 0.088 104)"></div><div class="sw-l">Olive</div>
+  <div class="sw" style="background:oklch(94% 0.026 104)"></div><div class="sw-l">Olive Pale</div>
+  <div class="sw" style="background:oklch(97% 0.012 84)"></div><div class="sw-l">Warm Paper</div>
+  <div class="sw" style="background:oklch(15% 0.008 72)"></div><div class="sw-l">Ink</div>
+</div>
+
+<div class="divider"></div>
+
+
+<!-- ══════ PALETTE 4: COUNTY SEAL VIOLET ══════ -->
+<div class="pal-label">
+  <span class="num">4</span>
+  <span class="tag">County Seal Violet</span>
+  <span>The purple-gray of notary stamps, official certifications, county recorder ink</span>
+  <span class="note">oklch(44% 0.080 295) — civic authority, completely unexpected for elections</span>
+</div>
+<div class="g p-violet">
+  <div class="g-proc">
+    <div class="g-proc-l">Official Publication · Election Administration Intelligence · United States</div>
+    <div class="g-proc-r">Reg. No. AIE-2026 · Vol. I · Published bi-weekly</div>
+  </div>
+  <div class="g-reg">
+    <span>civitech.io / BallotReady Distribution Network</span>
+    <span>For county and state election officials</span>
+    <span>June 2 through November 10, 2026</span>
+  </div>
+  <div class="g-hero">
+    <div class="g-hdr">
+      <div class="g-vol">Volume I, Issue 1 · June 2, 2026 · 14 Issues This Cycle</div>
+      <div class="g-pub">AI × Elections · Practitioner Intelligence</div>
+    </div>
+    <div class="g-title">AI<span class="x">×</span><br>Elec<br>tions</div>
+    <div class="g-sub">Practitioner intelligence for election administrators · 2026 cycle · Free to subscribe</div>
+    <div class="g-body">
+      <div>
+        <div class="g-decree">Election officials are navigating the most consequential midterm cycle in a generation without a professional information source. That changes now.</div>
+        <div class="g-copy">AI × Elections is a bi-weekly practitioner newsletter for the administrators who run American elections. Fourteen issues, June 2 through November 10. Distributed through civitech.io and BallotReady nationwide.</div>
+        <div class="g-sub-head">Subscribe · Free · No advertising</div>
+        <div class="g-form">
+          <input type="email" placeholder="your@county.gov">
+          <button>Submit</button>
+        </div>
+      </div>
+      <div>
+        <div class="g-docket">
+          <div class="g-docket-hdr">Schedule of Issues · 2026 Cycle</div>
+          <div class="g-docket-row"><span class="g-docket-title">Launch: The AI Threat Landscape</span><span class="g-docket-date">Jun 2</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Georgia QR Code Tabulation Crisis</span><span class="g-docket-date">Jun 30</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Eagle AI Challenge Response Framework</span><span class="g-docket-date">Jul 14</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Polling Place Consolidation Analysis</span><span class="g-docket-date">Aug 11</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Pre-Election Security Briefing</span><span class="g-docket-date">Oct 27</span></div>
+          <div class="g-docket-row"><span class="g-docket-title">Election Day Intelligence · Final Issue</span><span class="g-docket-date">Nov 10</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-seal">
+    <div class="g-seal-l">A professional publication for the people who run American elections</div>
+    <div class="g-seal-r">AI × Elections · Vol. I · 2026</div>
+  </div>
+</div>
+<div class="swatches">
+  <div class="sw" style="background:oklch(44% 0.080 295)"></div><div class="sw-l">Civic Violet</div>
+  <div class="sw" style="background:oklch(94% 0.018 292)"></div><div class="sw-l">Violet Pale</div>
+  <div class="sw" style="background:oklch(97% 0.008 78)"></div><div class="sw-l">Paper</div>
+  <div class="sw" style="background:oklch(14% 0.007 70)"></div><div class="sw-l">Ink</div>
+</div>
+
+<div class="page-foot">
+  Direction G layout · Four palette options · Pick one and I'll build the full site
+</div>
+
+</body>
+</html>

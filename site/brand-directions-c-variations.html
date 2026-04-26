@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI × Elections — The Record Variations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Alegreya:ital,wght@0,400;0,700;1,400;1,700&family=Abril+Fatface&family=Spectral:ital,wght@0,300;0,400;0,600;1,400&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: oklch(11% 0.004 240);
+  font-family: 'Barlow', sans-serif;
+}
+
+/* ─── WRAPPER CHROME ─── */
+.dir-label {
+  padding: 10px 40px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: oklch(11% 0.004 240);
+  color: oklch(50% 0 0);
+}
+.dir-label .num { color: oklch(72% 0 0); font-size: 13px; }
+.dir-label .tag {
+  background: oklch(20% 0.004 240);
+  color: oklch(62% 0 0);
+  padding: 3px 10px;
+  border-radius: 2px;
+  letter-spacing: 0.08em;
+}
+.dir-label .scene {
+  margin-left: auto;
+  color: oklch(36% 0 0);
+  font-weight: 400;
+  font-size: 10px;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  max-width: 380px;
+  text-align: right;
+}
+.swatches {
+  display: flex;
+  align-items: flex-end;
+  padding: 10px 40px 20px;
+  background: oklch(11% 0.004 240);
+}
+.sw { width: 44px; height: 24px; border-radius: 3px; margin-right: 8px; flex-shrink: 0; }
+.sw-lbl {
+  font-size: 9px; letter-spacing: 0.06em; color: oklch(32% 0 0);
+  text-transform: uppercase; margin-right: 14px; padding-bottom: 2px;
+  font-family: 'Barlow', sans-serif;
+}
+.divider { height: 2px; background: oklch(16% 0.004 240); }
+.intro {
+  background: oklch(11% 0.004 240);
+  padding: 44px 40px 30px;
+  text-align: center;
+}
+.intro h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase; color: oklch(40% 0 0); margin-bottom: 8px;
+}
+.intro p {
+  font-size: 12px; color: oklch(32% 0 0);
+  max-width: 520px; margin: 0 auto; line-height: 1.6;
+}
+.page-foot {
+  background: oklch(11% 0.004 240);
+  padding: 24px 40px 44px;
+  text-align: center;
+  font-family: 'Barlow', sans-serif;
+  font-size: 10px; color: oklch(26% 0 0);
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+
+
+/* ══════════════════════════════════════════════════════
+   E — THE BROADSHEET
+   Near-black · PT Serif · Dense column newspaper
+   Scene: City editor, 1949, final evening edition
+══════════════════════════════════════════════════════ */
+
+.bsheet {
+  --bg:       oklch(11%  0.010  70);
+  --bg-mid:   oklch(16%  0.009  70);
+  --rule:     oklch(24%  0.008  70);
+  --cream:    oklch(94%  0.014  76);
+  --cream-md: oklch(68%  0.010  74);
+  --muted:    oklch(48%  0.008  72);
+  --grn:      oklch(60%  0.11   155);
+  --grn-d:    oklch(32%  0.08   155);
+  background: var(--bg);
+  color: var(--cream);
+  font-family: 'PT Serif', serif;
+}
+
+/* masthead */
+.bs-head { border-bottom: 1px solid var(--rule); padding: 16px 40px 0; }
+.bs-head-row {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  padding-bottom: 10px; border-bottom: 1px solid var(--rule);
+}
+.bs-meta {
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); line-height: 1.7;
+}
+.bs-masthead { text-align: center; flex: 1; padding: 0 20px; }
+.bs-title {
+  font-family: 'PT Serif', serif; font-size: 30px; font-weight: 700;
+  letter-spacing: 0.1em; color: var(--cream); line-height: 1;
+}
+.bs-tagline {
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+  margin-top: 6px;
+}
+.bs-issue-strip {
+  display: flex; justify-content: center; gap: 24px;
+  padding: 7px 0; border-bottom: 3px solid var(--cream);
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+}
+.bs-cats {
+  display: flex; gap: 28px; padding: 7px 0;
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+}
+.bs-cats span.on { color: var(--grn); }
+
+/* two-column body */
+.bs-body {
+  display: grid; grid-template-columns: 1fr 300px;
+  padding: 32px 40px 0;
+}
+.bs-lead { padding-right: 40px; border-right: 1px solid var(--rule); }
+.bs-kicker {
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--grn);
+  margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+}
+.bs-kicker::after { content: ''; flex: 1; height: 1px; background: var(--grn-d); }
+.bs-hed {
+  font-family: 'PT Serif', serif;
+  font-size: clamp(34px, 4.8vw, 54px); font-weight: 700; line-height: 1.06;
+  letter-spacing: -0.01em; color: var(--cream); margin-bottom: 14px;
+}
+.bs-deck {
+  font-family: 'PT Serif', serif; font-size: 15px; font-style: italic;
+  line-height: 1.60; color: var(--cream-md);
+  border-top: 1px solid var(--rule); padding-top: 14px; margin-bottom: 22px;
+}
+.bs-copy {
+  font-family: 'PT Serif', serif; font-size: 13.5px; line-height: 1.78;
+  color: oklch(68% 0.008 72); columns: 2; column-gap: 26px; margin-bottom: 28px;
+}
+.bs-form { display: flex; max-width: 400px; }
+.bs-form input {
+  flex: 1; background: var(--bg-mid); border: 1px solid var(--rule);
+  border-right: none; color: var(--cream);
+  font-family: 'PT Serif', serif; font-size: 13px; font-style: italic;
+  padding: 10px 14px; outline: none;
+}
+.bs-form input::placeholder { color: var(--muted); font-style: italic; }
+.bs-form button {
+  background: var(--cream); color: var(--bg);
+  font-family: 'Barlow', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 10px 18px; border: none; cursor: pointer; white-space: nowrap;
+}
+
+/* sidebar */
+.bs-side { padding: 4px 0 0 32px; }
+.bs-side-label {
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+  border-bottom: 2px solid var(--cream); padding-bottom: 10px; margin-bottom: 16px;
+}
+.bs-brief { padding-bottom: 16px; border-bottom: 1px solid var(--rule); margin-bottom: 16px; }
+.bs-brief:last-child { border-bottom: none; }
+.bs-brief-iss {
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--grn); margin-bottom: 5px;
+}
+.bs-brief-hed {
+  font-family: 'PT Serif', serif; font-size: 14px; font-weight: 700;
+  line-height: 1.32; color: var(--cream); margin-bottom: 4px;
+}
+.bs-brief-date {
+  font-family: 'Barlow', sans-serif; font-size: 10px; color: var(--muted);
+}
+
+/* colophon */
+.bs-colophon {
+  margin: 28px 40px 0;
+  border-top: 3px solid var(--cream); padding: 10px 0 18px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+}
+.bs-colophon-center {
+  font-family: 'PT Serif', serif; font-size: 13px;
+  font-style: italic; color: var(--cream-md); letter-spacing: 0;
+  text-transform: none;
+}
+
+
+/* ══════════════════════════════════════════════════════
+   F — INSTITUTIONAL GREEN
+   Cream · Forest green · Alegreya · Government/academic
+   Scene: Election law librarian, 1971, finding her journal
+══════════════════════════════════════════════════════ */
+
+.inst {
+  --paper:   oklch(97%  0.010  78);
+  --paper-d: oklch(92%  0.013  76);
+  --ink:     oklch(15%  0.007  70);
+  --ink-m:   oklch(38%  0.006  70);
+  --rule:    oklch(80%  0.008  72);
+  --grn:     oklch(34%  0.095  155);
+  --grn-m:   oklch(52%  0.10   155);
+  --grn-p:   oklch(90%  0.028  155);
+  --grn-t:   oklch(93%  0.016  155);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Barlow', sans-serif;
+}
+
+.inst-head {
+  background: var(--grn);
+  padding: 0 40px;
+}
+.inst-head-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 0 18px; border-bottom: 1px solid oklch(28% 0.08 155);
+}
+.inst-wm {
+  font-family: 'Alegreya', serif; font-size: 22px; font-weight: 700;
+  font-style: italic; letter-spacing: 0.02em; color: oklch(96% 0.008 78);
+}
+.inst-wm em { font-style: normal; color: oklch(76% 0.055 78); }
+.inst-head-meta {
+  font-family: 'Barlow', sans-serif; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: oklch(60% 0.06 155); text-align: right; line-height: 1.7;
+}
+.inst-nav {
+  display: flex; gap: 24px; padding: 10px 0;
+}
+.inst-nav span {
+  font-family: 'Barlow', sans-serif; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: oklch(56% 0.06 155); cursor: pointer;
+}
+.inst-nav span.on { color: oklch(85% 0.018 78); }
+
+.inst-vol {
+  background: var(--paper-d);
+  padding: 7px 40px; display: flex; gap: 36px;
+  border-bottom: 1px solid var(--rule);
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 600;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-m);
+}
+.inst-vol .accent { color: var(--grn); }
+
+.inst-body {
+  display: grid; grid-template-columns: 1fr 296px;
+  padding: 44px 40px 0;
+}
+.inst-main { padding-right: 48px; border-right: 1px solid var(--rule); }
+.inst-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--grn-t); padding: 5px 14px; margin-bottom: 20px;
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--grn);
+}
+.inst-tag::before { content: '◆'; font-size: 7px; }
+.inst-hed {
+  font-family: 'Alegreya', serif;
+  font-size: clamp(38px, 5.2vw, 62px); font-weight: 700; line-height: 1.06;
+  letter-spacing: -0.01em; color: var(--ink); margin-bottom: 18px;
+}
+.inst-hed em { font-style: italic; color: var(--grn); }
+.inst-deck {
+  font-family: 'Alegreya', serif; font-size: 17px; font-style: italic;
+  line-height: 1.58; color: var(--ink-m);
+  border-top: 1px solid var(--rule); padding-top: 16px; margin-bottom: 26px;
+}
+.inst-copy {
+  font-family: 'Barlow', sans-serif; font-size: 14px; line-height: 1.76;
+  color: oklch(40% 0.006 70); max-width: 58ch; margin-bottom: 28px;
+}
+.inst-form { display: flex; max-width: 420px; }
+.inst-form input {
+  flex: 1; background: var(--paper-d); border: 1px solid var(--rule);
+  border-right: none; color: var(--ink);
+  font-family: 'Alegreya', serif; font-size: 14px; font-style: italic;
+  padding: 11px 16px; outline: none;
+}
+.inst-form input::placeholder { color: oklch(64% 0.007 72); font-style: italic; }
+.inst-form button {
+  background: var(--grn); color: oklch(96% 0.008 78);
+  font-family: 'Barlow', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 11px 20px; border: none; cursor: pointer; white-space: nowrap;
+}
+.inst-note {
+  font-family: 'Barlow', sans-serif; font-size: 10px;
+  color: oklch(54% 0.006 70); margin-top: 10px;
+}
+
+.inst-side { padding: 4px 0 0 40px; }
+.inst-side-lbl {
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--grn);
+  border-bottom: 2px solid var(--grn); padding-bottom: 12px; margin-bottom: 18px;
+}
+.inst-brief { padding-bottom: 18px; border-bottom: 1px solid var(--rule); margin-bottom: 18px; }
+.inst-brief:last-child { border-bottom: none; }
+.inst-brief-hed {
+  font-family: 'Alegreya', serif; font-size: 15px; font-weight: 700;
+  line-height: 1.32; color: var(--ink); margin-bottom: 5px;
+}
+.inst-brief-date {
+  font-family: 'Barlow', sans-serif; font-size: 10px; color: var(--grn-m); font-weight: 500;
+}
+
+.inst-foot {
+  background: var(--grn); margin-top: 40px; padding: 16px 40px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.inst-foot-txt {
+  font-family: 'Barlow', sans-serif; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: oklch(56% 0.06 155);
+}
+.inst-foot-wm {
+  font-family: 'Alegreya', serif; font-size: 15px; font-weight: 700;
+  font-style: italic; color: oklch(88% 0.014 78);
+}
+
+
+/* ══════════════════════════════════════════════════════
+   G — THE NOTICE
+   Amber structural · Abril Fatface · Subverted broadsheet
+   Scene: A legal notice / government proclamation, blown up
+══════════════════════════════════════════════════════ */
+
+.notice {
+  --paper:  oklch(98%  0.005  82);
+  --amber:  oklch(74%  0.14   68);
+  --amb-d:  oklch(42%  0.10   66);
+  --amb-p:  oklch(94%  0.038  72);
+  --ink:    oklch(13%  0.007  70);
+  --ink-m:  oklch(40%  0.006  70);
+  --rule:   oklch(83%  0.009  70);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Spectral', serif;
+}
+
+.ntc-proc {
+  background: var(--amber);
+  padding: 10px 40px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.ntc-proc-left {
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--amb-d);
+}
+.ntc-proc-right {
+  font-family: 'Spectral', serif; font-size: 10px; font-weight: 300;
+  letter-spacing: 0.08em; color: var(--amb-d);
+}
+.ntc-reg {
+  background: var(--amb-p);
+  padding: 8px 40px; display: flex; justify-content: space-between;
+  border-bottom: 1px solid var(--rule);
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: oklch(50% 0.008 68);
+}
+
+.ntc-hero { padding: 44px 40px 0; }
+.ntc-header-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: 1px solid var(--rule); padding-bottom: 10px; margin-bottom: 32px;
+}
+.ntc-vol {
+  font-family: 'Spectral', serif; font-size: 11px; font-weight: 300;
+  letter-spacing: 0.08em; color: var(--ink-m);
+}
+.ntc-pub {
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase; color: oklch(50% 0.007 68);
+}
+
+.ntc-title {
+  font-family: 'Abril Fatface', serif;
+  font-size: clamp(72px, 12vw, 152px);
+  font-weight: 400; line-height: 0.90; letter-spacing: -0.02em;
+  color: var(--ink); margin-bottom: 8px;
+}
+.ntc-title .x { color: var(--amber); }
+
+.ntc-sub {
+  font-family: 'Spectral', serif; font-size: 12px; font-weight: 300;
+  letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-m);
+  padding-bottom: 36px; margin-bottom: 4px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.ntc-cols {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0 60px; padding: 36px 0 48px;
+}
+.ntc-decree {
+  font-family: 'Spectral', serif; font-size: 19px; font-weight: 400;
+  font-style: italic; line-height: 1.52; color: var(--ink);
+  margin-bottom: 24px; max-width: 52ch;
+}
+.ntc-copy {
+  font-family: 'Spectral', serif; font-size: 14px; font-weight: 300;
+  line-height: 1.82; color: var(--ink-m); max-width: 54ch; margin-bottom: 30px;
+}
+.ntc-sub-head {
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--amb-d);
+  margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+}
+.ntc-sub-head::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+.ntc-form { display: flex; }
+.ntc-form input {
+  flex: 1; background: var(--paper); border: 1px solid var(--rule);
+  border-right: none; color: var(--ink);
+  font-family: 'Spectral', serif; font-size: 13px; font-style: italic;
+  padding: 11px 16px; outline: none;
+}
+.ntc-form input::placeholder { color: oklch(63% 0.007 72); }
+.ntc-form button {
+  background: var(--amber); color: var(--amb-d);
+  font-family: 'Barlow', sans-serif; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 11px 20px; border: none; cursor: pointer; white-space: nowrap;
+}
+
+/* docket block */
+.ntc-docket {
+  background: var(--amb-p);
+  border: 1px solid oklch(88% 0.042 70);
+  padding: 20px 24px; margin-top: 0;
+}
+.ntc-docket-hdr {
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--amb-d);
+  margin-bottom: 14px; padding-bottom: 10px;
+  border-bottom: 1px solid oklch(84% 0.052 70);
+}
+.ntc-docket-row {
+  font-family: 'Spectral', serif; font-size: 13px; line-height: 1.5;
+  color: var(--ink-m); padding: 8px 0;
+  border-bottom: 1px solid oklch(88% 0.032 70);
+  display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
+}
+.ntc-docket-row:last-child { border-bottom: none; }
+.ntc-docket-title { color: var(--ink); font-weight: 600; }
+.ntc-docket-date {
+  font-family: 'Barlow', sans-serif; font-size: 10px; font-weight: 600;
+  letter-spacing: 0.06em; color: var(--amb-d); white-space: nowrap; flex-shrink: 0;
+}
+
+.ntc-seal {
+  background: var(--ink); padding: 14px 40px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.ntc-seal-l {
+  font-family: 'Spectral', serif; font-size: 11px; font-style: italic;
+  font-weight: 300; color: oklch(48% 0.006 70);
+}
+.ntc-seal-r {
+  font-family: 'Barlow', sans-serif; font-size: 9px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase; color: oklch(30% 0.005 70);
+}
+</style>
+</head>
+<body>
+
+<div class="intro">
+  <h1>The Record — Three Bolder Variations</h1>
+  <p>Each rooted in Direction C's print DNA. Each pushed to a different extreme: drenched dark broadsheet, unexpected institutional color, subverted government notice.</p>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     E — THE BROADSHEET
+══════════════════════════════════════════ -->
+<div class="dir-label">
+  <span class="num">E</span>
+  <span class="tag">The Broadsheet</span>
+  <span>Near-black · PT Serif · Dense columns · Forest green accent</span>
+  <span class="scene">Scene: City editor's desk, 1949 — final evening edition going to press, every column crammed</span>
+</div>
+
+<div class="bsheet">
+  <header class="bs-head">
+    <div class="bs-head-row">
+      <div class="bs-meta">Vol. 1 · No. 1<br>June 2, 2026</div>
+      <div class="bs-masthead">
+        <div class="bs-title">AI × Elections</div>
+        <div class="bs-tagline">Practitioner Intelligence · County and State Election Officials · civitech.io / BallotReady</div>
+      </div>
+      <div class="bs-meta" style="text-align:right;">Issue 01 of 14<br>Free to subscribe</div>
+    </div>
+    <div class="bs-issue-strip">
+      <span>Bi-Weekly · June through November 2026</span>
+      <span>14 Issues</span>
+      <span>County and State Election Officials</span>
+    </div>
+    <div class="bs-cats">
+      <span class="on">Lead Analysis</span>
+      <span>Field Intelligence</span>
+      <span>Legal Frameworks</span>
+      <span>Vendor Review</span>
+      <span>Security Briefing</span>
+      <span>State Watch</span>
+    </div>
+  </header>
+
+  <div class="bs-body">
+    <div class="bs-lead">
+      <div class="bs-kicker">Lead Analysis · Launch Issue</div>
+      <div class="bs-hed">The AI Threat<br>Landscape No<br>One Told You About</div>
+      <div class="bs-deck">Eagle AI has 100,000 voter challenges pending in Georgia. The QR code tabulation deadline hits July 1. Polling places are consolidating without impact analysis. Election officials have no professional publication. Until today.</div>
+      <div class="bs-copy">
+        AI × Elections is a bi-weekly practitioner newsletter for the county and state administrators who run American elections. Fourteen issues from June 2 through November 10, distributed through civitech.io and the BallotReady network to officials nationwide.
+        <br><br>
+        The editorial frame is not partisan. Every major threat to election integrity in 2026 has an AI dimension: algorithmic voter roll challenges, AI-generated disinformation targeting officials directly, AI-powered GOTV operations creating polling place confusion. The frame gives the publication license to cover anything election-relevant without triggering the partisanship filters that cause officials to tune out.
+      </div>
+      <div class="bs-form">
+        <input type="email" placeholder="your@county.gov">
+        <button>Subscribe Free</button>
+      </div>
+    </div>
+    <div class="bs-side">
+      <div class="bs-side-label">Coming This Cycle</div>
+      <div class="bs-brief">
+        <div class="bs-brief-iss">Issue 03 · Deadline</div>
+        <div class="bs-brief-hed">The QR Code Tabulation Crisis: What Georgia Officials Must Do Before July 1</div>
+        <div class="bs-brief-date">June 30, 2026</div>
+      </div>
+      <div class="bs-brief">
+        <div class="bs-brief-iss">Issue 04 · Field Intel</div>
+        <div class="bs-brief-hed">Eagle AI's Challenge Lists: A Legal Framework for County Responses</div>
+        <div class="bs-brief-date">July 14, 2026</div>
+      </div>
+      <div class="bs-brief">
+        <div class="bs-brief-iss">Issue 06 · Analysis</div>
+        <div class="bs-brief-hed">Polling Place Consolidation: The Impact Tool That Doesn't Exist</div>
+        <div class="bs-brief-date">August 11, 2026</div>
+      </div>
+      <div class="bs-brief">
+        <div class="bs-brief-iss">Issue 12 · Pre-Election</div>
+        <div class="bs-brief-hed">Election Day Security Briefing: What Every County Clerk Needs</div>
+        <div class="bs-brief-date">October 27, 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bs-colophon">
+    <span>Published bi-weekly · June 2 through November 10, 2026</span>
+    <span class="bs-colophon-center">Intelligence for the people who run American elections</span>
+    <span>civitech.io · BallotReady</span>
+  </div>
+</div>
+
+<div class="swatches">
+  <div class="sw" style="background:oklch(11% 0.010 70)"></div><div class="sw-lbl">Near-Black</div>
+  <div class="sw" style="background:oklch(94% 0.014 76)"></div><div class="sw-lbl">Cream</div>
+  <div class="sw" style="background:oklch(60% 0.11 155)"></div><div class="sw-lbl">Green</div>
+  <div class="sw" style="background:oklch(48% 0.008 72)"></div><div class="sw-lbl">Muted</div>
+</div>
+
+<div class="divider"></div>
+
+
+<!-- ══════════════════════════════════════════
+     F — INSTITUTIONAL GREEN
+══════════════════════════════════════════ -->
+<div class="dir-label">
+  <span class="num">F</span>
+  <span class="tag">Institutional Green</span>
+  <span>Cream paper · Alegreya · Deep forest green structural · Scholarly</span>
+  <span class="scene">Scene: An election law librarian finding the journal she wished had existed — looks like the EPA or National Archives would publish it</span>
+</div>
+
+<div class="inst">
+  <header class="inst-head">
+    <div class="inst-head-inner">
+      <div class="inst-wm">AI × <em>Elections</em></div>
+      <div class="inst-head-meta">Vol. 1, No. 1 · June 2, 2026<br>County and State Election Officials</div>
+    </div>
+    <nav class="inst-nav">
+      <span class="on">Current Issue</span>
+      <span>Archive</span>
+      <span>About</span>
+      <span>civitech.io</span>
+    </nav>
+  </header>
+  <div class="inst-vol">
+    <span><span class="accent">14 Issues</span> · June 2 through November 10, 2026</span>
+    <span>Distributed through <span class="accent">civitech.io</span> · BallotReady</span>
+    <span>Free to subscribe</span>
+  </div>
+
+  <div class="inst-body">
+    <div class="inst-main">
+      <div class="inst-tag">Launch Issue · Lead Analysis</div>
+      <div class="inst-hed">The AI threat landscape <em>election officials</em> aren't hearing about</div>
+      <div class="inst-deck">A bi-weekly practitioner intelligence briefing for the administrators who run American elections — covering AI voter challenge tools, vendor developments, legal frameworks, and field intelligence from county to county.</div>
+      <div class="inst-copy">There is no professional publication for election officials. No clearinghouse for the question every county clerk has asked: "What do I do when I receive a 1,000-voter challenge list?" AI × Elections fills that gap with the voice and depth of a serious practitioner journal — distributed through civitech.io and BallotReady, so it reaches officials nationwide from issue one.</div>
+      <div class="inst-form">
+        <input type="email" placeholder="your@county.gov">
+        <button>Subscribe Free</button>
+      </div>
+      <div class="inst-note">Bi-weekly · 14 issues · No advertising · Practitioner-only voice</div>
+    </div>
+    <div class="inst-side">
+      <div class="inst-side-lbl">Upcoming Issues</div>
+      <div class="inst-brief">
+        <div class="inst-brief-hed">The QR Code Tabulation Crisis: Georgia Officials and the July 1 Deadline</div>
+        <div class="inst-brief-date">Issue 03 · June 30</div>
+      </div>
+      <div class="inst-brief">
+        <div class="inst-brief-hed">Eagle AI's Challenge Lists: Legal Frameworks for County Responses at Scale</div>
+        <div class="inst-brief-date">Issue 04 · July 14</div>
+      </div>
+      <div class="inst-brief">
+        <div class="inst-brief-hed">Polling Place Consolidation: An Impact Analysis Framework for Under-Resourced Counties</div>
+        <div class="inst-brief-date">Issue 06 · Aug 11</div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="inst-foot">
+    <div class="inst-foot-txt">Intelligence for election administrators · civitech.io / BallotReady</div>
+    <div class="inst-foot-wm">AI × Elections</div>
+    <div class="inst-foot-txt">Vol. 1 · 2026 Election Cycle</div>
+  </footer>
+</div>
+
+<div class="swatches">
+  <div class="sw" style="background:oklch(34% 0.095 155)"></div><div class="sw-lbl">Forest Green</div>
+  <div class="sw" style="background:oklch(90% 0.028 155)"></div><div class="sw-lbl">Green Pale</div>
+  <div class="sw" style="background:oklch(97% 0.010 78)"></div><div class="sw-lbl">Paper</div>
+  <div class="sw" style="background:oklch(15% 0.007 70)"></div><div class="sw-lbl">Ink</div>
+</div>
+
+<div class="divider"></div>
+
+
+<!-- ══════════════════════════════════════════
+     G — THE NOTICE
+══════════════════════════════════════════ -->
+<div class="dir-label">
+  <span class="num">G</span>
+  <span class="tag">The Notice</span>
+  <span>Amber structural · Abril Fatface · Sparse/subverted government broadsheet</span>
+  <span class="scene">Scene: A county clerk reads it and for one second thinks it's a legal proclamation — then realizes it's the newsletter she's been waiting for</span>
+</div>
+
+<div class="notice">
+  <div class="ntc-proc">
+    <div class="ntc-proc-left">Official Publication · Election Administration Intelligence · United States</div>
+    <div class="ntc-proc-right">Reg. No. AIE-2026 · Vol. I · Published bi-weekly</div>
+  </div>
+  <div class="ntc-reg">
+    <span>civitech.io / BallotReady Distribution Network</span>
+    <span>For county and state election officials</span>
+    <span>June 2 through November 10, 2026</span>
+  </div>
+
+  <div class="ntc-hero">
+    <div class="ntc-header-row">
+      <div class="ntc-vol">Volume I, Issue 1 · June 2, 2026 · 14 Issues This Cycle</div>
+      <div class="ntc-pub">AI × Elections · Practitioner Intelligence</div>
+    </div>
+
+    <div class="ntc-title">AI<span class="x">×</span><br>Elec<br>tions</div>
+    <div class="ntc-sub">Practitioner intelligence for election administrators · 2026 cycle · Free to subscribe</div>
+
+    <div class="ntc-cols">
+      <div>
+        <div class="ntc-decree">Election officials are navigating the most consequential midterm cycle in a generation without a professional information source. That changes now.</div>
+        <div class="ntc-copy">AI × Elections is a bi-weekly practitioner newsletter for the county and state administrators who run American elections. Fourteen issues from June 2 through November 10. Covering AI voter challenge tools, tabulation crises, vendor developments, and field intelligence. Distributed through civitech.io and BallotReady to officials nationwide.</div>
+        <div class="ntc-sub-head">Subscribe · Free · No advertising</div>
+        <div class="ntc-form">
+          <input type="email" placeholder="your@county.gov">
+          <button>Submit</button>
+        </div>
+      </div>
+      <div>
+        <div class="ntc-docket">
+          <div class="ntc-docket-hdr">Schedule of Issues · 2026 Cycle</div>
+          <div class="ntc-docket-row">
+            <span class="ntc-docket-title">Launch: The AI Threat Landscape</span>
+            <span class="ntc-docket-date">Jun 2</span>
+          </div>
+          <div class="ntc-docket-row">
+            <span class="ntc-docket-title">Georgia QR Code Tabulation Crisis</span>
+            <span class="ntc-docket-date">Jun 30</span>
+          </div>
+          <div class="ntc-docket-row">
+            <span class="ntc-docket-title">Eagle AI Challenge Response Framework</span>
+            <span class="ntc-docket-date">Jul 14</span>
+          </div>
+          <div class="ntc-docket-row">
+            <span class="ntc-docket-title">Polling Place Consolidation Analysis</span>
+            <span class="ntc-docket-date">Aug 11</span>
+          </div>
+          <div class="ntc-docket-row">
+            <span class="ntc-docket-title">Pre-Election Security Briefing</span>
+            <span class="ntc-docket-date">Oct 27</span>
+          </div>
+          <div class="ntc-docket-row">
+            <span class="ntc-docket-title">Election Day Intelligence · Final Issue</span>
+            <span class="ntc-docket-date">Nov 10</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ntc-seal">
+    <div class="ntc-seal-l">A professional publication for the people who run American elections</div>
+    <div class="ntc-seal-r">AI × Elections · Vol. I · 2026</div>
+  </div>
+</div>
+
+<div class="swatches">
+  <div class="sw" style="background:oklch(74% 0.14 68)"></div><div class="sw-lbl">Amber</div>
+  <div class="sw" style="background:oklch(94% 0.038 72)"></div><div class="sw-lbl">Amber Pale</div>
+  <div class="sw" style="background:oklch(98% 0.005 82)"></div><div class="sw-lbl">Paper</div>
+  <div class="sw" style="background:oklch(13% 0.007 70)"></div><div class="sw-lbl">Ink</div>
+  <div class="sw" style="background:oklch(42% 0.10 66)"></div><div class="sw-lbl">Amber Dark</div>
+</div>
+
+<div class="page-foot">
+  All three rooted in Direction C (The Record) — pushed to different extremes · Existing A–D in brand-directions.html
+</div>
+
+</body>
+</html>

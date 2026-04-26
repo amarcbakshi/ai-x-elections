@@ -1,0 +1,5 @@
+# AI x Elections | TLDR
+
+*The trade publication election officials actually need*
+
+Election officials are the last institutional line of defense against voter suppression, algorithmic challenge machinery, and AI-enabled administrative attacks on American democracy — and they're running the 2026 cycle almost entirely without a dedicated professional information source. With no trade publication, no formal knowledge-sharing infrastructure, and an AI threat landscape evolving faster than any individual county can track, the people who actually run elections are the most underserved professional audience in democracy. **AI x Elections is a bi-weekly practitioner newsletter for county and state election officials, distributed through civitech.io / BallotReady's existing network, that covers the full AI-inflected threat landscape with the voice and depth of a serious trade publication — and doubles as a demand aggregator for deploying civic tools directly to the audience that needs them most, before November 4.**
