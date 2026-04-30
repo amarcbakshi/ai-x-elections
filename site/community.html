@@ -490,7 +490,7 @@ function renderNavUser() {
 async function handleGoogleAuth() {
   const { error } = await sb.auth.signInWithOAuth({
     provider: 'google',
-    options: { redirectTo: window.location.href }
+    options: { redirectTo: 'https://ai-x-elections.vercel.app/community.html' }
   });
   if (error) {
     const errEl = document.getElementById('auth-error');
