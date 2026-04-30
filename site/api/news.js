@@ -38,7 +38,7 @@ async function scanMode(q, state) {
 // ── FEED MODE: The Guardian open API ──
 async function feedMode(q, state) {
   const query  = state ? `${q} ${state}` : q;
-  const apiUrl = `https://content.guardianapis.com/search?q=${encodeURIComponent(query + " election")}&api-key=test&show-fields=trailText&page-size=30&order-by=newest&production-office=us`;
+  const apiUrl = `https://content.guardianapis.com/search?q=${encodeURIComponent(query)}&api-key=test&show-fields=trailText&page-size=30&order-by=newest&tag=us-news/us-elections,us-news/us-politics,technology/hacking&use-date=published`;
   const body   = await get(apiUrl);
   const parsed = JSON.parse(body);
   const results = parsed.response?.results || [];
