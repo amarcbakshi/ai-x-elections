@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peer Network — AI × Elections</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Barlow+Condensed:wght@400;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <style>
+    :root {
+      --ink:         oklch(18% 0.01 260);
+      --paper:       oklch(97% 0.005 85);
+      --paper-warm:  oklch(94% 0.008 80);
+      --rule:        oklch(82% 0.008 260);
+      --rule-heavy:  oklch(65% 0.012 260);
+      --accent:      oklch(38% 0.18 260);
+      --accent-mid:  oklch(52% 0.15 260);
+      --accent-pale: oklch(92% 0.06 260);
+      --green:       oklch(45% 0.16 150);
+      --green-pale:  oklch(93% 0.05 150);
+      --red:         oklch(50% 0.22 25);
+      --red-pale:    oklch(94% 0.04 25);
+      --amber:       oklch(62% 0.18 60);
+      --serif:   'Spectral', Georgia, serif;
+      --sans:    'Barlow', system-ui, sans-serif;
+      --cond:    'Barlow Condensed', 'Barlow', system-ui, sans-serif;
+      --display: 'Abril Fatface', Georgia, serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { background: var(--paper); color: var(--ink); font-family: var(--sans); min-height: 100vh; }
+
+    /* NAV */
+    .site-nav { background: var(--ink); display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 1.5rem; font-family: var(--cond); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .site-nav a { color: var(--paper); text-decoration: none; opacity: 0.7; transition: opacity 0.15s; }
+    .site-nav a:hover { opacity: 1; }
+    .nav-brand { font-family: var(--display); font-size: 1.1rem; letter-spacing: 0; text-transform: none; opacity: 1 !important; color: var(--paper); }
+    .nav-brand span { color: oklch(62% 0.18 60); }
+    .nav-right { display: flex; align-items: center; gap: 1.25rem; }
+    .nav-user-btn { background: none; border: 1px solid oklch(40% 0.01 260); color: var(--paper); border-radius: 3px; padding: 0.25rem 0.75rem; font-family: var(--cond); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; }
+    .nav-user-btn:hover { background: oklch(28% 0.01 260); }
+
+    /* PAGE SHELL */
+    .app-shell { display: grid; grid-template-columns: 240px 1fr; min-height: calc(100vh - 44px); }
+    @media (max-width: 680px) { .app-shell { grid-template-columns: 1fr; } }
+
+    /* SIDEBAR */
+    .sidebar { background: var(--paper-warm); border-right: 1px solid var(--rule); padding: 1.5rem 0; position: sticky; top: 0; height: calc(100vh - 44px); overflow-y: auto; }
+    .sidebar-section-label { font-family: var(--cond); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--rule-heavy); padding: 0 1rem 0.4rem; }
+    .topic-item { display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 1rem; cursor: pointer; border-left: 3px solid transparent; transition: background 0.1s, border-color 0.1s; font-size: 0.88rem; gap: 0.5rem; }
+    .topic-item:hover { background: oklch(91% 0.008 80); }
+    .topic-item.active { background: var(--accent-pale); border-left-color: var(--accent); }
+    .topic-item-name { flex: 1; font-weight: 500; line-height: 1.3; }
+    .topic-item-count { font-family: var(--cond); font-size: 0.65rem; color: var(--rule-heavy); background: white; border: 1px solid var(--rule); border-radius: 10px; padding: 0.05rem 0.4rem; min-width: 20px; text-align: center; }
+    .topic-pinned-dot { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+    .sidebar-divider { border: none; border-top: 1px solid var(--rule); margin: 0.75rem 0; }
+    .signal-btn { display: block; margin: 0 1rem; background: oklch(55% 0.20 155); color: white; border: none; border-radius: 4px; padding: 0.6rem 1rem; font-family: var(--cond); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; text-align: center; text-decoration: none; transition: background 0.15s; }
+    .signal-btn:hover { background: oklch(48% 0.20 155); }
+    .new-topic-btn { display: block; margin: 0 1rem 0.75rem; background: none; border: 1.5px solid var(--accent); color: var(--accent); border-radius: 4px; padding: 0.5rem 1rem; font-family: var(--cond); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; text-align: center; transition: all 0.15s; }
+    .new-topic-btn:hover { background: var(--accent); color: white; }
+
+    /* MAIN CONTENT */
+    .main-content { overflow-y: auto; }
+
+    /* VIEWS */
+    .view { display: none; padding: 1.5rem; max-width: 780px; }
+    .view.active { display: block; }
+
+    /* AUTH WALL */
+    .auth-wall { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 100px); }
+    .auth-card { background: white; border: 1px solid var(--rule); border-radius: 6px; padding: 2.5rem; width: 100%; max-width: 420px; box-shadow: 0 2px 16px oklch(0% 0 0 / 0.06); }
+    .auth-logo { font-family: var(--display); font-size: 1.4rem; margin-bottom: 0.25rem; }
+    .auth-logo span { color: var(--accent); }
+    .auth-headline { font-family: var(--display); font-size: 1.7rem; line-height: 1.1; margin-bottom: 0.5rem; }
+    .auth-sub { font-family: var(--serif); font-style: italic; color: var(--rule-heavy); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.5; }
+    .auth-tabs { display: flex; border-bottom: 1px solid var(--rule); margin-bottom: 1.25rem; }
+    .auth-tab { flex: 1; padding: 0.5rem; text-align: center; font-family: var(--cond); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; border-bottom: 2px solid transparent; color: var(--rule-heavy); transition: color 0.15s, border-color 0.15s; background: none; border-left: none; border-right: none; border-top: none; }
+    .auth-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .auth-form { display: flex; flex-direction: column; gap: 0.75rem; }
+    .auth-form input { border: 1px solid var(--rule); border-radius: 3px; padding: 0.55rem 0.75rem; font-family: var(--sans); font-size: 0.9rem; color: var(--ink); }
+    .auth-form input:focus { outline: none; border-color: var(--accent-mid); box-shadow: 0 0 0 2px var(--accent-pale); }
+    .auth-form input::placeholder { color: var(--rule-heavy); }
+    .btn-auth { background: var(--accent); color: white; border: none; border-radius: 3px; padding: 0.65rem; font-family: var(--cond); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; }
+    .btn-auth:hover { background: var(--accent-mid); }
+    .btn-auth:disabled { background: var(--rule-heavy); cursor: default; }
+    .auth-error { background: var(--red-pale); color: var(--red); border-radius: 3px; padding: 0.5rem 0.75rem; font-size: 0.83rem; }
+    .auth-note { font-family: var(--cond); font-size: 0.68rem; letter-spacing: 0.04em; color: var(--rule-heavy); text-align: center; margin-top: 0.25rem; }
+
+    /* PROFILE SETUP */
+    .profile-form { background: white; border: 1px solid var(--rule); border-radius: 6px; padding: 2rem; max-width: 500px; }
+    .profile-form h2 { font-family: var(--display); font-size: 1.6rem; margin-bottom: 0.35rem; }
+    .profile-form p { font-family: var(--serif); font-style: italic; color: var(--rule-heavy); margin-bottom: 1.25rem; font-size: 0.9rem; }
+    .form-row { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 0.75rem; }
+    .form-row label { font-family: var(--cond); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rule-heavy); }
+    .form-row input, .form-row select, .form-row textarea { border: 1px solid var(--rule); border-radius: 3px; padding: 0.5rem 0.7rem; font-family: var(--sans); font-size: 0.88rem; color: var(--ink); }
+    .form-row textarea { height: 80px; resize: vertical; }
+    .form-row input:focus, .form-row select:focus, .form-row textarea:focus { outline: none; border-color: var(--accent-mid); box-shadow: 0 0 0 2px var(--accent-pale); }
+    .btn-save { background: var(--accent); color: white; border: none; border-radius: 3px; padding: 0.6rem 1.5rem; font-family: var(--cond); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; }
+    .btn-save:hover { background: var(--accent-mid); }
+
+    /* TOPIC HEADER */
+    .topic-header { border-bottom: 2px solid var(--ink); padding-bottom: 1rem; margin-bottom: 1.25rem; }
+    .topic-kicker { font-family: var(--cond); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; }
+    .topic-title { font-family: var(--display); font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1.05; }
+    .topic-desc { font-family: var(--serif); font-style: italic; color: var(--rule-heavy); margin-top: 0.3rem; font-size: 0.92rem; }
+    .topic-meta { display: flex; align-items: center; gap: 1rem; margin-top: 0.6rem; font-family: var(--cond); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--rule-heavy); }
+
+    /* NEW POST */
+    .new-post-box { background: white; border: 1px solid var(--rule); border-radius: 4px; padding: 1rem; margin-bottom: 1.25rem; }
+    .new-post-prompt { font-family: var(--cond); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--rule-heavy); margin-bottom: 0.5rem; }
+    .new-post-box textarea { width: 100%; border: 1px solid var(--rule); border-radius: 3px; padding: 0.6rem 0.75rem; font-family: var(--serif); font-size: 0.92rem; color: var(--ink); resize: vertical; height: 90px; line-height: 1.55; }
+    .new-post-box textarea:focus { outline: none; border-color: var(--accent-mid); box-shadow: 0 0 0 2px var(--accent-pale); }
+    .new-post-actions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.5rem; }
+    .btn-post { background: var(--accent); color: white; border: none; border-radius: 3px; padding: 0.45rem 1.2rem; font-family: var(--cond); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; }
+    .btn-post:hover { background: var(--accent-mid); }
+    .btn-post:disabled { background: var(--rule-heavy); cursor: default; }
+    .sign-in-prompt { font-family: var(--serif); font-style: italic; color: var(--rule-heavy); font-size: 0.88rem; }
+    .sign-in-prompt a { color: var(--accent); cursor: pointer; }
+
+    /* POST CARDS */
+    .post-list { display: flex; flex-direction: column; gap: 0; }
+    .post-card { background: white; border: 1px solid var(--rule); border-radius: 4px; margin-bottom: 0.75rem; overflow: hidden; transition: border-color 0.15s; }
+    .post-card:hover { border-color: var(--rule-heavy); }
+    .post-card-body { padding: 1rem; }
+    .post-author-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.6rem; }
+    .avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: white; font-family: var(--cond); font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .author-info { display: flex; flex-direction: column; gap: 0; }
+    .author-name { font-family: var(--sans); font-size: 0.82rem; font-weight: 600; line-height: 1; }
+    .author-meta { font-family: var(--cond); font-size: 0.65rem; letter-spacing: 0.04em; color: var(--rule-heavy); }
+    .post-content { font-family: var(--serif); font-size: 0.92rem; line-height: 1.6; color: var(--ink); margin-bottom: 0.75rem; white-space: pre-wrap; word-break: break-word; }
+    .post-footer { display: flex; align-items: center; gap: 0.75rem; border-top: 1px solid var(--rule); padding: 0.5rem 1rem; background: var(--paper-warm); }
+    .vote-btn { display: flex; align-items: center; gap: 0.3rem; background: none; border: none; font-family: var(--cond); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--rule-heavy); cursor: pointer; padding: 0.2rem 0.4rem; border-radius: 3px; transition: color 0.15s, background 0.15s; }
+    .vote-btn:hover { color: var(--accent); background: var(--accent-pale); }
+    .vote-btn.voted { color: var(--accent); }
+    .reply-btn { background: none; border: none; font-family: var(--cond); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--rule-heavy); cursor: pointer; padding: 0.2rem 0.4rem; transition: color 0.15s; }
+    .reply-btn:hover { color: var(--accent); }
+    .post-time { font-family: var(--cond); font-size: 0.63rem; color: var(--rule-heavy); margin-left: auto; }
+
+    /* REPLIES */
+    .replies-section { border-top: 1px solid var(--rule); }
+    .reply-item { padding: 0.85rem 1rem; border-bottom: 1px solid var(--rule); }
+    .reply-item:last-child { border-bottom: none; }
+    .reply-content { font-family: var(--serif); font-size: 0.88rem; line-height: 1.55; margin-top: 0.35rem; white-space: pre-wrap; word-break: break-word; }
+    .reply-compose { padding: 0.75rem 1rem; background: var(--paper-warm); border-top: 1px solid var(--rule); }
+    .reply-compose textarea { width: 100%; border: 1px solid var(--rule); border-radius: 3px; padding: 0.45rem 0.65rem; font-family: var(--serif); font-size: 0.88rem; color: var(--ink); resize: none; height: 60px; }
+    .reply-compose textarea:focus { outline: none; border-color: var(--accent-mid); box-shadow: 0 0 0 2px var(--accent-pale); }
+    .reply-compose-row { display: flex; justify-content: flex-end; margin-top: 0.4rem; }
+
+    /* MEMBERS VIEW */
+    .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+    .member-card { background: white; border: 1px solid var(--rule); border-radius: 4px; padding: 1rem; }
+    .member-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: white; font-family: var(--cond); font-size: 1rem; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-bottom: 0.6rem; }
+    .member-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.15rem; }
+    .member-title { font-family: var(--cond); font-size: 0.68rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--rule-heavy); }
+    .member-office { font-size: 0.78rem; color: var(--rule-heavy); margin-top: 0.2rem; }
+
+    /* NEW TOPIC MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: oklch(0% 0 0 / 0.45); z-index: 100; align-items: center; justify-content: center; }
+    .modal-overlay.open { display: flex; }
+    .modal-card { background: white; border-radius: 6px; padding: 2rem; width: 90%; max-width: 480px; }
+    .modal-title { font-family: var(--display); font-size: 1.5rem; margin-bottom: 1rem; }
+    .modal-close { float: right; background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--rule-heavy); margin-top: -4px; }
+    .modal-form { display: flex; flex-direction: column; gap: 0.75rem; }
+    .modal-form input, .modal-form textarea { border: 1px solid var(--rule); border-radius: 3px; padding: 0.5rem 0.7rem; font-family: var(--sans); font-size: 0.88rem; color: var(--ink); }
+    .modal-form textarea { height: 80px; resize: vertical; }
+    .modal-form input:focus, .modal-form textarea:focus { outline: none; border-color: var(--accent-mid); box-shadow: 0 0 0 2px var(--accent-pale); }
+
+    /* UTILS */
+    .spinner { width: 32px; height: 32px; border: 3px solid var(--rule); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 3rem auto; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .empty-msg { font-family: var(--serif); font-style: italic; color: var(--rule-heavy); padding: 2.5rem; text-align: center; }
+    .error-msg { background: var(--red-pale); color: var(--red); border-radius: 3px; padding: 0.5rem 0.75rem; font-size: 0.83rem; margin-bottom: 0.75rem; }
+
+    /* HOME VIEW */
+    .home-header { border-bottom: 2px solid var(--ink); padding-bottom: 1rem; margin-bottom: 1.25rem; }
+    .home-header h1 { font-family: var(--display); font-size: clamp(1.8rem, 3.5vw, 2.6rem); }
+    .home-header p { font-family: var(--serif); font-style: italic; color: var(--rule-heavy); margin-top: 0.3rem; }
+    .topic-list-full { display: flex; flex-direction: column; gap: 0; }
+    .topic-row { display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: start; padding: 1rem 0; border-bottom: 1px solid var(--rule); cursor: pointer; }
+    .topic-row:last-child { border-bottom: none; }
+    .topic-row:hover .topic-row-title { color: var(--accent); }
+    .topic-row-pin { font-family: var(--cond); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.2rem; }
+    .topic-row-title { font-family: var(--sans); font-size: 0.95rem; font-weight: 600; transition: color 0.15s; }
+    .topic-row-desc { font-family: var(--serif); font-size: 0.82rem; color: var(--rule-heavy); margin-top: 0.2rem; font-style: italic; }
+    .topic-row-stats { text-align: right; font-family: var(--cond); font-size: 0.68rem; letter-spacing: 0.04em; color: var(--rule-heavy); }
+    .topic-row-count { font-family: var(--display); font-size: 1.2rem; color: var(--ink); }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="nav-brand">AI<span>&#215;</span>Elections</a>
+  <div class="nav-right">
+    <a href="index.html">Publication</a>
+    <a href="tools.html">Toolkit</a>
+    <div id="nav-auth-area"></div>
+  </div>
+</nav>
+
+<!-- AUTH MODAL STATE (shown when not logged in) -->
+<div id="auth-wall" class="auth-wall" style="display:none;">
+  <div class="auth-card">
+    <div class="auth-logo">AI<span>&#215;</span>Elections</div>
+    <div class="auth-headline">Peer Network</div>
+    <p class="auth-sub">Connect with election administrators across the country. Share strategies, flag threats, and learn from peers.</p>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchAuthTab('signin')">Sign In</button>
+      <button class="auth-tab" onclick="switchAuthTab('signup')">Create Account</button>
+    </div>
+    <div id="auth-error" class="auth-error" style="display:none;"></div>
+    <form class="auth-form" id="auth-form" onsubmit="handleAuth(event)">
+      <input type="email" id="auth-email" placeholder="Your email address" required autocomplete="email">
+      <input type="password" id="auth-password" placeholder="Password" required autocomplete="current-password" minlength="8">
+      <input type="text" id="auth-name" placeholder="Your full name" style="display:none;">
+      <button type="submit" class="btn-auth" id="auth-submit-btn">Sign In</button>
+    </form>
+    <p class="auth-note" style="margin-top:0.75rem;">For election administration professionals only.</p>
+  </div>
+</div>
+
+<!-- PROFILE SETUP (shown after first sign up) -->
+<div id="profile-setup" style="display:none; padding:2rem; max-width:540px; margin:0 auto;">
+  <div class="profile-form">
+    <h2>Set Up Your Profile</h2>
+    <p>Tell your peers who you are and where you work.</p>
+    <div id="profile-error" class="error-msg" style="display:none;"></div>
+    <div class="form-row">
+      <label>Full Name *</label>
+      <input type="text" id="prof-name" placeholder="Your name" required>
+    </div>
+    <div class="form-row">
+      <label>Title</label>
+      <input type="text" id="prof-title" placeholder="e.g. County Clerk, Director of Elections">
+    </div>
+    <div class="form-row">
+      <label>Office / Jurisdiction</label>
+      <input type="text" id="prof-office" placeholder="e.g. Maricopa County, AZ">
+    </div>
+    <div class="form-row">
+      <label>State</label>
+      <select id="prof-state">
+        <option value="">Select state</option>
+        <option>Alabama</option><option>Alaska</option><option>Arizona</option>
+        <option>Arkansas</option><option>California</option><option>Colorado</option>
+        <option>Connecticut</option><option>Delaware</option><option>Florida</option>
+        <option>Georgia</option><option>Hawaii</option><option>Idaho</option>
+        <option>Illinois</option><option>Indiana</option><option>Iowa</option>
+        <option>Kansas</option><option>Kentucky</option><option>Louisiana</option>
+        <option>Maine</option><option>Maryland</option><option>Massachusetts</option>
+        <option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
+        <option>Missouri</option><option>Montana</option><option>Nebraska</option>
+        <option>Nevada</option><option>New Hampshire</option><option>New Jersey</option>
+        <option>New Mexico</option><option>New York</option><option>North Carolina</option>
+        <option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
+        <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option>
+        <option>South Carolina</option><option>South Dakota</option><option>Tennessee</option>
+        <option>Texas</option><option>Utah</option><option>Vermont</option>
+        <option>Virginia</option><option>Washington</option><option>West Virginia</option>
+        <option>Wisconsin</option><option>Wyoming</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>About (optional)</label>
+      <textarea id="prof-bio" placeholder="A sentence or two about your role and what you are working on"></textarea>
+    </div>
+    <button class="btn-save" onclick="saveProfile()">Save and Enter</button>
+  </div>
+</div>
+
+<!-- MAIN APP SHELL -->
+<div class="app-shell" id="app-shell" style="display:none;">
+  <aside class="sidebar">
+    <div style="padding: 0 1rem 0.75rem;">
+      <button class="new-topic-btn" onclick="openNewTopicModal()">+ Propose Topic</button>
+    </div>
+    <div class="sidebar-section-label">Discussions</div>
+    <div id="sidebar-topics"></div>
+    <hr class="sidebar-divider">
+    <div style="padding: 0 1rem 0.5rem;">
+      <div class="sidebar-section-label" style="padding:0 0 0.4rem;">Community</div>
+      <div class="topic-item" onclick="showView('members')">
+        <span class="topic-item-name">Members</span>
+      </div>
+    </div>
+    <hr class="sidebar-divider">
+    <div style="padding: 0 1rem;">
+      <a class="signal-btn" href="https://signal.org" target="_blank" rel="noopener">
+        &#128226; Join Signal Group
+      </a>
+      <p style="font-family:var(--cond);font-size:0.62rem;letter-spacing:0.04em;color:var(--rule-heavy);margin-top:0.4rem;text-align:center;">Real-time peer coordination</p>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <!-- HOME / TOPIC LIST -->
+    <div class="view active" id="view-home">
+      <div class="home-header">
+        <h1>Peer Network</h1>
+        <p>Connect with election officials navigating AI across the country.</p>
+      </div>
+      <div id="home-topic-list" class="topic-list-full"></div>
+    </div>
+
+    <!-- TOPIC THREAD VIEW -->
+    <div class="view" id="view-topic">
+      <div class="topic-header">
+        <div class="topic-kicker">Discussion</div>
+        <h2 class="topic-title" id="topic-view-title"></h2>
+        <p class="topic-desc" id="topic-view-desc"></p>
+        <div class="topic-meta">
+          <span id="topic-view-count"></span>
+          <span>posts</span>
+        </div>
+      </div>
+      <div class="new-post-box" id="new-post-box">
+        <div class="new-post-prompt">Share with the group</div>
+        <textarea id="new-post-text" placeholder="What are you seeing? What's working? Ask a question..."></textarea>
+        <div class="new-post-actions">
+          <button class="btn-post" onclick="submitPost()">Post</button>
+        </div>
+      </div>
+      <div id="post-list" class="post-list"></div>
+    </div>
+
+    <!-- MEMBERS -->
+    <div class="view" id="view-members">
+      <div class="home-header">
+        <h1>Members</h1>
+        <p>Election professionals in the network.</p>
+      </div>
+      <div id="members-grid" class="members-grid"></div>
+    </div>
+  </main>
+</div>
+
+<!-- NEW TOPIC MODAL -->
+<div class="modal-overlay" id="topic-modal">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeNewTopicModal()">&#215;</button>
+    <div class="modal-title">Propose a Topic</div>
+    <div id="modal-error" class="error-msg" style="display:none;"></div>
+    <div class="modal-form">
+      <input type="text" id="new-topic-title" placeholder="Topic title" maxlength="80">
+      <textarea id="new-topic-desc" placeholder="What should people discuss here?"></textarea>
+      <button class="btn-save" onclick="submitNewTopic()">Create Topic</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL  = 'https://xqaujbvyfjftumpayaun.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhxYXVqYnZ5ZmpmdHVtcGF5YXVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyMDA1NDYsImV4cCI6MjA5Mjc3NjU0Nn0.W4IR-q0fToJR7XNiB7fdh9-gmZKC0iHUh65xc0yLbHQ';
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+let currentUser = null;
+let currentProfile = null;
+let currentTopicId = null;
+let allTopics = [];
+let authMode = 'signin';
+
+// ═══════ INIT ═══════
+async function init() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session?.user) {
+    currentUser = session.user;
+    await loadProfile();
+  } else {
+    showAuthWall();
+  }
+
+  sb.auth.onAuthStateChange(async (_event, session) => {
+    if (session?.user && !currentUser) {
+      currentUser = session.user;
+      await loadProfile();
+    }
+  });
+}
+
+async function loadProfile() {
+  const { data } = await sb.from('axe_profiles').select('*').eq('id', currentUser.id).single();
+  if (data) {
+    currentProfile = data;
+    showApp();
+  } else {
+    showProfileSetup();
+  }
+}
+
+// ═══════ AUTH VIEWS ═══════
+function showAuthWall() {
+  document.getElementById('auth-wall').style.display = 'flex';
+  document.getElementById('app-shell').style.display = 'none';
+  document.getElementById('profile-setup').style.display = 'none';
+}
+
+function showProfileSetup() {
+  document.getElementById('auth-wall').style.display = 'none';
+  document.getElementById('app-shell').style.display = 'none';
+  document.getElementById('profile-setup').style.display = 'block';
+  if (currentUser?.email) {
+    const namePart = currentUser.email.split('@')[0].replace(/[._]/g,' ');
+    document.getElementById('prof-name').value = namePart;
+  }
+}
+
+function showApp() {
+  document.getElementById('auth-wall').style.display = 'none';
+  document.getElementById('profile-setup').style.display = 'none';
+  document.getElementById('app-shell').style.display = 'grid';
+  renderNavUser();
+  loadTopics();
+}
+
+function switchAuthTab(mode) {
+  authMode = mode;
+  document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (i===0&&mode==='signin')||(i===1&&mode==='signup')));
+  document.getElementById('auth-submit-btn').textContent = mode === 'signin' ? 'Sign In' : 'Create Account';
+  document.getElementById('auth-name').style.display = mode === 'signup' ? '' : 'none';
+  document.getElementById('auth-error').style.display = 'none';
+}
+
+async function handleAuth(e) {
+  e.preventDefault();
+  const email = document.getElementById('auth-email').value.trim();
+  const password = document.getElementById('auth-password').value;
+  const btn = document.getElementById('auth-submit-btn');
+  const errEl = document.getElementById('auth-error');
+  btn.disabled = true;
+  btn.textContent = authMode === 'signin' ? 'Signing in...' : 'Creating account...';
+  errEl.style.display = 'none';
+
+  let error;
+  if (authMode === 'signup') {
+    const { error: e } = await sb.auth.signUp({ email, password });
+    error = e;
+  } else {
+    const { error: e } = await sb.auth.signInWithPassword({ email, password });
+    error = e;
+  }
+
+  if (error) {
+    errEl.textContent = error.message;
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = authMode === 'signin' ? 'Sign In' : 'Create Account';
+  } else {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session?.user) {
+      currentUser = session.user;
+      await loadProfile();
+    }
+  }
+}
+
+function renderNavUser() {
+  const el = document.getElementById('nav-auth-area');
+  if (currentProfile) {
+    el.innerHTML = `<button class="nav-user-btn" onclick="handleSignOut()">${esc(currentProfile.display_name)} &middot; Sign out</button>`;
+  } else {
+    el.innerHTML = `<button class="nav-user-btn" onclick="document.getElementById('auth-wall').style.display='flex'">Sign In</button>`;
+  }
+}
+
+async function handleSignOut() {
+  await sb.auth.signOut();
+  currentUser = null; currentProfile = null;
+  showAuthWall();
+  renderNavUser();
+}
+
+// ═══════ PROFILE SETUP ═══════
+async function saveProfile() {
+  const name = document.getElementById('prof-name').value.trim();
+  if (!name) { document.getElementById('profile-error').textContent='Please enter your name.'; document.getElementById('profile-error').style.display='block'; return; }
+  const { error } = await sb.from('axe_profiles').insert({
+    id: currentUser.id,
+    display_name: name,
+    title:  document.getElementById('prof-title').value.trim() || null,
+    office: document.getElementById('prof-office').value.trim() || null,
+    state:  document.getElementById('prof-state').value || null,
+    bio:    document.getElementById('prof-bio').value.trim() || null,
+  });
+  if (error) { document.getElementById('profile-error').textContent=error.message; document.getElementById('profile-error').style.display='block'; return; }
+  const { data } = await sb.from('axe_profiles').select('*').eq('id',currentUser.id).single();
+  currentProfile = data;
+  showApp();
+}
+
+// ═══════ TOPICS ═══════
+async function loadTopics() {
+  const { data } = await sb.from('axe_topics').select('*').order('pinned',{ascending:false}).order('last_post_at',{ascending:false});
+  allTopics = data || [];
+  renderSidebar();
+  renderHomeTopics();
+  if (allTopics.length) openTopic(allTopics[0].id);
+}
+
+function renderSidebar() {
+  const el = document.getElementById('sidebar-topics');
+  el.innerHTML = allTopics.map(t => `
+    <div class="topic-item${currentTopicId===t.id?' active':''}" onclick="openTopic('${t.id}')">
+      ${t.pinned?'<span class="topic-pinned-dot"></span>':''}
+      <span class="topic-item-name">${esc(t.title)}</span>
+      <span class="topic-item-count">${t.post_count||0}</span>
+    </div>`).join('');
+}
+
+function renderHomeTopics() {
+  const el = document.getElementById('home-topic-list');
+  el.innerHTML = allTopics.map(t => `
+    <div class="topic-row" onclick="openTopic('${t.id}')">
+      <div>
+        ${t.pinned?'<div class="topic-row-pin">Pinned</div>':''}
+        <div class="topic-row-title">${esc(t.title)}</div>
+        ${t.description?`<div class="topic-row-desc">${esc(t.description)}</div>`:''}
+      </div>
+      <div class="topic-row-stats">
+        <div class="topic-row-count">${t.post_count||0}</div>
+        <div>posts</div>
+      </div>
+    </div>`).join('');
+}
+
+async function openTopic(topicId) {
+  currentTopicId = topicId;
+  const topic = allTopics.find(t=>t.id===topicId);
+  if (!topic) return;
+  showView('topic');
+  renderSidebar();
+  document.getElementById('topic-view-title').textContent = topic.title;
+  document.getElementById('topic-view-desc').textContent = topic.description || '';
+  document.getElementById('topic-view-count').textContent = topic.post_count || 0;
+  document.getElementById('post-list').innerHTML = '<div class="spinner"></div>';
+  const { data: posts } = await sb.from('axe_posts')
+    .select('*, axe_profiles(display_name, title, office, state)')
+    .eq('topic_id', topicId)
+    .order('created_at', {ascending: true});
+  renderPosts(posts || []);
+}
+
+// ═══════ POSTS ═══════
+function renderPosts(posts) {
+  const el = document.getElementById('post-list');
+  if (!posts.length) { el.innerHTML = '<div class="empty-msg">No posts yet. Start the conversation.</div>'; return; }
+  el.innerHTML = posts.map(p => renderPostCard(p)).join('');
+}
+
+function renderPostCard(p) {
+  const author = p.axe_profiles || {};
+  const letter = (author.display_name||'?')[0].toUpperCase();
+  const time = timeAgo(p.created_at);
+  const meta = [author.title, author.office||author.state].filter(Boolean).join(' · ');
+  return `<div class="post-card" id="post-${p.id}">
+    <div class="post-card-body">
+      <div class="post-author-row">
+        <div class="avatar" style="background:${avatarColor(letter)}">${esc(letter)}</div>
+        <div class="author-info">
+          <div class="author-name">${esc(author.display_name||'Anonymous')}</div>
+          ${meta?`<div class="author-meta">${esc(meta)}</div>`:''}
+        </div>
+      </div>
+      <div class="post-content">${esc(p.content)}</div>
+    </div>
+    <div class="post-footer">
+      <button class="vote-btn" onclick="toggleVote('${p.id}','post',this)">&#9650; ${p.upvotes||0}</button>
+      <button class="reply-btn" onclick="toggleReplies('${p.id}')">&#8617; Reply</button>
+      <span class="post-time">${time}</span>
+    </div>
+    <div class="replies-section" id="replies-${p.id}" style="display:none;"></div>
+  </div>`;
+}
+
+async function toggleReplies(postId) {
+  const el = document.getElementById('replies-'+postId);
+  if (el.style.display !== 'none') { el.style.display = 'none'; return; }
+  el.style.display = 'block';
+  el.innerHTML = '<div class="spinner"></div>';
+  const { data: replies } = await sb.from('axe_replies')
+    .select('*, axe_profiles(display_name, title, office, state)')
+    .eq('post_id', postId)
+    .order('created_at', {ascending: true});
+  const repliesHtml = (replies||[]).map(r => {
+    const a = r.axe_profiles||{};
+    const letter = (a.display_name||'?')[0].toUpperCase();
+    return `<div class="reply-item">
+      <div class="post-author-row">
+        <div class="avatar" style="width:22px;height:22px;font-size:0.6rem;background:${avatarColor(letter)}">${esc(letter)}</div>
+        <div class="author-name" style="font-size:0.8rem;">${esc(a.display_name||'Anonymous')}</div>
+        <span style="font-family:var(--cond);font-size:0.62rem;color:var(--rule-heavy);margin-left:auto;">${timeAgo(r.created_at)}</span>
+      </div>
+      <div class="reply-content">${esc(r.content)}</div>
+    </div>`;
+  }).join('');
+
+  const compose = currentProfile ? `
+    <div class="reply-compose">
+      <textarea placeholder="Write a reply..." id="reply-text-${postId}"></textarea>
+      <div class="reply-compose-row">
+        <button class="btn-post" onclick="submitReply('${postId}')">Reply</button>
+      </div>
+    </div>` : `<div style="padding:0.75rem 1rem;font-family:var(--serif);font-style:italic;font-size:0.85rem;color:var(--rule-heavy);">
+      <a style="color:var(--accent);cursor:pointer;" onclick="showAuthWall()">Sign in</a> to reply.
+    </div>`;
+
+  el.innerHTML = repliesHtml + compose;
+}
+
+async function submitPost() {
+  if (!currentProfile) { showAuthWall(); return; }
+  const text = document.getElementById('new-post-text').value.trim();
+  if (!text) return;
+  const btn = document.querySelector('#new-post-box .btn-post');
+  btn.disabled = true; btn.textContent = 'Posting...';
+  const { error } = await sb.from('axe_posts').insert({ topic_id: currentTopicId, author_id: currentProfile.id, content: text });
+  if (!error) {
+    document.getElementById('new-post-text').value = '';
+    await sb.from('axe_topics').update({ post_count: (allTopics.find(t=>t.id===currentTopicId)?.post_count||0)+1, last_post_at: new Date().toISOString() }).eq('id', currentTopicId);
+    await openTopic(currentTopicId);
+    await loadTopics();
+  }
+  btn.disabled = false; btn.textContent = 'Post';
+}
+
+async function submitReply(postId) {
+  if (!currentProfile) return;
+  const ta = document.getElementById('reply-text-'+postId);
+  const text = ta?.value.trim();
+  if (!text) return;
+  await sb.from('axe_replies').insert({ post_id: postId, author_id: currentProfile.id, content: text });
+  const post = document.querySelector('#post-'+postId);
+  const curReplies = parseInt(post?.querySelector('.reply-btn')?.textContent?.match(/\d+/)?.[0]||'0');
+  await sb.from('axe_posts').update({ reply_count: curReplies+1 }).eq('id', postId);
+  toggleReplies(postId);
+  setTimeout(()=>toggleReplies(postId), 100);
+}
+
+async function toggleVote(targetId, type, btn) {
+  if (!currentProfile) { showAuthWall(); return; }
+  const { data: existing } = await sb.from('axe_votes').select('*').eq('user_id',currentProfile.id).eq('target_id',targetId).single();
+  const table = type==='post'?'axe_posts':'axe_replies';
+  const countEl = btn;
+  const current = parseInt(countEl.textContent.match(/\d+/)?.[0]||'0');
+  if (existing) {
+    await sb.from('axe_votes').delete().eq('user_id',currentProfile.id).eq('target_id',targetId);
+    await sb.from(table).update({upvotes: Math.max(0,current-1)}).eq('id',targetId);
+    btn.classList.remove('voted');
+    btn.textContent = '▲ '+Math.max(0,current-1);
+  } else {
+    await sb.from('axe_votes').insert({user_id:currentProfile.id, target_id:targetId, target_type:type});
+    await sb.from(table).update({upvotes: current+1}).eq('id',targetId);
+    btn.classList.add('voted');
+    btn.textContent = '▲ '+(current+1);
+  }
+}
+
+// ═══════ MEMBERS ═══════
+async function showMembers() {
+  showView('members');
+  const el = document.getElementById('members-grid');
+  el.innerHTML = '<div class="spinner"></div>';
+  const { data } = await sb.from('axe_profiles').select('*').order('joined_at',{ascending:false});
+  if (!data?.length) { el.innerHTML='<div class="empty-msg">No members yet.</div>'; return; }
+  el.innerHTML = data.map(m => {
+    const letter = (m.display_name||'?')[0].toUpperCase();
+    return `<div class="member-card">
+      <div class="member-avatar" style="background:${avatarColor(letter)}">${esc(letter)}</div>
+      <div class="member-name">${esc(m.display_name)}</div>
+      ${m.title?`<div class="member-title">${esc(m.title)}</div>`:''}
+      ${m.office||m.state?`<div class="member-office">${esc([m.office,m.state].filter(Boolean).join(', '))}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+// ═══════ NEW TOPIC MODAL ═══════
+function openNewTopicModal() {
+  if (!currentProfile) { showAuthWall(); return; }
+  document.getElementById('topic-modal').classList.add('open');
+}
+function closeNewTopicModal() { document.getElementById('topic-modal').classList.remove('open'); }
+
+async function submitNewTopic() {
+  const title = document.getElementById('new-topic-title').value.trim();
+  const desc  = document.getElementById('new-topic-desc').value.trim();
+  if (!title) return;
+  const { error } = await sb.from('axe_topics').insert({ title, description: desc||null, created_by: currentProfile.id });
+  if (!error) { closeNewTopicModal(); document.getElementById('new-topic-title').value=''; document.getElementById('new-topic-desc').value=''; loadTopics(); }
+}
+
+// ═══════ VIEW ROUTING ═══════
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  if (name==='members') showMembers();
+}
+
+// ═══════ UTILS ═══════
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+const AVATAR_COLORS = ['oklch(38% 0.18 260)','oklch(45% 0.18 150)','oklch(50% 0.18 300)','oklch(48% 0.20 25)','oklch(55% 0.18 200)','oklch(42% 0.16 60)'];
+function avatarColor(letter) { return AVATAR_COLORS[letter.charCodeAt(0)%AVATAR_COLORS.length]; }
+
+function timeAgo(iso) {
+  const d = new Date(iso);
+  const s = Math.floor((Date.now()-d)/1000);
+  if (s<60) return 'just now';
+  if (s<3600) return Math.floor(s/60)+'m ago';
+  if (s<86400) return Math.floor(s/3600)+'h ago';
+  return Math.floor(s/86400)+'d ago';
+}
+
+// ═══════ CLICK OUTSIDE MODAL ═══════
+document.getElementById('topic-modal').addEventListener('click', e => { if (e.target===e.currentTarget) closeNewTopicModal(); });
+
+// ═══════ START ═══════
+init();
+</script>
+</body>
+</html>
