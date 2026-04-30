@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/site/api/$1" },
+    { "source": "/community.html", "destination": "/site/community.html" },
+    { "source": "/tools.html", "destination": "/site/tools.html" },
+    { "source": "/threat-watch.html", "destination": "/site/threat-watch.html" },
+    { "source": "/editorial.html", "destination": "/site/editorial.html" },
+    { "source": "/", "destination": "/site/index.html" },
+    { "source": "/index.html", "destination": "/site/index.html" }
+  ]
+}
