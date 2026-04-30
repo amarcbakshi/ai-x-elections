@@ -185,6 +185,19 @@
     .site-footer { background: var(--ink); color: var(--paper); padding: 1.5rem 2rem; font-family: var(--cond); font-size: 0.72rem; letter-spacing: 0.06em; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
     .site-footer a { color: var(--paper); opacity: 0.6; text-decoration: none; }
     .site-footer a:hover { opacity: 1; }
+
+    /* ── TOOL LANDING ── */
+    .tool-landing { max-width: 860px; margin: 0 auto; padding: 3rem 2rem 4rem; }
+    .tool-landing-intro { font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: var(--rule-heavy); margin-bottom: 2.5rem; max-width: 56ch; line-height: 1.65; }
+    .tool-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+    .tool-card { border: 1px solid var(--rule); border-radius: 4px; padding: 1.75rem 1.5rem; background: white; cursor: pointer; text-align: left; transition: border-color 0.15s, box-shadow 0.15s; display: flex; flex-direction: column; gap: 0.75rem; }
+    .tool-card:hover { border-color: var(--accent-mid); box-shadow: 0 2px 12px oklch(18% 0.01 260 / 0.08); }
+    .tool-card-icon { font-size: 1.6rem; line-height: 1; }
+    .tool-card-name { font-family: var(--cond); font-size: 1.05rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink); }
+    .tool-card-desc { font-family: var(--serif); font-size: 0.88rem; line-height: 1.6; color: var(--rule-heavy); font-style: italic; flex: 1; }
+    .tool-card-cta { font-family: var(--cond); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-top: 0.25rem; }
+    .back-to-tools { background: none; border: none; font-family: var(--cond); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rule-heavy); cursor: pointer; padding: 0.75rem 2rem; display: flex; align-items: center; gap: 0.4rem; transition: color 0.15s; border-bottom: 1px solid var(--rule); width: 100%; }
+    .back-to-tools:hover { color: var(--ink); }
   </style>
 </head>
 <body>
@@ -201,11 +214,37 @@
 <div class="page-header">
   <div class="page-header-eyebrow">Election Official Toolkit</div>
   <h1>Tools for the Field</h1>
-  <div class="page-header-sub">Live tools built for election administrators. Free to use. No account required.</div>
+  
 </div>
 
 <!-- Tabs -->
-<nav class="tool-tabs" role="tablist">
+<!-- TOOL LANDING -->
+<div id="tool-landing" class="tool-landing">
+  <p class="tool-landing-intro">Live tools built for election administrators. Free to use. No account required.</p>
+  <div class="tool-cards">
+    <button class="tool-card" onclick="openTool('threat')">
+      <div class="tool-card-icon">&#128225;</div>
+      <div class="tool-card-name">Media Monitor</div>
+      <div class="tool-card-desc">Scan live news coverage for your jurisdiction. See volume, source credibility, misinformation signals, and trending keywords in real time.</div>
+      <div class="tool-card-cta">Open tool &#8594;</div>
+    </button>
+    <button class="tool-card" onclick="openTool('ailaw')">
+      <div class="tool-card-icon">&#9878;</div>
+      <div class="tool-card-name">AI Law Guide</div>
+      <div class="tool-card-desc">State-by-state tracker of AI election laws — status, scope, practical guidance, and links to source legislation.</div>
+      <div class="tool-card-cta">Open tool &#8594;</div>
+    </button>
+    <button class="tool-card" onclick="openTool('vendor')">
+      <div class="tool-card-icon">&#128269;</div>
+      <div class="tool-card-name">Vendor Risk Check</div>
+      <div class="tool-card-desc">Research any election technology vendor for procurement risk signals: lawsuits, decertifications, breaches, and regulatory actions.</div>
+      <div class="tool-card-cta">Open tool &#8594;</div>
+    </button>
+  </div>
+</div>
+
+<button class="back-to-tools" id="back-btn" onclick="showLanding()" style="display:none;">&#8592; All Tools</button>
+<nav class="tool-tabs" role="tablist" id="tool-tabs-nav" style="display:none;">
   <button class="tool-tab active" data-panel="threat" onclick="showPanel('threat',this)" role="tab">&#128225; Media Monitor</button>
   <button class="tool-tab" data-panel="ailaw" onclick="showPanel('ailaw',this)" role="tab">&#9878; AI Law Guide</button>
   <button class="tool-tab" data-panel="vendor" onclick="showPanel('vendor',this)" role="tab">&#128269; Vendor Check</button>
@@ -393,6 +432,21 @@
 
 <script>
 // ═══════════ TAB ROUTING ═══════════
+function showLanding() {
+  document.getElementById('tool-landing').style.display = '';
+  document.getElementById('tool-tabs-nav').style.display = 'none';
+  document.getElementById('back-btn').style.display = 'none';
+  document.querySelectorAll('.tool-panels').forEach(p => p.classList.remove('active'));
+}
+
+function openTool(id) {
+  document.getElementById('tool-landing').style.display = 'none';
+  document.getElementById('tool-tabs-nav').style.display = 'flex';
+  document.getElementById('back-btn').style.display = 'flex';
+  const tab = document.querySelector(`.tool-tab[data-panel="${id}"]`);
+  showPanel(id, tab);
+}
+
 function showPanel(id, tab) {
   document.querySelectorAll('.tool-panels').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
