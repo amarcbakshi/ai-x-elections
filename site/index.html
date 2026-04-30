@@ -708,6 +708,103 @@ footer {
   .search-wrap { display: none; }
 }
 
+
+/* ── ARTICLE HEADLINE LINKS ── */
+.article-hl-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.12s;
+}
+.article-hl-link:hover {
+  color: var(--ink-mid);
+}
+
+/* ── ASIDE ITEMS AS LINKS ── */
+a.aside-item {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--rule);
+  transition: background 0.12s;
+  border-radius: 2px;
+}
+a.aside-item:hover {
+  color: var(--ink-mid);
+}
+a.aside-item:hover .aside-title {
+  text-decoration: underline;
+}
+
+/* ── ARTICLE FULL PAGE ── */
+.article-page {
+  max-width: 100%;
+}
+.article-page-back {
+  padding: 18px 0 0;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 40px;
+  padding-bottom: 14px;
+}
+.article-back-link {
+  font-family: var(--f-label);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--ink);
+  padding-bottom: 1px;
+}
+.article-back-link:hover { color: var(--ink-mid); border-color: var(--ink-mid); }
+
+.article-page-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  padding-bottom: 80px;
+}
+.article-page-headline {
+  font-family: var(--f-display);
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 12px 0 16px;
+}
+.article-page-deck {
+  font-family: var(--f-text);
+  font-size: 19px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink-mid);
+  margin-bottom: 14px;
+}
+.article-page-date {
+  font-family: var(--f-label);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  margin-bottom: 20px;
+}
+.article-page-rule {
+  border: none;
+  border-top: 2px solid var(--ink);
+  margin-bottom: 28px;
+}
+.article-page-body p {
+  font-family: var(--f-text);
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--ink);
+  margin-bottom: 20px;
+  max-width: 65ch;
+}
+.article-page-body strong {
+  font-weight: 600;
+}
 </style>
 </head>
 <body>
@@ -855,9 +952,9 @@ function renderBodyRaw(text) {
   }).join('');
 }
 
-function renderActions() {
+function renderActions(id) {
   return `<div class="article-actions">
-    <a href="#" class="read-more" onclick="toggleReadMore(this); return false;">Read more</a>
+    <a href="#article/${id}" class="read-more">Read more</a>
     <div class="share-row">
       <button class="share-btn" onclick="shareArticle(this,'twitter')" aria-label="Share on X">&#x1D54F;</button>
       <button class="share-btn" onclick="shareArticle(this,'linkedin')" aria-label="Share on LinkedIn">in</button>
@@ -868,23 +965,21 @@ function renderActions() {
 
 // ── RENDER FUNCTIONS ──
 function renderLead(a) {
-  const bodyHtml = a.body ? `<div class="lead-text">${renderBodyRaw(a.body)}</div>` : '';
   return `<div class="lead-body-col">
     <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span>${esc(a.kicker || a.section)}</div>
-    <h3 class="lead-headline">${esc(a.title)}</h3>
+    <h3 class="lead-headline"><a href="#article/${a.id}" class="article-hl-link">${esc(a.title)}</a></h3>
     <p class="lead-deck">${esc(a.deck)}</p>
-    ${bodyHtml}
-    ${renderActions()}
+    ${renderActions(a.id)}
   </div>`;
 }
 
 function renderAside(sectionName, items) {
   const itemsHtml = items.map(a => `
-    <div class="aside-item">
+    <a href="#article/${a.id}" class="aside-item">
       <div class="aside-tag">${esc(a.kicker || a.section)}</div>
       <div class="aside-title">${esc(a.title)}</div>
       <div class="aside-deck">${esc(a.deck)}</div>
-    </div>`).join('');
+    </a>`).join('');
   return `<div class="lead-aside">
     <p class="aside-label">Also in ${esc(sectionName)}</p>
     ${itemsHtml}
@@ -892,24 +987,20 @@ function renderAside(sectionName, items) {
 }
 
 function renderCol(a) {
-  const bodyHtml = a.body ? `<div class="col-text">${renderBodyRaw(a.body)}</div>` : '';
   return `<div class="article-col">
     <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span>${esc(a.kicker || a.section)}</div>
-    <h3 class="col-headline">${esc(a.title)}</h3>
+    <h3 class="col-headline"><a href="#article/${a.id}" class="article-hl-link">${esc(a.title)}</a></h3>
     <p class="col-deck">${esc(a.deck)}</p>
-    ${bodyHtml}
-    ${renderActions()}
+    ${renderActions(a.id)}
   </div>`;
 }
 
 function renderThird(a) {
-  const bodyHtml = a.body ? `<div class="col-text">${renderBodyRaw(a.body)}</div>` : '';
   return `<div class="article-third">
     <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span>${esc(a.kicker || a.section)}</div>
-    <h3 class="third-headline">${esc(a.title)}</h3>
+    <h3 class="third-headline"><a href="#article/${a.id}" class="article-hl-link">${esc(a.title)}</a></h3>
     <p class="third-deck">${esc(a.deck)}</p>
-    ${bodyHtml}
-    ${renderActions()}
+    ${renderActions(a.id)}
   </div>`;
 }
 
@@ -944,10 +1035,9 @@ function renderSection(section, articles) {
     const a = cols[0];
     contentHtml = `<div class="lead-body-col">
       <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span>${esc(a.kicker || a.section)}</div>
-      <h3 class="lead-headline">${esc(a.title)}</h3>
+      <h3 class="lead-headline"><a href="#article/${a.id}" class="article-hl-link">${esc(a.title)}</a></h3>
       <p class="lead-deck">${esc(a.deck)}</p>
-      ${a.body ? `<div class="lead-text">${renderBodyRaw(a.body)}</div>` : ''}
-      ${renderActions()}
+      ${renderActions(a.id)}
     </div>`;
   }
 
@@ -1187,8 +1277,57 @@ function flash(btn, msg, orig) {
   setTimeout(() => { btn.textContent = orig; btn.classList.remove('confirmed'); }, 2000);
 }
 
+// ── ARTICLE PAGE ──
+function renderArticlePage(a) {
+  const bodyHtml = a.body ? renderBodyRaw(a.body) : '<p><em>Full text coming soon.</em></p>';
+  const dateStr = a.date ? new Date(a.date).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) : '';
+  return `<div class="article-page">
+    <div class="article-page-back">
+      <a href="#" class="article-back-link" onclick="history.back(); return false;">&#8592; Back</a>
+    </div>
+    <div class="article-page-inner">
+      <div class="kicker"><span class="kicker-rule" aria-hidden="true"></span>${esc(a.kicker || a.section)}</div>
+      <h1 class="article-page-headline">${esc(a.title)}</h1>
+      <p class="article-page-deck">${esc(a.deck)}</p>
+      ${dateStr ? `<div class="article-page-date">${dateStr}</div>` : ''}
+      <div class="article-page-rule"></div>
+      <div class="article-page-body">${bodyHtml}</div>
+    </div>
+  </div>`;
+}
+
+function handleRoute() {
+  const hash = window.location.hash;
+  const root = document.getElementById('content-root');
+  const nav  = document.querySelector('.section-nav');
+  const search = document.querySelector('.search-bar');
+
+  if (hash.startsWith('#article/')) {
+    const id = hash.replace('#article/', '');
+    const article = allArticles.find(a => a.id === id);
+    if (article) {
+      root.innerHTML = renderArticlePage(article);
+      if (nav)    nav.style.display = 'none';
+      if (search) search.style.display = 'none';
+      window.scrollTo(0, 0);
+      return;
+    }
+  }
+  // Default: show feed
+  if (allArticles.length) {
+    root.innerHTML = renderAll(allArticles, allToolkit);
+    applyFilter(activeFilter);
+    if (nav)    nav.style.display = '';
+    if (search) search.style.display = '';
+  }
+}
+
 // ── INIT ──
-document.addEventListener('DOMContentLoaded', fetchContent);
+document.addEventListener('DOMContentLoaded', async () => {
+  await fetchContent();
+  handleRoute();
+});
+window.addEventListener('hashchange', handleRoute);
 </script>
 </body>
 </html>

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Threat Watch — AI × Elections</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Barlow+Condensed:wght@400;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:        oklch(18% 0.01 260);
+      --paper:      oklch(97% 0.005 85);
+      --paper-warm: oklch(94% 0.008 80);
+      --rule:       oklch(82% 0.008 260);
+      --rule-heavy: oklch(65% 0.012 260);
+      --accent:     oklch(38% 0.18 260);
+      --accent-mid: oklch(52% 0.15 260);
+      --accent-pale:oklch(92% 0.06 260);
+      --red:        oklch(50% 0.22 25);
+      --red-pale:   oklch(94% 0.04 25);
+      --amber:      oklch(62% 0.18 60);
+      --amber-pale: oklch(95% 0.05 60);
+      --green:      oklch(45% 0.16 150);
+      --green-pale: oklch(93% 0.05 150);
+      --serif: 'Spectral', Georgia, serif;
+      --sans:  'Barlow', system-ui, sans-serif;
+      --cond:  'Barlow Condensed', 'Barlow', system-ui, sans-serif;
+      --display: 'Abril Fatface', Georgia, serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 0.95rem; line-height: 1.5; }
+
+    .site-nav { background: var(--ink); color: var(--paper); display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 2rem; font-family: var(--cond); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .site-nav a { color: var(--paper); text-decoration: none; opacity: 0.7; transition: opacity 0.15s; }
+    .site-nav a:hover { opacity: 1; }
+    .site-nav-brand { font-family: var(--display); font-size: 1.1rem; letter-spacing: 0; text-transform: none; opacity: 1 !important; }
+    .site-nav-brand span { color: var(--amber); }
+
+    .page-header { background: var(--ink); color: var(--paper); padding: 2.5rem 2rem 2rem; border-bottom: 3px solid var(--red); }
+    .page-header-label { font-family: var(--cond); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 0.4rem; }
+    .page-header h1 { font-family: var(--display); font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1; letter-spacing: -0.01em; }
+    .page-header-sub { margin-top: 0.6rem; font-family: var(--serif); font-size: 0.95rem; font-style: italic; opacity: 0.75; max-width: 620px; }
+
+    .query-bar { background: var(--paper-warm); border-bottom: 1px solid var(--rule); padding: 1.25rem 2rem; }
+    .query-form { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: flex-end; max-width: 1100px; }
+    .field-group { display: flex; flex-direction: column; gap: 0.25rem; }
+    .field-group label { font-family: var(--cond); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rule-heavy); }
+    .field-group input, .field-group select { background: white; border: 1px solid var(--rule); border-radius: 3px; padding: 0.45rem 0.7rem; font-family: var(--sans); font-size: 0.88rem; color: var(--ink); height: 36px; }
+    .field-group input:focus, .field-group select:focus { outline: none; border-color: var(--accent-mid); box-shadow: 0 0 0 2px var(--accent-pale); }
+    .field-group.wide input { width: 260px; }
+    .field-group.med  select { width: 170px; }
+    .field-group.sm   select { width: 120px; }
+    .btn-scan { background: var(--red); color: white; border: none; border-radius: 3px; padding: 0 1.4rem; height: 36px; font-family: var(--cond); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
+    .btn-scan:hover { background: oklch(44% 0.22 25); }
+    .btn-scan:disabled { background: var(--rule-heavy); cursor: default; }
+
+    .dashboard { max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 4rem; }
+    .empty-state { text-align: center; padding: 5rem 2rem; color: var(--rule-heavy); }
+    .empty-state-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; }
+    .empty-state p { font-family: var(--serif); font-style: italic; font-size: 1.05rem; }
+    .loading-state { text-align: center; padding: 5rem 2rem; }
+    .spinner { width: 40px; height: 40px; border: 3px solid var(--rule); border-top-color: var(--red); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-label { font-family: var(--cond); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rule-heavy); }
+
+    .section-label { font-family: var(--cond); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rule-heavy); margin-bottom: 0.75rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--rule); }
+
+    .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; margin-bottom: 2rem; }
+    .stat-pill { background: white; padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.2rem; }
+    .stat-pill-label { font-family: var(--cond); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rule-heavy); }
+    .stat-pill-value { font-family: var(--display); font-size: 2rem; line-height: 1; color: var(--ink); }
+    .stat-pill-sub { font-family: var(--sans); font-size: 0.78rem; color: var(--rule-heavy); }
+    .stat-pill-badge { display: inline-flex; align-items: center; gap: 0.2rem; font-family: var(--cond); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; padding: 0.15rem 0.4rem; border-radius: 2px; margin-top: 0.2rem; width: fit-content; }
+    .badge-alert { background: var(--red-pale); color: var(--red); }
+    .badge-ok    { background: var(--green-pale); color: var(--green); }
+    .badge-warn  { background: var(--amber-pale); color: var(--amber); }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem; }
+    @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+
+    .panel { background: white; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+    .panel-head { background: var(--paper-warm); border-bottom: 1px solid var(--rule); padding: 0.65rem 1rem; font-family: var(--cond); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); display: flex; align-items: center; justify-content: space-between; }
+    .panel-body { padding: 1rem; }
+
+    .timeline-chart { display: flex; align-items: flex-end; gap: 6px; height: 120px; padding-top: 0.5rem; }
+    .timeline-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+    .timeline-bar { width: 100%; background: var(--accent-pale); border-radius: 2px 2px 0 0; min-height: 3px; transition: background 0.15s; }
+    .timeline-bar:hover { background: var(--accent-mid); }
+    .timeline-bar-label { font-family: var(--cond); font-size: 0.6rem; letter-spacing: 0.04em; color: var(--rule-heavy); text-align: center; }
+    .timeline-bar-count { font-family: var(--cond); font-size: 0.62rem; font-weight: 600; color: var(--accent); text-align: center; }
+
+    .reliability-track { height: 12px; border-radius: 6px; overflow: hidden; display: flex; margin-bottom: 0.75rem; }
+    .reliability-seg { height: 100%; transition: width 0.6s ease-out; }
+    .seg-credible    { background: var(--green); }
+    .seg-noncredible { background: var(--red); }
+    .seg-unknown     { background: var(--rule); }
+
+    .reliability-legend { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .legend-item { display: flex; align-items: center; gap: 0.35rem; font-family: var(--cond); font-size: 0.72rem; letter-spacing: 0.04em; color: var(--ink); }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    .source-bars { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
+    .source-bar-row { display: grid; grid-template-columns: 130px 1fr 40px; align-items: center; gap: 0.5rem; }
+    .source-bar-name { font-family: var(--cond); font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--ink); }
+    .source-bar-track { height: 8px; background: var(--rule); border-radius: 4px; overflow: hidden; }
+    .source-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease-out; }
+    .source-bar-count { font-family: var(--cond); font-size: 0.68rem; color: var(--rule-heavy); text-align: right; }
+
+    .word-cloud { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0.25rem 0; align-items: baseline; }
+    .word-chip { font-family: var(--cond); font-weight: 600; border-radius: 2px; padding: 0.15rem 0.4rem; line-height: 1; cursor: default; transition: transform 0.15s; }
+    .word-chip:hover { transform: scale(1.08); }
+    .word-tier-1 { font-size: 1.6rem; background: var(--accent-pale); color: var(--accent); }
+    .word-tier-2 { font-size: 1.2rem; background: var(--red-pale); color: var(--red); }
+    .word-tier-3 { font-size: 0.95rem; background: var(--amber-pale); color: var(--amber); }
+    .word-tier-4 { font-size: 0.78rem; background: oklch(94% 0.02 260); color: var(--rule-heavy); }
+
+    .article-list { display: flex; flex-direction: column; gap: 0; }
+    .article-item { padding: 0.9rem 0; border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: 1fr auto; gap: 0.75rem; align-items: start; }
+    .article-item:last-child { border-bottom: none; }
+    .article-headline { font-family: var(--serif); font-size: 0.92rem; font-weight: 600; line-height: 1.35; color: var(--ink); text-decoration: none; }
+    .article-headline:hover { color: var(--accent); }
+    .article-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; margin-top: 0.3rem; }
+    .meta-source { font-family: var(--cond); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--rule-heavy); }
+    .meta-date { font-family: var(--cond); font-size: 0.65rem; color: var(--rule); }
+    .meta-dot { color: var(--rule); font-size: 0.5rem; }
+    .rel-badge { display: inline-flex; align-items: center; gap: 0.18rem; font-family: var(--cond); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.12rem 0.35rem; border-radius: 2px; }
+    .rel-credible    { background: var(--green-pale); color: var(--green); }
+    .rel-noncredible { background: var(--red-pale); color: var(--red); }
+    .rel-unknown     { background: oklch(94% 0.02 260); color: var(--rule-heavy); }
+    .article-flag { flex-shrink: 0; font-family: var(--cond); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--red); background: var(--red-pale); border: 1px solid oklch(88% 0.06 25); border-radius: 2px; padding: 0.2rem 0.45rem; white-space: nowrap; margin-top: 0.1rem; }
+
+    .full-width-panel { background: white; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; margin-bottom: 2rem; }
+    .error-banner { background: var(--red-pale); border: 1px solid oklch(85% 0.08 25); border-radius: 4px; padding: 0.9rem 1.1rem; font-family: var(--sans); font-size: 0.85rem; color: var(--red); margin-bottom: 1.5rem; }
+
+    .site-footer { background: var(--ink); color: var(--paper); padding: 1.5rem 2rem; font-family: var(--cond); font-size: 0.72rem; letter-spacing: 0.06em; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; opacity: 0.9; }
+    .site-footer a { color: var(--paper); opacity: 0.6; text-decoration: none; }
+    .site-footer a:hover { opacity: 1; }
+
+    .results-header { margin-bottom: 1.5rem; display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; }
+    .results-header h2 { font-family: var(--display); font-size: 1.4rem; line-height: 1; }
+    .results-header-sub { font-family: var(--serif); font-style: italic; font-size: 0.85rem; color: var(--rule-heavy); }
+    .scan-timestamp { font-family: var(--cond); font-size: 0.68rem; letter-spacing: 0.06em; color: var(--rule-heavy); margin-left: auto; text-transform: uppercase; }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="site-nav-brand">AI<span>&#215;</span>Elections</a>
+  <div style="display:flex;gap:1.5rem;">
+    <a href="tools.html">&#8592; Back to Toolkit</a>
+    <a href="index.html">Publication</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-label">Threat Watch Dashboard</div>
+  <h1>Live Media Intelligence</h1>
+  <div class="page-header-sub">Real-time scan of election-related coverage, misinformation signals, and source credibility powered by live news data.</div>
+</div>
+
+<div class="query-bar">
+  <form class="query-form" id="scanForm">
+    <div class="field-group wide">
+      <label>Keywords / Topic</label>
+      <input type="text" id="keywords" placeholder="e.g. ballot drop boxes, voter fraud" value="election integrity">
+    </div>
+    <div class="field-group med">
+      <label>State</label>
+      <select id="state">
+        <option value="">All states</option>
+        <option>Alabama</option><option>Alaska</option><option>Arizona</option>
+        <option>Arkansas</option><option>California</option><option>Colorado</option>
+        <option>Connecticut</option><option>Delaware</option><option>Florida</option>
+        <option>Georgia</option><option>Hawaii</option><option>Idaho</option>
+        <option>Illinois</option><option>Indiana</option><option>Iowa</option>
+        <option>Kansas</option><option>Kentucky</option><option>Louisiana</option>
+        <option>Maine</option><option>Maryland</option><option>Massachusetts</option>
+        <option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
+        <option>Missouri</option><option>Montana</option><option>Nebraska</option>
+        <option>Nevada</option><option>New Hampshire</option><option>New Jersey</option>
+        <option>New Mexico</option><option>New York</option><option>North Carolina</option>
+        <option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
+        <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option>
+        <option>South Carolina</option><option>South Dakota</option><option>Tennessee</option>
+        <option>Texas</option><option>Utah</option><option>Vermont</option>
+        <option>Virginia</option><option>Washington</option><option>West Virginia</option>
+        <option>Wisconsin</option><option>Wyoming</option>
+      </select>
+    </div>
+    <div class="field-group sm">
+      <label>Period</label>
+      <select id="period">
+        <option value="7">7 days</option>
+        <option value="14">14 days</option>
+        <option value="30">30 days</option>
+      </select>
+    </div>
+    <button type="submit" class="btn-scan" id="scanBtn">Run Scan</button>
+  </form>
+</div>
+
+<div class="dashboard" id="dashboard">
+  <div class="empty-state" id="emptyState">
+    <div class="empty-state-icon">&#128225;</div>
+    <p>Enter keywords and run a scan to generate your threat intelligence dashboard.</p>
+  </div>
+  <div class="loading-state" id="loadingState" style="display:none;">
+    <div class="spinner"></div>
+    <div class="loading-label">Scanning live news sources&#8230;</div>
+  </div>
+  <div id="resultsArea" style="display:none;"></div>
+</div>
+
+<footer class="site-footer">
+  <span>AI &#215; Elections &mdash; Threat Watch Dashboard</span>
+  <span>Data via Google News RSS &middot; Refreshed on each scan &middot; For election administration use</span>
+  <a href="index.html">Publication Home</a>
+</footer>
+
+<script>
+const CREDIBLE_SOURCES = new Set([
+  'associated press','ap news','reuters','npr','pbs','bbc','the guardian',
+  'new york times','washington post','wall street journal','los angeles times',
+  'usa today','abc news','cbs news','nbc news','msnbc','cnn','politico',
+  'the hill','roll call','axios','the atlantic','time','bloomberg',
+  'the new yorker','slate','vox','fivethirtyeight','propublica',
+  'miami herald','arizona republic','detroit free press','boston globe',
+  'chicago tribune','dallas morning news','houston chronicle',
+  'the columbus dispatch','the denver post','star tribune','oregonlive',
+  'seattle times','san francisco chronicle','newsweek','ap','huffpost',
+  'military times','c-span','pew research','brennan center',
+  'election assistance commission','ncsl','ballotpedia'
+]);
+
+const NONCREDIBLE_SOURCES = new Set([
+  'breitbart','gateway pundit','daily wire','epoch times','infowars',
+  'oann','one america','newsmax','zero hedge','zerohedge',
+  'natural news','world net daily','wnd','the federalist','the blaze',
+  'american thinker','western journal','daily caller','the post millennial',
+  'national pulse','revolver news','citizen free press','real americas voice',
+  'frankspeech','the peoples voice','beforeitsnews','lifesitenews'
+]);
+
+function classifySource(name) {
+  if (!name) return 'unknown';
+  const s = name.toLowerCase();
+  for (const c of CREDIBLE_SOURCES) { if (s.includes(c)) return 'credible'; }
+  for (const c of NONCREDIBLE_SOURCES) { if (s.includes(c)) return 'noncredible'; }
+  return 'unknown';
+}
+
+const FLAG_TERMS = [
+  'stolen','rigged','fraud','fake','false','misleading','misinformation',
+  'disinformation','conspiracy','hoax','lie','lied','cheat','cheating',
+  'corrupt','illegal','illegitimate','switched','glitch','deleted','hacked',
+  'mule','stuffed','stuffing','dominion','soros','deep state',
+  'stolen election','big lie','witch hunt'
+];
+
+function isFlagged(text) {
+  const t = (text || '').toLowerCase();
+  return FLAG_TERMS.some(term => t.includes(term));
+}
+
+const STOP_WORDS = new Set([
+  'the','a','an','and','or','but','in','on','at','to','for','of','with',
+  'by','from','up','about','into','through','during','is','are','was',
+  'were','be','been','being','have','has','had','do','does','did','will',
+  'would','could','should','may','might','shall','can','that','this',
+  'these','those','it','its','as','if','then','than','so','yet','both',
+  'not','also','just','more','most','other','some','such','too',
+  'how','what','who','when','where','why','which','their','they','them',
+  'there','here','he','she','we','you','me','him','her','us','our',
+  'your','his','new','says','said','say','after','before','over','under',
+  'report','reports','reported','show','shows','officials','official',
+  'state','states','county','counties','city','cities','local','federal',
+  'national','news','amid','election','elections'
+]);
+
+function extractKeywords(items) {
+  const freq = {};
+  items.forEach(item => {
+    const words = ((item.title || '') + ' ' + (item.desc || ''))
+      .toLowerCase().replace(/[^a-z\s]/g,' ').split(/\s+/)
+      .filter(w => w.length > 3 && !STOP_WORDS.has(w));
+    words.forEach(w => { freq[w] = (freq[w] || 0) + 1; });
+  });
+  return Object.entries(freq).filter(([,c]) => c >= 2).sort((a,b) => b[1]-a[1]).slice(0, 40);
+}
+
+function fmtDate(str) {
+  if (!str) return '';
+  const d = new Date(str);
+  if (isNaN(d)) return str;
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+
+function dayLabel(i) {
+  const d = new Date();
+  d.setDate(d.getDate() - (6 - i));
+  return d.toLocaleDateString('en-US',{weekday:'short'});
+}
+
+function esc(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function sourceColor(name) {
+  const r = classifySource(name);
+  if (r==='credible') return 'var(--green)';
+  if (r==='noncredible') return 'var(--red)';
+  return 'var(--accent-mid)';
+}
+
+function buildDashboard(data, keywords, state, period) {
+  const items = data.items || [];
+  const timeline = data.timeline || Array(7).fill(0);
+  const sources = data.topSources || [];
+
+  const classified = items.map(item => ({
+    ...item,
+    reliability: classifySource(item.source),
+    flagged: isFlagged(item.title + ' ' + (item.desc||''))
+  }));
+
+  const total = data.total || items.length;
+  const uniqueSources = new Set(items.map(i=>i.source)).size;
+  const credCount    = classified.filter(i=>i.reliability==='credible').length;
+  const nonCredCount = classified.filter(i=>i.reliability==='noncredible').length;
+  const unknownCount = classified.filter(i=>i.reliability==='unknown').length;
+  const flagCount    = classified.filter(i=>i.flagged).length;
+  const relTotal     = classified.length || 1;
+  const pctCredible  = Math.round(credCount/relTotal*100);
+  const credPct      = pctCredible;
+  const nonCredPct   = Math.round(nonCredCount/relTotal*100);
+  const unknPct      = 100 - credPct - nonCredPct;
+
+  const tlMax  = Math.max(...timeline, 1);
+  const topMax = sources.length ? Math.max(...sources.map(s=>s.count),1) : 1;
+  const kwds   = extractKeywords(items);
+  const ts     = new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+
+  let html = '';
+
+  html += `<div class="results-header">
+    <h2>${esc(keywords)}${state?' &mdash; '+esc(state):''}</h2>
+    <span class="results-header-sub">Last ${period} days</span>
+    <span class="scan-timestamp">Scanned ${ts}</span>
+  </div>`;
+
+  html += `<div class="section-label">Signal Overview</div>
+  <div class="stat-row">
+    <div class="stat-pill">
+      <span class="stat-pill-label">Total Stories</span>
+      <span class="stat-pill-value">${total}</span>
+      <span class="stat-pill-sub">articles retrieved</span>
+    </div>
+    <div class="stat-pill">
+      <span class="stat-pill-label">Unique Sources</span>
+      <span class="stat-pill-value">${uniqueSources}</span>
+      <span class="stat-pill-sub">distinct outlets</span>
+    </div>
+    <div class="stat-pill">
+      <span class="stat-pill-label">Credible Sources</span>
+      <span class="stat-pill-value">${pctCredible}%</span>
+      <span class="stat-pill-badge ${pctCredible>=60?'badge-ok':pctCredible>=40?'badge-warn':'badge-alert'}">
+        ${pctCredible>=60?'&#10003; Strong':'&#9888; Mixed'} mix
+      </span>
+    </div>
+    <div class="stat-pill">
+      <span class="stat-pill-label">Flagged Items</span>
+      <span class="stat-pill-value">${flagCount}</span>
+      <span class="stat-pill-badge ${flagCount===0?'badge-ok':flagCount<=3?'badge-warn':'badge-alert'}">
+        ${flagCount===0?'&#10003; Clean':flagCount<=3?'&#9888; Watch':'&#9873; Review'}
+      </span>
+    </div>
+  </div>`;
+
+  html += `<div class="two-col">
+    <div class="panel">
+      <div class="panel-head"><span>7-Day Volume</span><span style="font-weight:400;opacity:0.6">articles per day</span></div>
+      <div class="panel-body">
+        <div class="timeline-chart">`;
+  timeline.forEach((count, i) => {
+    const pct = Math.max((count/tlMax)*100, count>0?6:3);
+    html += `<div class="timeline-bar-wrap">
+      <div class="timeline-bar-count">${count||''}</div>
+      <div class="timeline-bar" style="height:${pct}%" title="${dayLabel(i)}: ${count} articles"></div>
+      <div class="timeline-bar-label">${dayLabel(i)}</div>
+    </div>`;
+  });
+  html += `</div></div></div>`;
+
+  html += `<div class="panel">
+    <div class="panel-head"><span>Source Credibility</span></div>
+    <div class="panel-body">
+      <div class="reliability-track">
+        <div class="reliability-seg seg-credible" style="width:${credPct}%"></div>
+        <div class="reliability-seg seg-noncredible" style="width:${nonCredPct}%"></div>
+        <div class="reliability-seg seg-unknown" style="width:${unknPct}%"></div>
+      </div>
+      <div class="reliability-legend" style="margin-bottom:0.75rem;">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Credible &mdash; ${credPct}% (${credCount})</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Non-credible &mdash; ${nonCredPct}% (${nonCredCount})</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--rule)"></div>Unrated &mdash; ${unknPct}% (${unknownCount})</div>
+      </div>
+      <div class="source-bars">`;
+  sources.slice(0,8).forEach(s => {
+    html += `<div class="source-bar-row">
+      <div class="source-bar-name" title="${esc(s.source)}">${esc(s.source)}</div>
+      <div class="source-bar-track"><div class="source-bar-fill" style="width:${Math.round(s.count/topMax*100)}%;background:${sourceColor(s.source)}"></div></div>
+      <div class="source-bar-count">${s.count}</div>
+    </div>`;
+  });
+  html += `</div></div></div></div>`;
+
+  if (kwds.length) {
+    html += `<div class="full-width-panel">
+      <div class="panel-head"><span>Keyword Frequency</span><span style="font-weight:400;opacity:0.6">extracted from headlines</span></div>
+      <div class="panel-body"><div class="word-cloud">`;
+    kwds.forEach(([word, count], i) => {
+      const tier = i < 4 ? 1 : i < 10 ? 2 : i < 22 ? 3 : 4;
+      html += `<span class="word-chip word-tier-${tier}" title="${count} mentions">${esc(word)}</span>`;
+    });
+    html += `</div></div></div>`;
+  }
+
+  html += `<div class="full-width-panel">
+    <div class="panel-head">
+      <span>Coverage (${classified.length} articles)</span>
+      ${flagCount>0?`<span style="color:var(--red);font-weight:700;">&#9873; ${flagCount} flagged for review</span>`:`<span style="color:var(--green);">&#10003; No high-concern signals</span>`}
+    </div>
+    <div class="panel-body"><div class="article-list">`;
+
+  if (classified.length === 0) {
+    html += `<p style="color:var(--rule-heavy);font-style:italic;padding:1rem 0;">No articles found. Try broadening your keywords.</p>`;
+  } else {
+    classified.forEach(item => {
+      html += `<div class="article-item">
+        <div>
+          <a class="article-headline" href="${esc(item.link||'#')}" target="_blank" rel="noopener">${esc(item.title||'Untitled')}</a>
+          <div class="article-meta">
+            <span class="meta-source">${esc(item.source||'Unknown')}</span>
+            <span class="meta-dot">&bull;</span>
+            <span class="meta-date">${fmtDate(item.pubDate)}</span>
+            <span class="meta-dot">&bull;</span>
+            <span class="rel-badge rel-${item.reliability}">
+              ${item.reliability==='credible'?'&#10003; Credible':item.reliability==='noncredible'?'&#9873; Non-credible':'&mdash; Unrated'}
+            </span>
+          </div>
+          ${item.desc?`<div style="margin-top:0.3rem;font-size:0.82rem;color:var(--rule-heavy);line-height:1.4;">${esc(item.desc.slice(0,160))}${item.desc.length>160?'&hellip;':''}</div>`:''}
+        </div>
+        ${item.flagged?`<span class="article-flag">&#9873; Review</span>`:''}
+      </div>`;
+    });
+  }
+
+  html += `</div></div></div>`;
+  return html;
+}
+
+document.getElementById('scanForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const keywords = document.getElementById('keywords').value.trim();
+  const state    = document.getElementById('state').value;
+  const period   = document.getElementById('period').value;
+  if (!keywords) { document.getElementById('keywords').focus(); return; }
+
+  const btn = document.getElementById('scanBtn');
+  btn.disabled = true;
+  btn.textContent = 'Scanning…';
+
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('resultsArea').style.display = 'none';
+  document.getElementById('loadingState').style.display = 'block';
+
+  try {
+    const params = new URLSearchParams({ q: keywords });
+    if (state) params.set('state', state);
+    const res = await fetch('/api/news?' + params.toString() + '&mode=scan');
+    if (!res.ok) throw new Error('API error ' + res.status);
+    const data = await res.json();
+    document.getElementById('resultsArea').innerHTML = buildDashboard(data, keywords, state, period);
+    document.getElementById('resultsArea').style.display = 'block';
+  } catch (err) {
+    document.getElementById('resultsArea').innerHTML =
+      '<div class="error-banner"><strong>Scan failed:</strong> ' + esc(err.message) + '. Please try again in a moment.</div>';
+    document.getElementById('resultsArea').style.display = 'block';
+  } finally {
+    document.getElementById('loadingState').style.display = 'none';
+    btn.disabled = false;
+    btn.textContent = 'Run Scan';
+  }
+});
+
+window.addEventListener('load', () => {
+  document.getElementById('scanForm').dispatchEvent(new Event('submit'));
+});
+</script>
+</body>
+</html>

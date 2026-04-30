@@ -1,961 +1,819 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Toolkit — AI × Elections</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&family=Spectral:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
-<style>
-:root {
-  --paper:    oklch(98%  0.005  82);
-  --pale:     oklch(94%  0.005  70);
-  --pale-b:   oklch(87%  0.007  70);
-  --ink:      oklch(13%  0.007  70);
-  --ink-mid:  oklch(40%  0.006  70);
-  --ink-lt:   oklch(62%  0.006  70);
-  --rule:     oklch(82%  0.007  70);
-  --red:      oklch(57%  0.22   22);
-  --ink-surf: oklch(18%  0.007  70);
-  --green:    oklch(52%  0.14  145);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Election Official Toolkit — AI × Elections</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Barlow+Condensed:wght@400;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:         oklch(18% 0.01 260);
+      --paper:       oklch(97% 0.005 85);
+      --paper-warm:  oklch(94% 0.008 80);
+      --rule:        oklch(82% 0.008 260);
+      --rule-heavy:  oklch(65% 0.012 260);
+      --accent:      oklch(38% 0.18 260);
+      --accent-mid:  oklch(52% 0.15 260);
+      --accent-pale: oklch(92% 0.06 260);
+      --red:         oklch(50% 0.22 25);
+      --red-pale:    oklch(94% 0.04 25);
+      --amber:       oklch(62% 0.18 60);
+      --amber-pale:  oklch(95% 0.05 60);
+      --green:       oklch(45% 0.16 150);
+      --green-pale:  oklch(93% 0.05 150);
+      --serif:   'Spectral', Georgia, serif;
+      --sans:    'Barlow', system-ui, sans-serif;
+      --cond:    'Barlow Condensed', 'Barlow', system-ui, sans-serif;
+      --display: 'Abril Fatface', Georgia, serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 0.95rem; line-height: 1.5; }
 
-  --f-display: 'Abril Fatface', Georgia, serif;
-  --f-text:    'Spectral', Georgia, serif;
-  --f-label:   'Barlow Condensed', Arial, sans-serif;
-  --f-body:    'Barlow', Arial, sans-serif;
-}
+    /* ── NAV ── */
+    .site-nav { background: var(--ink); color: var(--paper); display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 2rem; font-family: var(--cond); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .site-nav a { color: var(--paper); text-decoration: none; opacity: 0.7; transition: opacity 0.15s; }
+    .site-nav a:hover { opacity: 1; }
+    .nav-brand { font-family: var(--display); font-size: 1.1rem; letter-spacing: 0; text-transform: none; opacity: 1 !important; }
+    .nav-brand span { color: var(--amber); }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { background: var(--paper); color: var(--ink); font-family: var(--f-body); -webkit-font-smoothing: antialiased; }
+    /* ── PAGE HEADER ── */
+    .page-header { background: var(--ink); color: var(--paper); padding: 2.5rem 2rem 2rem; border-bottom: 3px solid var(--accent-mid); }
+    .page-header-eyebrow { font-family: var(--cond); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-mid); margin-bottom: 0.4rem; }
+    .page-header h1 { font-family: var(--display); font-size: clamp(2rem, 4vw, 3rem); line-height: 1.05; }
+    .page-header-sub { margin-top: 0.6rem; font-family: var(--serif); font-size: 0.95rem; font-style: italic; opacity: 0.72; max-width: 560px; }
 
-/* ── PROCLAMATION ── */
-.proclamation {
-  background: var(--ink);
-  padding: 8px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.proc-text {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: oklch(70% 0.005 70);
-}
-.proc-links { display: flex; gap: 20px; }
-.proc-links a {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: oklch(72% 0.005 70);
-  text-decoration: none;
-  transition: color 0.15s;
-}
-.proc-links a:hover { color: var(--paper); }
+    /* ── TOOL TABS ── */
+    .tool-tabs { background: var(--paper-warm); border-bottom: 1px solid var(--rule); display: flex; overflow-x: auto; }
+    .tool-tab { background: none; border: none; border-bottom: 3px solid transparent; padding: 0.85rem 1.5rem; font-family: var(--cond); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rule-heavy); cursor: pointer; white-space: nowrap; transition: color 0.15s, border-color 0.15s; }
+    .tool-tab:hover { color: var(--ink); }
+    .tool-tab.active { color: var(--ink); border-bottom-color: var(--accent); }
 
-/* ── MASTHEAD ── */
-.masthead {
-  border-bottom: 1.5px solid var(--ink);
-  padding: 36px 40px 28px;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: end;
-  gap: 20px;
-}
-.masthead-left {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
-  padding-bottom: 4px;
-}
-.masthead-title {
-  font-family: var(--f-display);
-  font-size: clamp(48px, 9vw, 108px);
-  line-height: 0.9;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  text-align: center;
-  text-decoration: none;
-  display: block;
-}
-.masthead-title .x { color: var(--red); }
-.masthead-right {
-  font-family: var(--f-text);
-  font-size: 13px;
-  font-weight: 300;
-  font-style: italic;
-  line-height: 1.5;
-  color: var(--ink-mid);
-  text-align: right;
-  padding-bottom: 4px;
-  max-width: 22ch;
-  margin-left: auto;
-}
+    /* ── TOOL PANELS ── */
+    .tool-panels { display: none; max-width: 1100px; margin: 0 auto; padding: 2rem; }
+    .tool-panels.active { display: block; }
 
-/* ── TOOLKIT NAV ── */
-.tools-nav {
-  border-bottom: 1.5px solid var(--ink);
-  padding: 0 40px;
-  display: flex;
-  align-items: stretch;
-  overflow-x: auto;
-  background: var(--paper);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.tools-nav::-webkit-scrollbar { display: none; }
-.tool-tab {
-  font-family: var(--f-label);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
-  background: none;
-  border: none;
-  border-bottom: 2.5px solid transparent;
-  padding: 14px 20px 12px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: color 0.15s, border-color 0.15s;
-  margin-bottom: -1.5px;
-}
-.tool-tab:hover { color: var(--ink); }
-.tool-tab.active { color: var(--ink); border-bottom-color: var(--ink); }
-.tools-nav .back-link {
-  font-family: var(--f-label);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
-  text-decoration: none;
-  padding: 14px 20px 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  border-right: 1px solid var(--rule);
-  margin-right: 8px;
-  transition: color 0.15s;
-}
-.tools-nav .back-link:hover { color: var(--ink); }
+    /* ── SHARED FORM STYLES ── */
+    .tool-heading { font-family: var(--display); font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1.1; margin-bottom: 0.5rem; }
+    .tool-deck { font-family: var(--serif); font-style: italic; font-size: 1rem; color: var(--rule-heavy); margin-bottom: 1.5rem; max-width: 600px; line-height: 1.55; }
+    .form-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: flex-end; margin-bottom: 1.5rem; }
+    .field-group { display: flex; flex-direction: column; gap: 0.25rem; }
+    .field-group label { font-family: var(--cond); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rule-heavy); }
+    .field-group input, .field-group select, .field-group textarea { background: white; border: 1px solid var(--rule); border-radius: 3px; padding: 0.45rem 0.7rem; font-family: var(--sans); font-size: 0.88rem; color: var(--ink); }
+    .field-group input, .field-group select { height: 36px; }
+    .field-group textarea { height: 90px; resize: vertical; line-height: 1.5; }
+    .field-group input:focus, .field-group select:focus, .field-group textarea:focus { outline: none; border-color: var(--accent-mid); box-shadow: 0 0 0 2px var(--accent-pale); }
+    .field-wide input, .field-wide select { width: 280px; }
+    .field-med select { width: 180px; }
+    .field-sm select { width: 130px; }
+    .btn-primary { background: var(--accent); color: white; border: none; border-radius: 3px; padding: 0 1.4rem; height: 36px; font-family: var(--cond); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; }
+    .btn-primary:hover { background: var(--accent-mid); }
+    .btn-primary:disabled { background: var(--rule-heavy); cursor: default; }
 
-/* ── LAYOUT ── */
-.tools-main { max-width: 1100px; margin: 0 auto; padding: 48px 40px 80px; }
+    /* ── RESULTS ── */
+    .results-area { margin-top: 0.5rem; }
+    .loading-wrap { text-align: center; padding: 3rem; }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--rule); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 0.75rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-label { font-family: var(--cond); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rule-heavy); }
 
-/* ── TOOL PANELS ── */
-.tool-panel { display: none; }
-.tool-panel.active { display: block; }
+    /* stat pills */
+    .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; margin-bottom: 1.5rem; }
+    .stat-pill { background: white; padding: 1rem 1.1rem; }
+    .stat-label { font-family: var(--cond); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rule-heavy); margin-bottom: 0.2rem; }
+    .stat-value { font-family: var(--display); font-size: 1.8rem; line-height: 1; }
+    .stat-badge { display: inline-flex; align-items: center; font-family: var(--cond); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.05em; padding: 0.12rem 0.35rem; border-radius: 2px; margin-top: 0.25rem; }
+    .badge-ok    { background: var(--green-pale); color: var(--green); }
+    .badge-warn  { background: var(--amber-pale); color: var(--amber); }
+    .badge-alert { background: var(--red-pale); color: var(--red); }
 
-/* ── SECTION HEADING ── */
-.tool-heading {
-  font-family: var(--f-display);
-  font-size: clamp(28px, 4vw, 44px);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  color: var(--ink);
-  margin-bottom: 8px;
-}
-.tool-deck {
-  font-family: var(--f-text);
-  font-size: 16px;
-  font-weight: 300;
-  font-style: italic;
-  color: var(--ink-mid);
-  line-height: 1.55;
-  margin-bottom: 36px;
-  max-width: 60ch;
-}
+    /* two col */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+    @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+    .panel { background: white; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+    .panel-head { background: var(--paper-warm); border-bottom: 1px solid var(--rule); padding: 0.6rem 1rem; font-family: var(--cond); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+    .panel-body { padding: 1rem; }
 
-/* ── SCAN FORM ── */
-.scan-form {
-  background: var(--pale);
-  border: 1px solid var(--rule);
-  padding: 32px 36px;
-  margin-bottom: 40px;
-}
-.scan-form-title {
-  font-family: var(--f-label);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
-  margin-bottom: 20px;
-}
-.form-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-.form-row-wide { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: end; }
-.form-group { display: flex; flex-direction: column; gap: 6px; }
-.form-label {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-mid);
-}
-.form-input, .form-select {
-  font-family: var(--f-body);
-  font-size: 14px;
-  color: var(--ink);
-  background: var(--paper);
-  border: 1px solid var(--rule);
-  padding: 9px 12px;
-  outline: none;
-  transition: border-color 0.15s;
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-}
-.form-input:focus, .form-select:focus { border-color: var(--ink); }
-.form-input::placeholder { color: var(--ink-lt); }
-.scan-btn {
-  font-family: var(--f-label);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  background: var(--ink);
-  color: var(--paper);
-  border: none;
-  padding: 11px 28px;
-  cursor: pointer;
-  transition: background 0.15s;
-  white-space: nowrap;
-  align-self: end;
-}
-.scan-btn:hover { background: var(--ink-mid); }
-.scan-btn:disabled { background: var(--ink-lt); cursor: not-allowed; }
-.form-hint {
-  font-family: var(--f-body);
-  font-size: 12px;
-  color: var(--ink-lt);
-  margin-top: 12px;
-  line-height: 1.5;
-}
+    /* timeline */
+    .timeline-chart { display: flex; align-items: flex-end; gap: 5px; height: 100px; }
+    .tbar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; height: 100%; justify-content: flex-end; }
+    .tbar { width: 100%; background: var(--accent-pale); border-radius: 2px 2px 0 0; min-height: 3px; transition: background 0.15s; }
+    .tbar:hover { background: var(--accent-mid); }
+    .tbar-lbl { font-family: var(--cond); font-size: 0.58rem; color: var(--rule-heavy); }
+    .tbar-cnt { font-family: var(--cond); font-size: 0.6rem; font-weight: 600; color: var(--accent); }
 
-/* ── RESULTS ── */
-.results-area { display: none; }
-.results-area.visible { display: block; }
+    /* reliability */
+    .rel-track { height: 10px; border-radius: 5px; overflow: hidden; display: flex; margin-bottom: 0.6rem; }
+    .rel-seg { height: 100%; }
+    .seg-cred { background: var(--green); }
+    .seg-bad  { background: var(--red); }
+    .seg-unk  { background: var(--rule); }
+    .rel-legend { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 0.75rem; }
+    .leg-item { display: flex; align-items: center; gap: 0.3rem; font-family: var(--cond); font-size: 0.7rem; }
+    .leg-dot { width: 7px; height: 7px; border-radius: 50%; }
 
-.results-header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 28px;
-  border-bottom: 1px solid var(--rule);
-  padding-bottom: 14px;
-}
-.results-summary {
-  font-family: var(--f-label);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
-}
-.results-summary strong { color: var(--ink); font-size: 22px; font-family: var(--f-display); font-weight: 400; margin-right: 6px; }
-.results-ts {
-  font-family: var(--f-label);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
-}
+    .src-bars { display: flex; flex-direction: column; gap: 0.45rem; margin-top: 0.6rem; }
+    .src-row { display: grid; grid-template-columns: 120px 1fr 36px; gap: 0.4rem; align-items: center; }
+    .src-name { font-family: var(--cond); font-size: 0.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .src-track { height: 7px; background: var(--rule); border-radius: 3px; overflow: hidden; }
+    .src-fill { height: 100%; border-radius: 3px; }
+    .src-cnt { font-family: var(--cond); font-size: 0.65rem; color: var(--rule-heavy); text-align: right; }
 
-.results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+    /* word cloud */
+    .word-cloud { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: baseline; }
+    .word-chip { font-family: var(--cond); font-weight: 600; border-radius: 2px; padding: 0.12rem 0.35rem; }
+    .wt1 { font-size: 1.5rem; background: var(--accent-pale); color: var(--accent); }
+    .wt2 { font-size: 1.1rem; background: var(--red-pale); color: var(--red); }
+    .wt3 { font-size: 0.88rem; background: var(--amber-pale); color: var(--amber); }
+    .wt4 { font-size: 0.75rem; background: oklch(94% 0.02 260); color: var(--rule-heavy); }
 
-/* ── CHART BLOCK ── */
-.chart-block {
-  border: 1px solid var(--rule);
-  padding: 24px 28px;
-}
-.chart-block-title {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
-  margin-bottom: 20px;
-}
+    /* article list */
+    .article-list { display: flex; flex-direction: column; }
+    .art-item { padding: 0.8rem 0; border-bottom: 1px solid var(--rule); display: grid; grid-template-columns: 1fr auto; gap: 0.6rem; align-items: start; }
+    .art-item:last-child { border-bottom: none; }
+    .art-hl { font-family: var(--serif); font-size: 0.88rem; font-weight: 600; line-height: 1.3; color: var(--ink); text-decoration: none; }
+    .art-hl:hover { color: var(--accent); }
+    .art-meta { display: flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; margin-top: 0.25rem; }
+    .art-src { font-family: var(--cond); font-size: 0.65rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--rule-heavy); }
+    .art-dot { color: var(--rule); font-size: 0.45rem; }
+    .rel-badge { font-family: var(--cond); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.1rem 0.3rem; border-radius: 2px; }
+    .rel-cred { background: var(--green-pale); color: var(--green); }
+    .rel-bad  { background: var(--red-pale); color: var(--red); }
+    .rel-unk  { background: oklch(94% 0.02 260); color: var(--rule-heavy); }
+    .art-flag { font-family: var(--cond); font-size: 0.62rem; font-weight: 700; color: var(--red); background: var(--red-pale); border: 1px solid oklch(88% 0.06 25); border-radius: 2px; padding: 0.18rem 0.4rem; white-space: nowrap; }
+    .full-panel { background: white; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; margin-bottom: 1.5rem; }
 
-/* Source bars */
-.source-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.source-name {
-  font-family: var(--f-body);
-  font-size: 12px;
-  color: var(--ink);
-  min-width: 130px;
-  max-width: 130px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.source-track { flex: 1; height: 10px; background: var(--pale); position: relative; }
-.source-fill { height: 100%; background: var(--ink); width: 0; transition: width 0.6s cubic-bezier(0.25,0.46,0.45,0.94); }
-.source-count {
-  font-family: var(--f-label);
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--ink-mid);
-  min-width: 20px;
-  text-align: right;
-}
+    /* ── AI LAW TOOL ── */
+    .law-card { background: white; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; margin-bottom: 1rem; }
+    .law-card-head { background: var(--paper-warm); border-bottom: 1px solid var(--rule); padding: 0.75rem 1rem; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+    .law-state-name { font-family: var(--display); font-size: 1.1rem; }
+    .law-status { font-family: var(--cond); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.15rem 0.45rem; border-radius: 2px; }
+    .status-active   { background: var(--red-pale); color: var(--red); }
+    .status-pending  { background: var(--amber-pale); color: var(--amber); }
+    .status-limited  { background: var(--green-pale); color: var(--green); }
+    .status-proposed { background: oklch(94% 0.02 260); color: var(--rule-heavy); }
+    .law-body { padding: 1rem; display: flex; flex-direction: column; gap: 0.6rem; }
+    .law-row { display: grid; grid-template-columns: 160px 1fr; gap: 0.5rem; font-size: 0.85rem; }
+    .law-key { font-family: var(--cond); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--rule-heavy); padding-top: 2px; }
+    .law-val { font-family: var(--serif); line-height: 1.5; }
+    .law-source { font-family: var(--cond); font-size: 0.65rem; color: var(--accent); text-decoration: none; }
+    .law-source:hover { text-decoration: underline; }
+    .no-law { background: var(--paper-warm); border: 1px solid var(--rule); border-radius: 4px; padding: 2rem; text-align: center; font-family: var(--serif); font-style: italic; color: var(--rule-heavy); }
 
-/* Timeline sparkline */
-.timeline-chart { display: flex; align-items: flex-end; gap: 6px; height: 80px; padding-top: 8px; }
-.tl-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
-.tl-bar { width: 100%; background: var(--ink); transition: height 0.6s cubic-bezier(0.25,0.46,0.45,0.94); min-height: 2px; }
-.tl-label {
-  font-family: var(--f-label);
-  font-size: 9px;
-  color: var(--ink-lt);
-  letter-spacing: 0.04em;
-  text-align: center;
-}
+    /* ── VENDOR TOOL ── */
+    .vendor-result-header { margin-bottom: 1rem; display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; }
+    .vendor-result-header h2 { font-family: var(--display); font-size: 1.3rem; }
+    .vendor-result-sub { font-family: var(--serif); font-style: italic; font-size: 0.85rem; color: var(--rule-heavy); }
+    .vendor-ts { font-family: var(--cond); font-size: 0.65rem; letter-spacing: 0.06em; color: var(--rule-heavy); margin-left: auto; text-transform: uppercase; }
 
-/* ── ARTICLES LIST ── */
-.articles-block {
-  border: 1px solid var(--rule);
-  padding: 24px 28px;
-}
-.articles-block-title {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
-  margin-bottom: 20px;
-}
-.article-row {
-  border-top: 1px solid var(--rule);
-  padding: 14px 0;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px;
-  align-items: start;
-}
-.article-row:first-of-type { border-top: none; padding-top: 0; }
-.article-title {
-  font-family: var(--f-text);
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--ink);
-  line-height: 1.4;
-  text-decoration: none;
-  transition: color 0.15s;
-}
-.article-title:hover { color: var(--red); }
-.article-meta {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
-  margin-top: 4px;
-}
-.article-date {
-  font-family: var(--f-label);
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  color: var(--ink-lt);
-  white-space: nowrap;
-  padding-top: 3px;
-}
-.flag-badge {
-  display: inline-block;
-  font-family: var(--f-label);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  padding: 2px 7px;
-  margin-left: 8px;
-  background: oklch(93% 0.06 22);
-  color: oklch(38% 0.18 22);
-  vertical-align: middle;
-}
+    /* ── REQUEST FORM ── */
+    .request-section { border-top: 2px solid var(--rule); margin-top: 3rem; padding-top: 2rem; }
+    .request-heading { font-family: var(--display); font-size: 1.6rem; margin-bottom: 0.4rem; }
+    .request-deck { font-family: var(--serif); font-style: italic; color: var(--rule-heavy); margin-bottom: 1.5rem; font-size: 0.95rem; }
+    .request-form { display: flex; flex-direction: column; gap: 0.75rem; max-width: 560px; }
+    .request-form input, .request-form select, .request-form textarea { background: white; border: 1px solid var(--rule); border-radius: 3px; padding: 0.5rem 0.7rem; font-family: var(--sans); font-size: 0.88rem; color: var(--ink); width: 100%; }
+    .request-form input:focus, .request-form select:focus, .request-form textarea:focus { outline: none; border-color: var(--accent-mid); box-shadow: 0 0 0 2px var(--accent-pale); }
+    .request-form textarea { height: 100px; resize: vertical; }
+    .btn-submit { background: var(--ink); color: var(--paper); border: none; border-radius: 3px; padding: 0.6rem 1.6rem; font-family: var(--cond); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; align-self: flex-start; }
+    .btn-submit:hover { background: var(--accent); }
+    .form-success { display: none; background: var(--green-pale); border: 1px solid oklch(85% 0.07 150); border-radius: 4px; padding: 1rem 1.2rem; font-family: var(--serif); font-size: 0.95rem; color: var(--green); }
+    .error-box { background: var(--red-pale); border: 1px solid oklch(85% 0.08 25); border-radius: 4px; padding: 0.8rem 1rem; color: var(--red); font-size: 0.85rem; margin-bottom: 1rem; }
 
-/* ── LOADING ── */
-.scan-loading {
-  display: none;
-  text-align: center;
-  padding: 48px 0;
-}
-.scan-loading.active { display: block; }
-.loading-label {
-  font-family: var(--f-label);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
-  animation: pulse 1.4s ease-in-out infinite;
-}
-@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
-
-/* ── STAT PILLS ── */
-.stat-row { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
-.stat-pill {
-  border: 1px solid var(--rule);
-  padding: 16px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 140px;
-}
-.stat-num {
-  font-family: var(--f-display);
-  font-size: 32px;
-  line-height: 1;
-  color: var(--ink);
-}
-.stat-num.alarm { color: var(--red); }
-.stat-label {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
-}
-
-/* ── COMING SOON TOOLS ── */
-.tool-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
-.tool-card {
-  border: 1px solid var(--rule);
-  padding: 28px 28px 24px;
-  cursor: pointer;
-  transition: background 0.15s;
-  position: relative;
-}
-.tool-card:hover { background: var(--pale); }
-.tool-card.active-card { background: var(--ink); color: var(--paper); }
-.tool-card.active-card .tool-card-title,
-.tool-card.active-card .tool-card-desc,
-.tool-card.active-card .tool-card-badge { color: var(--paper); opacity: 0.85; }
-.tool-card.coming-soon { opacity: 0.55; cursor: default; }
-.tool-card.coming-soon:hover { background: none; }
-.tool-card-label {
-  font-family: var(--f-label);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--red);
-  margin-bottom: 10px;
-}
-.tool-card.active-card .tool-card-label { color: oklch(80% 0.12 22); }
-.tool-card-title {
-  font-family: var(--f-display);
-  font-size: 20px;
-  line-height: 1.1;
-  color: var(--ink);
-  margin-bottom: 8px;
-}
-.tool-card-desc {
-  font-family: var(--f-body);
-  font-size: 13px;
-  color: var(--ink-mid);
-  line-height: 1.5;
-}
-.tool-card-badge {
-  font-family: var(--f-label);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
-  margin-top: 16px;
-  display: block;
-}
-
-/* ── EMPTY / ERROR ── */
-.empty-state {
-  text-align: center;
-  padding: 48px 0;
-  display: none;
-}
-.empty-state.visible { display: block; }
-.empty-state p {
-  font-family: var(--f-text);
-  font-size: 15px;
-  font-style: italic;
-  color: var(--ink-lt);
-}
-
-/* ── NEWS FEED TOOL ── */
-.state-select-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 16px; align-items: end; margin-bottom: 32px; }
-.news-feed-list { border-top: 1.5px solid var(--ink); }
-
-/* ── FOOTER ── */
-footer {
-  border-top: 1.5px solid var(--ink);
-  margin-top: 80px;
-}
-.footer-inner {
-  padding: 40px 40px 32px;
-  display: flex;
-  gap: 40px;
-  justify-content: space-between;
-}
-.footer-seal {
-  font-family: var(--f-display);
-  font-size: 24px;
-  color: var(--ink);
-}
-.footer-seal p {
-  font-family: var(--f-label);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ink-lt);
-  margin-top: 6px;
-}
-.footer-seal .x { color: var(--red); }
-.footer-bottom {
-  border-top: 1px solid var(--rule);
-  padding: 14px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.footer-bottom p {
-  font-family: var(--f-label);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  color: var(--ink-lt);
-}
-
-/* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-  .proclamation, .masthead, .tools-main, .footer-inner, .footer-bottom { padding-left: 20px; padding-right: 20px; }
-  .masthead { grid-template-columns: 1fr; text-align: center; }
-  .masthead-left, .masthead-right { display: none; }
-  .form-row { grid-template-columns: 1fr; }
-  .form-row-wide { grid-template-columns: 1fr; }
-  .results-grid { grid-template-columns: 1fr; }
-  .tool-cards { grid-template-columns: 1fr; }
-  .stat-row { gap: 10px; }
-  .stat-pill { min-width: 110px; }
-  .state-select-row { grid-template-columns: 1fr; }
-}
-
-.sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
-</style>
+    /* ── FOOTER ── */
+    .site-footer { background: var(--ink); color: var(--paper); padding: 1.5rem 2rem; font-family: var(--cond); font-size: 0.72rem; letter-spacing: 0.06em; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+    .site-footer a { color: var(--paper); opacity: 0.6; text-decoration: none; }
+    .site-footer a:hover { opacity: 1; }
+  </style>
 </head>
 <body>
 
-<!-- PROCLAMATION -->
-<div class="proclamation">
-  <span class="proc-text">By and For Election Administration Professionals</span>
-  <div class="proc-links">
-    <a href="index.html">Publication</a>
+<nav class="site-nav">
+  <a href="index.html" class="nav-brand">AI<span>&#215;</span>Elections</a>
+  <div style="display:flex;gap:1.5rem;">
+    <a href="index.html">&#8592; Publication</a>
     <a href="#about">About</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-header-eyebrow">Election Official Toolkit</div>
+  <h1>Tools for the Field</h1>
+  <div class="page-header-sub">Live tools built for election administrators. Free to use. No account required.</div>
+</div>
+
+<!-- Tabs -->
+<nav class="tool-tabs" role="tablist">
+  <button class="tool-tab active" data-panel="threat" onclick="showPanel('threat',this)" role="tab">&#128225; Media Monitor</button>
+  <button class="tool-tab" data-panel="ailaw" onclick="showPanel('ailaw',this)" role="tab">&#9878; AI Law Guide</button>
+  <button class="tool-tab" data-panel="vendor" onclick="showPanel('vendor',this)" role="tab">&#128269; Vendor Check</button>
+</nav>
+
+<!-- ═══════════════ PANEL 1: THREAT WATCH ═══════════════ -->
+<div class="tool-panels active" id="panel-threat">
+  <h1 class="tool-heading">Media Monitor</h1>
+  <p class="tool-deck">Scan live news coverage for your jurisdiction. See volume, source credibility, misinformation signals, and trending keywords in real time.</p>
+
+  <div class="form-grid" id="threatForm">
+    <div class="field-group field-wide">
+      <label>Keywords / Topic</label>
+      <input type="text" id="tw-keywords" placeholder="e.g. ballot drop boxes, voter ID" value="election integrity">
+    </div>
+    <div class="field-group field-med">
+      <label>State</label>
+      <select id="tw-state">
+        <option value="">All states</option>
+        <option>Alabama</option><option>Alaska</option><option>Arizona</option>
+        <option>Arkansas</option><option>California</option><option>Colorado</option>
+        <option>Connecticut</option><option>Delaware</option><option>Florida</option>
+        <option>Georgia</option><option>Hawaii</option><option>Idaho</option>
+        <option>Illinois</option><option>Indiana</option><option>Iowa</option>
+        <option>Kansas</option><option>Kentucky</option><option>Louisiana</option>
+        <option>Maine</option><option>Maryland</option><option>Massachusetts</option>
+        <option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
+        <option>Missouri</option><option>Montana</option><option>Nebraska</option>
+        <option>Nevada</option><option>New Hampshire</option><option>New Jersey</option>
+        <option>New Mexico</option><option>New York</option><option>North Carolina</option>
+        <option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
+        <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option>
+        <option>South Carolina</option><option>South Dakota</option><option>Tennessee</option>
+        <option>Texas</option><option>Utah</option><option>Vermont</option>
+        <option>Virginia</option><option>Washington</option><option>West Virginia</option>
+        <option>Wisconsin</option><option>Wyoming</option>
+      </select>
+    </div>
+    <button class="btn-primary" id="tw-btn" onclick="runThreatScan()">Run Scan</button>
+  </div>
+
+  <div class="results-area" id="tw-results">
+    <div style="text-align:center;padding:4rem 2rem;color:var(--rule-heavy);">
+      <div style="font-size:2.5rem;opacity:0.35;margin-bottom:0.75rem;">&#128225;</div>
+      <p style="font-family:var(--serif);font-style:italic;">Configure a scan above to see live results.</p>
+    </div>
+  </div>
+
+  <!-- Request form at bottom of each panel -->
+  <div class="request-section">
+    <div class="request-heading">Request a Tool</div>
+    <p class="request-deck">Missing something? Tell us what you need and we'll build it.</p>
+    <form class="request-form" onsubmit="submitRequest(event,'threat')">
+      <input type="text" name="name" placeholder="Your name (optional)">
+      <input type="text" name="office" placeholder="Office / jurisdiction (optional)">
+      <select name="category">
+        <option value="">Tool category</option>
+        <option>Media monitoring</option>
+        <option>Legal / compliance</option>
+        <option>Vendor evaluation</option>
+        <option>Public communications</option>
+        <option>Staffing / volunteers</option>
+        <option>Threat response</option>
+        <option>Other</option>
+      </select>
+      <textarea name="idea" placeholder="Describe the tool you need and what problem it solves..." required></textarea>
+      <button type="submit" class="btn-submit">Submit Request</button>
+    </form>
+    <div class="form-success" id="req-success-threat">&#10003; Request received. We review all submissions and prioritize based on demand.</div>
   </div>
 </div>
 
-<!-- MASTHEAD -->
-<header class="masthead">
-  <div class="masthead-left">Intelligence<br>For Election Officials</div>
-  <a href="index.html" class="masthead-title">AI<span class="x">×</span>Elections</a>
-  <div class="masthead-right">A publication by and for election workers.</div>
-</header>
+<!-- ═══════════════ PANEL 2: AI LAW GUIDE ═══════════════ -->
+<div class="tool-panels" id="panel-ailaw">
+  <h1 class="tool-heading">State AI Law Guide</h1>
+  <p class="tool-deck">Select your state to see current and pending AI legislation that affects election administration, voter outreach, and campaign communications.</p>
 
-<!-- TOOLS NAV -->
-<nav class="tools-nav" aria-label="Tools">
-  <a href="index.html" class="back-link">&#8592; Publication</a>
-  <button class="tool-tab active" data-tool="threat-watch" onclick="switchTool(this)">Threat Watch</button>
-  <button class="tool-tab" data-tool="news-feed" onclick="switchTool(this)">Election News Feed</button>
-  <button class="tool-tab" data-tool="coming-soon" onclick="switchTool(this)">More Tools</button>
-</nav>
-
-<main class="tools-main">
-
-  <!-- ══════════════════════════════════════
-       TOOL 1: THREAT WATCH SCANNER
-  ══════════════════════════════════════ -->
-  <div class="tool-panel active" id="panel-threat-watch">
-    <h1 class="tool-heading">Threat Watch Scanner</h1>
-    <p class="tool-deck">Enter your office name and keywords. See what is being said about your jurisdiction online — sources, volume, and timeline — updated in real time.</p>
-
-    <div class="scan-form">
-      <div class="scan-form-title">Configure your scan</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label" for="tw-office">Office / Director Name</label>
-          <input class="form-input" id="tw-office" type="text" placeholder="e.g. Cobb County Elections">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="tw-state">State</label>
-          <select class="form-select" id="tw-state">
-            <option value="">Select state…</option>
-            <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option>
-            <option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option>
-            <option>Florida</option><option selected>Georgia</option><option>Hawaii</option><option>Idaho</option>
-            <option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option>
-            <option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option>
-            <option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
-            <option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option>
-            <option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option>
-            <option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
-            <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option>
-            <option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option>
-            <option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option>
-            <option>Wisconsin</option><option>Wyoming</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="tw-county">County (optional)</label>
-          <input class="form-input" id="tw-county" type="text" placeholder="e.g. Cobb">
-        </div>
-      </div>
-      <div class="form-row-wide">
-        <div class="form-group">
-          <label class="form-label" for="tw-keywords">Additional keywords to monitor (comma-separated)</label>
-          <input class="form-input" id="tw-keywords" type="text" placeholder="e.g. voter fraud, ballot drop box, precinct change">
-        </div>
-        <button class="scan-btn" id="tw-scan-btn" onclick="runScan()">Run Scan</button>
-      </div>
-      <p class="form-hint">Scans public web and news sources for recent mentions. Results reflect the last 7 days. No data is stored or shared.</p>
-    </div>
-
-    <!-- Loading state -->
-    <div class="scan-loading" id="tw-loading">
-      <p class="loading-label">Scanning sources…</p>
-    </div>
-
-    <!-- Results -->
-    <div class="results-area" id="tw-results">
-      <div class="results-header">
-        <div class="results-summary"><strong id="res-total">0</strong> mentions found in the last 7 days</div>
-        <div class="results-ts" id="res-ts"></div>
-      </div>
-
-      <div class="stat-row" id="res-stats"></div>
-
-      <div class="results-grid">
-        <div class="chart-block">
-          <div class="chart-block-title">Top Sources</div>
-          <div id="res-sources"></div>
-        </div>
-        <div class="chart-block">
-          <div class="chart-block-title">Mention Volume — Last 7 Days</div>
-          <div class="timeline-chart" id="res-timeline"></div>
-        </div>
-      </div>
-
-      <div class="articles-block">
-        <div class="articles-block-title">Recent Mentions <span id="res-query-label" style="font-weight:400;text-transform:none;letter-spacing:0;font-family:var(--f-text);font-style:italic;color:var(--ink-lt);"></span></div>
-        <div id="res-articles"></div>
-      </div>
-    </div>
-
-    <div class="empty-state" id="tw-empty">
-      <p>No mentions found for those terms in the last 7 days. Try broadening your keywords.</p>
+  <div class="form-grid">
+    <div class="field-group field-wide">
+      <label>Your State</label>
+      <select id="law-state" onchange="showLaw()">
+        <option value="">Select a state</option>
+        <option>Arizona</option><option>California</option><option>Colorado</option>
+        <option>Florida</option><option>Georgia</option><option>Illinois</option>
+        <option>Michigan</option><option>Minnesota</option><option>Nevada</option>
+        <option>New York</option><option>North Carolina</option><option>Ohio</option>
+        <option>Pennsylvania</option><option>Texas</option><option>Virginia</option>
+        <option>Washington</option><option>Wisconsin</option>
+      </select>
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════
-       TOOL 2: ELECTION NEWS FEED
-  ══════════════════════════════════════ -->
-  <div class="tool-panel" id="panel-news-feed">
-    <h1 class="tool-heading">Election News Feed</h1>
-    <p class="tool-deck">A live aggregator of election news by state. Catch misinformation, monitor coverage of your jurisdiction, and verify what the media is reporting before it spreads.</p>
-
-    <div class="state-select-row">
-      <div class="form-group">
-        <label class="form-label" for="nf-state">State</label>
-        <select class="form-select" id="nf-state">
-          <option value="">All states</option>
-          <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option>
-          <option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option>
-          <option>Florida</option><option selected>Georgia</option><option>Hawaii</option><option>Idaho</option>
-          <option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option>
-          <option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option>
-          <option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
-          <option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option>
-          <option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option>
-          <option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
-          <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option>
-          <option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option>
-          <option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option>
-          <option>Wisconsin</option><option>Wyoming</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label" for="nf-topic">Topic filter</label>
-        <select class="form-select" id="nf-topic">
-          <option value="election">All election news</option>
-          <option value="voter fraud">Voter fraud claims</option>
-          <option value="AI deepfake election">AI &amp; deepfakes</option>
-          <option value="polling place">Polling places</option>
-          <option value="ballot drop box">Ballot drop boxes</option>
-          <option value="election results">Election results</option>
-          <option value="election administration">Administration</option>
-        </select>
-      </div>
-      <button class="scan-btn" onclick="loadNewsFeed()">Load Feed</button>
-    </div>
-
-    <div class="scan-loading" id="nf-loading">
-      <p class="loading-label">Fetching latest coverage…</p>
-    </div>
-    <div class="news-feed-list" id="nf-list"></div>
-    <div class="empty-state" id="nf-empty">
-      <p>No recent articles found for that filter. Try a different topic or state.</p>
+  <div id="law-results">
+    <div style="text-align:center;padding:4rem 2rem;color:var(--rule-heavy);">
+      <div style="font-size:2.5rem;opacity:0.35;margin-bottom:0.75rem;">&#9878;</div>
+      <p style="font-family:var(--serif);font-style:italic;">Select your state above to see applicable AI law guidance.</p>
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════
-       TOOL 3: MORE TOOLS (COMING SOON)
-  ══════════════════════════════════════ -->
-  <div class="tool-panel" id="panel-coming-soon">
-    <h1 class="tool-heading">More Tools Coming</h1>
-    <p class="tool-deck">Built in response to what election administrators actually need. Have a tool you'd find useful? Write us at <a href="mailto:tips@aixelections.com" style="color:var(--ink);">tips@aixelections.com</a>.</p>
+  <div class="request-section">
+    <div class="request-heading">Request a Tool</div>
+    <p class="request-deck">Missing something? Tell us what you need and we'll build it.</p>
+    <form class="request-form" onsubmit="submitRequest(event,'ailaw')">
+      <input type="text" name="name" placeholder="Your name (optional)">
+      <input type="text" name="office" placeholder="Office / jurisdiction (optional)">
+      <select name="category">
+        <option value="">Tool category</option>
+        <option>Media monitoring</option>
+        <option>Legal / compliance</option>
+        <option>Vendor evaluation</option>
+        <option>Public communications</option>
+        <option>Staffing / volunteers</option>
+        <option>Threat response</option>
+        <option>Other</option>
+      </select>
+      <textarea name="idea" placeholder="Describe the tool you need and what problem it solves..." required></textarea>
+      <button type="submit" class="btn-submit">Submit Request</button>
+    </form>
+    <div class="form-success" id="req-success-ailaw">&#10003; Request received. We review all submissions and prioritize based on demand.</div>
+  </div>
+</div>
 
-    <div class="tool-cards">
-      <div class="tool-card coming-soon">
-        <div class="tool-card-label">In Development</div>
-        <div class="tool-card-title">Misinformation Source Tracker</div>
-        <div class="tool-card-desc">Which outlets and accounts are spreading false information about your jurisdiction most frequently. Updated weekly.</div>
-        <span class="tool-card-badge">Coming Q3 2026</span>
-      </div>
-      <div class="tool-card coming-soon">
-        <div class="tool-card-label">In Development</div>
-        <div class="tool-card-title">Peer Jurisdiction Finder</div>
-        <div class="tool-card-desc">Find other election offices running similar systems — same vendor, similar voter roll size, same state law environment. Connect directly.</div>
-        <span class="tool-card-badge">Coming Q3 2026</span>
-      </div>
-      <div class="tool-card coming-soon">
-        <div class="tool-card-label">In Development</div>
-        <div class="tool-card-title">State AI Law Lookup</div>
-        <div class="tool-card-desc">Current status of AI election laws in your state — enacted, pending, or none. What applies to your office and what doesn't.</div>
-        <span class="tool-card-badge">Coming Q3 2026</span>
-      </div>
-      <div class="tool-card coming-soon">
-        <div class="tool-card-label">In Development</div>
-        <div class="tool-card-title">Vendor Risk Checker</div>
-        <div class="tool-card-desc">Check known issues, litigation history, and peer reviews for election technology vendors before procurement.</div>
-        <span class="tool-card-badge">Coming Q4 2026</span>
-      </div>
-      <div class="tool-card coming-soon">
-        <div class="tool-card-label">In Development</div>
-        <div class="tool-card-title">Adjudication Volunteer Pool</div>
-        <div class="tool-card-desc">A certified, bipartisan bench of ballot adjudication volunteers by county — so you aren't making calls at 2am on election night.</div>
-        <span class="tool-card-badge">Coming Q4 2026</span>
-      </div>
-      <div class="tool-card coming-soon">
-        <div class="tool-card-label">In Development</div>
-        <div class="tool-card-title">Public Comms Checker</div>
-        <div class="tool-card-desc">Paste your press release or public notice. Get a plain-language check for clarity and a scan for terms likely to be misreported.</div>
-        <span class="tool-card-badge">Coming Q4 2026</span>
-      </div>
+<!-- ═══════════════ PANEL 3: VENDOR CHECK ═══════════════ -->
+<div class="tool-panels" id="panel-vendor">
+  <h1 class="tool-heading">Vendor Risk Check</h1>
+  <p class="tool-deck">Search any election technology vendor by name. We scan live news for red flags, litigation, data incidents, and credibility concerns so you can make informed procurement decisions.</p>
+
+  <div class="form-grid">
+    <div class="field-group field-wide">
+      <label>Vendor Name</label>
+      <input type="text" id="v-vendor" placeholder="e.g. Dominion Voting, ES&amp;S, Smartmatic">
+    </div>
+    <div class="field-group field-med">
+      <label>Category</label>
+      <select id="v-category">
+        <option value="">Any category</option>
+        <option>Voting machines</option>
+        <option>Election software</option>
+        <option>Voter registration</option>
+        <option>Poll books</option>
+        <option>Ballot printing</option>
+        <option>AI / analytics</option>
+        <option>Cybersecurity</option>
+      </select>
+    </div>
+    <button class="btn-primary" id="v-btn" onclick="runVendorCheck()">Check Vendor</button>
+  </div>
+
+  <div class="results-area" id="v-results">
+    <div style="text-align:center;padding:4rem 2rem;color:var(--rule-heavy);">
+      <div style="font-size:2.5rem;opacity:0.35;margin-bottom:0.75rem;">&#128269;</div>
+      <p style="font-family:var(--serif);font-style:italic;">Enter a vendor name above to scan for risk signals.</p>
     </div>
   </div>
 
-</main>
+  <div class="request-section">
+    <div class="request-heading">Request a Tool</div>
+    <p class="request-deck">Missing something? Tell us what you need and we'll build it.</p>
+    <form class="request-form" onsubmit="submitRequest(event,'vendor')">
+      <input type="text" name="name" placeholder="Your name (optional)">
+      <input type="text" name="office" placeholder="Office / jurisdiction (optional)">
+      <select name="category">
+        <option value="">Tool category</option>
+        <option>Media monitoring</option>
+        <option>Legal / compliance</option>
+        <option>Vendor evaluation</option>
+        <option>Public communications</option>
+        <option>Staffing / volunteers</option>
+        <option>Threat response</option>
+        <option>Other</option>
+      </select>
+      <textarea name="idea" placeholder="Describe the tool you need and what problem it solves..." required></textarea>
+      <button type="submit" class="btn-submit">Submit Request</button>
+    </form>
+    <div class="form-success" id="req-success-vendor">&#10003; Request received. We review all submissions and prioritize based on demand.</div>
+  </div>
+</div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-seal" id="about">
-      <div>AI<span class="x">×</span>Elections</div>
-      <p>By and For Election Administration Professionals</p>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>© 2026 AI × Elections. Independent publication.</p>
-    <p>Not affiliated with any campaign, vendor, government body, or political party.</p>
-  </div>
+<footer class="site-footer">
+  <span>AI &#215; Elections &mdash; Election Official Toolkit</span>
+  <span>Free to use &middot; No account required &middot; For election administration professionals</span>
+  <a href="index.html">Publication Home</a>
 </footer>
 
 <script>
-// ── TOOL SWITCHING ──
-function switchTool(btn) {
-  document.querySelectorAll('.tool-tab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('panel-' + btn.dataset.tool).classList.add('active');
+// ═══════════ TAB ROUTING ═══════════
+function showPanel(id, tab) {
+  document.querySelectorAll('.tool-panels').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  if (tab) tab.classList.add('active');
 }
 
-// ── HELPERS ──
-function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+// ═══════════ SHARED UTILITIES ═══════════
+const CREDIBLE = new Set([
+  'associated press','ap news','reuters','npr','pbs','bbc','the guardian',
+  'new york times','washington post','wall street journal','los angeles times',
+  'usa today','abc news','cbs news','nbc news','msnbc','cnn','politico',
+  'the hill','roll call','axios','the atlantic','bloomberg','propublica',
+  'miami herald','arizona republic','boston globe','chicago tribune',
+  'dallas morning news','star tribune','seattle times','newsweek','huffpost',
+  'brennan center','eac.gov','nist','ballotpedia','ncsl'
+]);
+const NONCREDIBLE = new Set([
+  'breitbart','gateway pundit','daily wire','epoch times','infowars',
+  'oann','one america','newsmax','zero hedge','zerohedge',
+  'natural news','world net daily','wnd','the federalist','the blaze',
+  'american thinker','western journal','daily caller','revolver news'
+]);
+const FLAG_TERMS = [
+  'stolen','rigged','fraud','fake','false','misleading','misinformation',
+  'disinformation','conspiracy','hoax','corrupt','illegal','illegitimate',
+  'switched','glitch','hacked','mule','stuffed','dominion','soros','big lie'
+];
+const RISK_TERMS = [
+  'lawsuit','litigation','breach','hack','vulnerability','exploit','fine',
+  'penalty','investigation','probe','recall','defective','malfunction',
+  'settlement','security flaw','data leak','backdoor','misconduct','fraud',
+  'contract terminated','decertified','banned','violation','audit failure'
+];
+const STOP = new Set([
+  'the','a','an','and','or','but','in','on','at','to','for','of','with',
+  'by','from','up','about','is','are','was','were','be','been','have','has',
+  'had','do','does','did','will','would','could','should','that','this',
+  'these','those','it','its','as','so','not','also','just','more','most',
+  'other','some','such','how','what','who','when','where','why','which',
+  'their','they','them','there','here','he','she','we','you','me','us',
+  'says','said','after','before','over','under','report','reports','news',
+  'election','elections','officials','state','states','county','national'
+]);
+
+function classify(name) {
+  if (!name) return 'unknown';
+  const s = name.toLowerCase();
+  for (const c of CREDIBLE)    { if (s.includes(c)) return 'credible'; }
+  for (const c of NONCREDIBLE) { if (s.includes(c)) return 'noncredible'; }
+  return 'unknown';
 }
-function fmtDate(str) {
+function isFlagged(txt, terms) {
+  const t = (txt||'').toLowerCase();
+  return terms.some(w => t.includes(w));
+}
+function keywords(items) {
+  const freq = {};
+  items.forEach(item => {
+    ((item.title||'')+' '+(item.desc||'')).toLowerCase()
+      .replace(/[^a-z\s]/g,' ').split(/\s+/)
+      .filter(w => w.length > 3 && !STOP.has(w))
+      .forEach(w => { freq[w] = (freq[w]||0) + 1; });
+  });
+  return Object.entries(freq).filter(([,c])=>c>=2).sort((a,b)=>b[1]-a[1]).slice(0,35);
+}
+function dayLbl(i) {
+  const d = new Date(); d.setDate(d.getDate()-(6-i));
+  return d.toLocaleDateString('en-US',{weekday:'short'});
+}
+function fmtDate(s) {
+  if (!s) return '';
+  const d = new Date(s);
+  return isNaN(d)?s:d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function srcColor(n) {
+  const r = classify(n);
+  return r==='credible'?'var(--green)':r==='noncredible'?'var(--red)':'var(--accent-mid)';
+}
+
+function buildScanHtml(data, label, flagTerms, flagLabel) {
+  const items = data.items||[];
+  const tl    = data.timeline||Array(7).fill(0);
+  const srcs  = data.topSources||[];
+  const classified = items.map(i=>({...i, rel:classify(i.source), flagged:isFlagged(i.title+' '+(i.desc||''), flagTerms)}));
+  const total    = data.total||items.length;
+  const uSrcs    = new Set(items.map(i=>i.source)).size;
+  const cred     = classified.filter(i=>i.rel==='credible').length;
+  const nCred    = classified.filter(i=>i.rel==='noncredible').length;
+  const unk      = classified.filter(i=>i.rel==='unknown').length;
+  const flagged  = classified.filter(i=>i.flagged).length;
+  const tot      = classified.length||1;
+  const cPct     = Math.round(cred/tot*100);
+  const nPct     = Math.round(nCred/tot*100);
+  const uPct     = 100-cPct-nPct;
+  const tlMax    = Math.max(...tl,1);
+  const topMax   = srcs.length?Math.max(...srcs.map(s=>s.count),1):1;
+  const kwds     = keywords(items);
+  const ts       = new Date().toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+
+  let h = `<div class="vendor-result-header">
+    <h2>${esc(label)}</h2>
+    <span class="vendor-ts">Scanned ${ts}</span>
+  </div>`;
+
+  h += `<div class="stat-row">
+    <div class="stat-pill"><div class="stat-label">Total Stories</div><div class="stat-value">${total}</div></div>
+    <div class="stat-pill"><div class="stat-label">Unique Sources</div><div class="stat-value">${uSrcs}</div></div>
+    <div class="stat-pill"><div class="stat-label">Credible</div><div class="stat-value">${cPct}%</div><div class="stat-badge ${cPct>=60?'badge-ok':cPct>=40?'badge-warn':'badge-alert'}">${cPct>=60?'&#10003; Strong':'&#9888; Mixed'}</div></div>
+    <div class="stat-pill"><div class="stat-label">${flagLabel}</div><div class="stat-value">${flagged}</div><div class="stat-badge ${flagged===0?'badge-ok':flagged<=2?'badge-warn':'badge-alert'}">${flagged===0?'&#10003; Clean':flagged<=2?'&#9888; Watch':'&#9873; Review'}</div></div>
+  </div>`;
+
+  h += `<div class="two-col">
+    <div class="panel">
+      <div class="panel-head"><span>7-Day Volume</span></div>
+      <div class="panel-body"><div class="timeline-chart">`;
+  tl.forEach((c,i)=>{
+    const pct = Math.max((c/tlMax)*100, c>0?6:3);
+    h += `<div class="tbar-wrap"><div class="tbar-cnt">${c||''}</div><div class="tbar" style="height:${pct}%" title="${dayLbl(i)}: ${c}"></div><div class="tbar-lbl">${dayLbl(i)}</div></div>`;
+  });
+  h += `</div></div></div>
+    <div class="panel">
+      <div class="panel-head"><span>Source Credibility</span></div>
+      <div class="panel-body">
+        <div class="rel-track"><div class="rel-seg seg-cred" style="width:${cPct}%"></div><div class="rel-seg seg-bad" style="width:${nPct}%"></div><div class="rel-seg seg-unk" style="width:${uPct}%"></div></div>
+        <div class="rel-legend">
+          <div class="leg-item"><div class="leg-dot" style="background:var(--green)"></div>Credible ${cPct}% (${cred})</div>
+          <div class="leg-item"><div class="leg-dot" style="background:var(--red)"></div>Non-credible ${nPct}% (${nCred})</div>
+          <div class="leg-item"><div class="leg-dot" style="background:var(--rule)"></div>Unrated ${uPct}% (${unk})</div>
+        </div>
+        <div class="src-bars">`;
+  srcs.slice(0,7).forEach(s=>{
+    h += `<div class="src-row"><div class="src-name" title="${esc(s.source)}">${esc(s.source)}</div><div class="src-track"><div class="src-fill" style="width:${Math.round(s.count/topMax*100)}%;background:${srcColor(s.source)}"></div></div><div class="src-cnt">${s.count}</div></div>`;
+  });
+  h += `</div></div></div></div>`;
+
+  if (kwds.length) {
+    h += `<div class="full-panel"><div class="panel-head"><span>Keywords</span></div><div class="panel-body"><div class="word-cloud">`;
+    kwds.forEach(([w,c],i)=>{
+      const t = i<4?'wt1':i<10?'wt2':i<22?'wt3':'wt4';
+      h += `<span class="word-chip ${t}" title="${c}">${esc(w)}</span>`;
+    });
+    h += `</div></div></div>`;
+  }
+
+  h += `<div class="full-panel"><div class="panel-head"><span>Coverage (${classified.length})</span>${flagged>0?`<span style="color:var(--red);font-weight:700;">&#9873; ${flagged} flagged</span>`:`<span style="color:var(--green);">&#10003; No flags</span>`}</div><div class="panel-body"><div class="article-list">`;
+  if (!classified.length) {
+    h += `<p style="color:var(--rule-heavy);font-style:italic;padding:1rem 0;">No results found. Try broadening your search.</p>`;
+  } else {
+    classified.forEach(item=>{
+      h += `<div class="art-item"><div>
+        <a class="art-hl" href="${esc(item.link||'#')}" target="_blank" rel="noopener">${esc(item.title||'Untitled')}</a>
+        <div class="art-meta">
+          <span class="art-src">${esc(item.source||'Unknown')}</span>
+          <span class="art-dot">&bull;</span>
+          <span class="rel-badge ${item.rel==='credible'?'rel-cred':item.rel==='noncredible'?'rel-bad':'rel-unk'}">${item.rel==='credible'?'&#10003;':item.rel==='noncredible'?'&#9873;':'&mdash;'} ${item.rel==='unknown'?'Unrated':item.rel==='credible'?'Credible':'Non-credible'}</span>
+        </div>
+        ${item.desc?`<div style="font-size:0.8rem;color:var(--rule-heavy);margin-top:0.2rem;line-height:1.4;">${esc(item.desc.slice(0,140))}${item.desc.length>140?'&hellip;':''}</div>`:''}
+      </div>${item.flagged?`<span class="art-flag">&#9873; Flag</span>`:''}</div>`;
+    });
+  }
+  h += `</div></div></div>`;
+  return h;
+}
+
+// ═══════════ THREAT SCAN ═══════════
+async function runThreatScan() {
+  const kw  = document.getElementById('tw-keywords').value.trim();
+  const st  = document.getElementById('tw-state').value;
+  const btn = document.getElementById('tw-btn');
+  const res = document.getElementById('tw-results');
+  if (!kw) { document.getElementById('tw-keywords').focus(); return; }
+  btn.disabled = true; btn.textContent = 'Scanning…';
+  res.innerHTML = `<div class="loading-wrap"><div class="spinner"></div><div class="loading-label">Scanning live news…</div></div>`;
   try {
-    const d = new Date(str);
-    if (isNaN(d)) return '';
-    return d.toLocaleDateString('en-US', { month:'short', day:'numeric' });
-  } catch { return ''; }
-}
-function shortDate(iso) {
-  const [,m,d] = iso.split('-');
-  return `${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m-1]} ${+d}`;
+    const p = new URLSearchParams({q:kw, mode:'scan'});
+    if (st) p.set('state', st);
+    const r = await fetch('/api/news?'+p);
+    if (!r.ok) throw new Error('API error '+r.status);
+    const data = await r.json();
+    const label = kw + (st?' — '+st:'');
+    res.innerHTML = buildScanHtml(data, label, FLAG_TERMS, 'Flagged Items');
+  } catch(e) {
+    res.innerHTML = `<div class="error-box"><strong>Scan failed:</strong> ${esc(e.message)}</div>`;
+  } finally { btn.disabled=false; btn.textContent='Run Scan'; }
 }
 
-// ── THREAT WATCH SCAN ──
-async function runScan() {
-  const office   = document.getElementById('tw-office').value.trim();
-  const state    = document.getElementById('tw-state').value;
-  const county   = document.getElementById('tw-county').value.trim();
-  const keywords = document.getElementById('tw-keywords').value.trim();
+// ═══════════ AI LAW GUIDE ═══════════
+const LAW_DATA = {
+  'Arizona': {
+    status: 'active',
+    statusLabel: 'Laws in Effect',
+    laws: [
+      { name: 'HB 2585 (2024)', summary: 'Requires political ads using AI-generated content to include a disclosure label. Applies to any image, audio, or video materially altered by AI.', applies: 'Campaign communications', source: 'https://www.azleg.gov', sourceLabel: 'AZ Legislature' },
+      { name: 'SB 1474 (2024)', summary: 'Prohibits use of deepfake technology to misrepresent a candidate\'s statements or actions within 90 days of an election.', applies: 'Election integrity', source: 'https://www.azleg.gov', sourceLabel: 'AZ Legislature' }
+    ],
+    guidance: 'Arizona has active disclosure requirements for AI-generated political content. Election offices should ensure any AI-generated voter communications are appropriately labeled.',
+    lastUpdated: 'March 2025'
+  },
+  'California': {
+    status: 'active',
+    statusLabel: 'Laws in Effect',
+    laws: [
+      { name: 'AB 2655 (2024)', summary: 'Requires large online platforms to label or remove materially deceptive AI-generated election content within 72 hours of receiving a report.', applies: 'Social media / platforms', source: 'https://leginfo.legislature.ca.gov', sourceLabel: 'CA Legislature' },
+      { name: 'AB 2839 (2024)', summary: 'Makes it unlawful to knowingly distribute materially deceptive AI-generated content about candidates or elections within 120 days of an election.', applies: 'Election integrity / criminal', source: 'https://leginfo.legislature.ca.gov', sourceLabel: 'CA Legislature' },
+      { name: 'AB 2355 (2024)', summary: 'Requires disclosures on political ads that were "substantially generated" by AI, including digital ads, mailers, and robocalls.', applies: 'Political advertising', source: 'https://leginfo.legislature.ca.gov', sourceLabel: 'CA Legislature' }
+    ],
+    guidance: 'California has among the most comprehensive AI election laws in the country. Election officials should be aware of the 72-hour platform reporting requirement and ensure no AI-generated voter outreach is undisclosed.',
+    lastUpdated: 'January 2025'
+  },
+  'Colorado': {
+    status: 'active',
+    statusLabel: 'Laws in Effect',
+    laws: [
+      { name: 'SB 205 (2024)', summary: 'Requires disclosure on any political communication that uses AI to generate images, audio, or video in a deceptive way. Candidate and issue campaigns must comply.', applies: 'Political communications', source: 'https://leg.colorado.gov', sourceLabel: 'CO Legislature' }
+    ],
+    guidance: 'Colorado requires disclosure for AI-generated political content. Election administrators should review vendor contracts to ensure any AI tools used in official communications comply.',
+    lastUpdated: 'February 2025'
+  },
+  'Florida': {
+    status: 'active',
+    statusLabel: 'Laws in Effect',
+    laws: [
+      { name: 'SB 7072 / HB 919 (2024)', summary: 'Requires political advertisements using AI-generated content to include a clear and conspicuous disclosure. Applies to broadcast, digital, and print. Enforced by the Florida Division of Elections.', applies: 'Political advertising', source: 'https://www.flsenate.gov', sourceLabel: 'FL Senate' }
+    ],
+    guidance: 'Florida\'s AI disclosure law is enforced by the Division of Elections. Election offices running any AI-assisted outreach programs should consult with your county attorney.',
+    lastUpdated: 'March 2025'
+  },
+  'Georgia': {
+    status: 'pending',
+    statusLabel: 'Pending Legislation',
+    laws: [
+      { name: 'SB 362 (2025, pending)', summary: 'Would require disclosure labels on AI-generated political advertisements and prohibit synthetic media used to misrepresent candidates.', applies: 'Political advertising / elections', source: 'https://www.legis.ga.gov', sourceLabel: 'GA Legislature' }
+    ],
+    guidance: 'Georgia has pending legislation but no enacted AI election law as of early 2025. Monitor the 2025 session closely. Current federal guidelines apply.',
+    lastUpdated: 'April 2025'
+  },
+  'Illinois': {
+    status: 'active',
+    statusLabel: 'Laws in Effect',
+    laws: [
+      { name: 'HB 4337 (2024)', summary: 'Amends the Election Code to require disclosure when AI-generated content is used in electioneering communications. Includes audio, video, and images.', applies: 'Electioneering communications', source: 'https://www.ilga.gov', sourceLabel: 'IL General Assembly' },
+      { name: 'Artificial Intelligence Video Interview Act (2019)', summary: 'Older law covering AI in hiring — relevant if election offices use AI-based screening tools for hiring poll workers or staff.', applies: 'Election office HR', source: 'https://www.ilga.gov', sourceLabel: 'IL General Assembly' }
+    ],
+    guidance: 'Illinois has disclosure requirements for AI-generated electioneering content. The HR-focused AI Video Interview Act may affect how your office conducts AI-assisted hiring.',
+    lastUpdated: 'February 2025'
+  },
+  'Michigan': {
+    status: 'active',
+    statusLabel: 'Laws in Effect',
+    laws: [
+      { name: 'HB 5141 (2024)', summary: 'Requires campaigns and political committees to disclose use of AI-generated content in political ads. Attorney General may investigate violations.', applies: 'Political advertising', source: 'https://www.legislature.mi.gov', sourceLabel: 'MI Legislature' }
+    ],
+    guidance: 'Michigan enacted AI disclosure requirements in 2024. AG enforcement gives the law teeth. Election offices using AI for voter outreach or communications should consult legal counsel.',
+    lastUpdated: 'March 2025'
+  },
+  'Minnesota': {
+    status: 'active',
+    statusLabel: 'Laws in Effect',
+    laws: [
+      { name: 'HF 3922 (2024)', summary: 'Prohibits use of AI-generated deepfakes to influence elections within 90 days of an election. Also bans synthetic media that falsely depicts a candidate.', applies: 'Election integrity / criminal', source: 'https://www.leg.mn.gov', sourceLabel: 'MN Legislature' }
+    ],
+    guidance: 'Minnesota\'s law focuses on deepfakes and synthetic media with criminal penalties. Election offices should flag any AI-generated content circulating about local candidates.',
+    lastUpdated: 'January 2025'
+  },
+  'Nevada': {
+    status: 'pending',
+    statusLabel: 'Pending Legislation',
+    laws: [
+      { name: 'AB 128 (2025, pending)', summary: 'Would require labels on AI-generated political advertisements and create a civil cause of action for candidates harmed by deceptive synthetic media.', applies: 'Political advertising / civil liability', source: 'https://www.leg.state.nv.us', sourceLabel: 'NV Legislature' }
+    ],
+    guidance: 'Nevada has a bill in the 2025 session but no enacted AI election law yet. Federal guidelines and FEC rules currently apply.',
+    lastUpdated: 'April 2025'
+  },
+  'New York': {
+    status: 'active',
+    statusLabel: 'Laws in Effect',
+    laws: [
+      { name: 'S 7543A (2023)', summary: 'Requires disclosure on political advertisements using AI-generated or digitally altered images. Applies to broadcast, print, and digital. Signed by Governor Hochul.', applies: 'Political advertising', source: 'https://www.nysenate.gov', sourceLabel: 'NY Senate' }
+    ],
+    guidance: 'New York\'s law covers digitally altered images broadly, not just AI-generated content. Election administrators should ensure any image-based voter outreach materials comply.',
+    lastUpdated: 'February 2025'
+  },
+  'North Carolina': {
+    status: 'active',
+    statusLabel: 'Laws in Effect',
+    laws: [
+      { name: 'SB 775 (2024)', summary: 'Creates criminal penalties for using deepfakes or AI-generated synthetic media to influence an election. Prohibits distribution within 90 days of an election.', applies: 'Election integrity / criminal', source: 'https://www.ncleg.gov', sourceLabel: 'NC Legislature' }
+    ],
+    guidance: 'North Carolina enacted criminal penalties for AI election interference. Report suspected deepfake incidents to the NC Board of Elections and law enforcement.',
+    lastUpdated: 'March 2025'
+  },
+  'Ohio': {
+    status: 'proposed',
+    statusLabel: 'Proposed',
+    laws: [
+      { name: 'HB 432 (proposed)', summary: 'Would require disclosure labels on political advertisements using AI-generated content. As of early 2025, in committee.', applies: 'Political advertising', source: 'https://www.legislature.ohio.gov', sourceLabel: 'OH Legislature' }
+    ],
+    guidance: 'Ohio does not yet have enacted AI election law. A proposal is in committee. Federal FEC guidance applies. Monitor for 2025 session developments.',
+    lastUpdated: 'April 2025'
+  },
+  'Pennsylvania': {
+    status: 'proposed',
+    statusLabel: 'Proposed',
+    laws: [
+      { name: 'HB 1836 (proposed)', summary: 'Would require disclosure on AI-generated political communications. As of early 2025, referred to State Government Committee.', applies: 'Political communications', source: 'https://www.legis.state.pa.us', sourceLabel: 'PA Legislature' }
+    ],
+    guidance: 'Pennsylvania has a proposal in committee but no enacted AI election law. Election officials should track developments and apply federal guidance in the interim.',
+    lastUpdated: 'April 2025'
+  },
+  'Texas': {
+    status: 'active',
+    statusLabel: 'Laws in Effect',
+    laws: [
+      { name: 'HB 4337 / DEFIANCE Act (2023)', summary: 'Prohibits creating or distributing deepfake videos designed to damage a candidate\'s reputation within 30 days of an election. Criminal misdemeanor.', applies: 'Election integrity / criminal', source: 'https://capitol.texas.gov', sourceLabel: 'TX Legislature' }
+    ],
+    guidance: 'Texas was an early mover on deepfake election law. The 30-day window is shorter than most states. Report deepfake incidents to the Texas Secretary of State and local law enforcement.',
+    lastUpdated: 'January 2025'
+  },
+  'Virginia': {
+    status: 'active',
+    statusLabel: 'Laws in Effect',
+    laws: [
+      { name: 'HB 2678 (2024)', summary: 'Requires disclosure in political advertisements that include AI-generated synthetic content. Administered by the Virginia Department of Elections.', applies: 'Political advertising', source: 'https://lis.virginia.gov', sourceLabel: 'VA Legislature' }
+    ],
+    guidance: 'Virginia\'s disclosure requirement is administered by the Department of Elections. Election administrators should be familiar with reporting procedures for non-compliant ads.',
+    lastUpdated: 'February 2025'
+  },
+  'Washington': {
+    status: 'active',
+    statusLabel: 'Laws in Effect',
+    laws: [
+      { name: 'SB 5152 (2024)', summary: 'Requires political ads using AI-generated content to include a disclosure. Expands existing political ad transparency law to cover synthetic media.', applies: 'Political advertising', source: 'https://app.leg.wa.gov', sourceLabel: 'WA Legislature' },
+      { name: 'HB 1999 (2023)', summary: 'Washington\'s model AI governance legislation — broad framework covering state agency use of automated decision-making tools.', applies: 'Government AI use', source: 'https://app.leg.wa.gov', sourceLabel: 'WA Legislature' }
+    ],
+    guidance: 'Washington has both political ad disclosure requirements and broader AI governance rules for state agencies. Election offices should review the HB 1999 framework for any AI tools used internally.',
+    lastUpdated: 'March 2025'
+  },
+  'Wisconsin': {
+    status: 'proposed',
+    statusLabel: 'Proposed',
+    laws: [
+      { name: 'AB 664 / SB 633 (proposed)', summary: 'Would require disclosure on political ads using AI-generated content and prohibit deepfakes within 60 days of an election.', applies: 'Political advertising / elections', source: 'https://legis.wisconsin.gov', sourceLabel: 'WI Legislature' }
+    ],
+    guidance: 'Wisconsin has proposals pending but no enacted AI election law. Federal and FEC guidance applies. Monitor the 2025 session.',
+    lastUpdated: 'April 2025'
+  }
+};
 
-  if (!office && !keywords) {
-    document.getElementById('tw-office').focus();
+function showLaw() {
+  const state = document.getElementById('law-state').value;
+  const div = document.getElementById('law-results');
+  if (!state) { div.innerHTML=''; return; }
+  const d = LAW_DATA[state];
+  if (!d) {
+    div.innerHTML = `<div class="no-law"><strong>${esc(state)}</strong> does not yet have specific AI election legislation. Federal FEC guidance and general AI disclosure principles apply. Check back as the 2025 legislative session progresses.</div>`;
     return;
   }
-
-  // Build query
-  const parts = [];
-  if (office)   parts.push(`"${office}"`);
-  if (county && state) parts.push(`"${county} County" "${state}"`);
-  if (keywords) keywords.split(',').map(k => k.trim()).filter(Boolean).forEach(k => parts.push(k));
-  const q = parts.join(' OR ');
-
-  document.getElementById('tw-results').classList.remove('visible');
-  document.getElementById('tw-empty').classList.remove('visible');
-  document.getElementById('tw-loading').classList.add('active');
-  document.getElementById('tw-scan-btn').disabled = true;
-
-  try {
-    const params = new URLSearchParams({ q });
-    if (state) params.set('state', state);
-    const res = await fetch(`/api/news?${params}&mode=feed`);
-    const data = await res.json();
-
-    document.getElementById('tw-loading').classList.remove('active');
-    document.getElementById('tw-scan-btn').disabled = false;
-
-    if (!data.items || data.items.length === 0) {
-      document.getElementById('tw-empty').classList.add('visible');
-      return;
-    }
-
-    renderResults(data, q, office, state);
-  } catch (err) {
-    document.getElementById('tw-loading').classList.remove('active');
-    document.getElementById('tw-scan-btn').disabled = false;
-    document.getElementById('tw-empty').classList.add('visible');
-    console.error(err);
-  }
-}
-
-function renderResults(data, q, office, state) {
-  const { items, topSources, timeline, total } = data;
-
-  document.getElementById('res-total').textContent = total;
-  document.getElementById('res-ts').textContent = `Scanned ${new Date().toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' })}`;
-  document.getElementById('res-query-label').textContent = `for "${q}"`;
-
-  // Stat pills — classify: alarm if any item mentions misinformation-related terms
-  const alarmTerms = ['misinformation', 'false', 'misleading', 'fraud', 'hoax', 'fake', 'disinformation', 'claim', 'dispute'];
-  const alarmCount = items.filter(it => alarmTerms.some(t => (it.title + it.desc).toLowerCase().includes(t))).length;
-  const uniqueSources = new Set(items.map(it => it.source || 'unknown')).size;
-
-  document.getElementById('res-stats').innerHTML = `
-    <div class="stat-pill"><span class="stat-num">${total}</span><span class="stat-label">Total Mentions</span></div>
-    <div class="stat-pill"><span class="stat-num ${alarmCount > 0 ? 'alarm' : ''}">${alarmCount}</span><span class="stat-label">Flagged Items</span></div>
-    <div class="stat-pill"><span class="stat-num">${uniqueSources}</span><span class="stat-label">Sources</span></div>
-  `;
-
-  // Source bars
-  const maxCount = topSources[0]?.count || 1;
-  document.getElementById('res-sources').innerHTML = topSources.map(s => `
-    <div class="source-bar-row">
-      <span class="source-name" title="${esc(s.name)}">${esc(s.name)}</span>
-      <div class="source-track"><div class="source-fill" style="width:0%" data-w="${Math.round(s.count/maxCount*100)}%"></div></div>
-      <span class="source-count">${s.count}</span>
-    </div>`).join('');
-
-  // Timeline bars
-  const maxTL = Math.max(...data.timeline.map(t => t.count), 1);
-  document.getElementById('res-timeline').innerHTML = data.timeline.map(t => `
-    <div class="tl-bar-wrap">
-      <div class="tl-bar" style="height:0px" data-h="${Math.round(t.count/maxTL*68)}px" title="${t.count} mentions on ${t.date}"></div>
-      <div class="tl-label">${shortDate(t.date)}</div>
-    </div>`).join('');
-
-  // Articles
-  document.getElementById('res-articles').innerHTML = items.slice(0, 20).map(it => {
-    const isAlarm = alarmTerms.some(t => (it.title + it.desc).toLowerCase().includes(t));
-    const dateStr = fmtDate(it.pubDate);
-    return `<div class="article-row">
-      <div>
-        <a href="${esc(it.link)}" target="_blank" rel="noopener" class="article-title">${esc(it.title)}${isAlarm ? '<span class="flag-badge">Watch</span>' : ''}</a>
-        <div class="article-meta">${esc(it.source || 'Unknown source')}</div>
+  const statusClass = {active:'status-active',pending:'status-pending',limited:'status-limited',proposed:'status-proposed'}[d.status]||'status-proposed';
+  let h = `<div class="law-card">
+    <div class="law-card-head">
+      <span class="law-state-name">${esc(state)}</span>
+      <span class="law-status ${statusClass}">${esc(d.statusLabel)}</span>
+    </div>
+    <div class="law-body">`;
+  d.laws.forEach(l=>{
+    h += `<div>
+      <div style="font-family:var(--cond);font-size:0.8rem;font-weight:700;letter-spacing:0.06em;margin-bottom:0.3rem;">${esc(l.name)}</div>
+      <div class="law-row">
+        <div class="law-key">Summary</div><div class="law-val">${esc(l.summary)}</div>
       </div>
-      <div class="article-date">${dateStr}</div>
+      <div class="law-row" style="margin-top:0.3rem;">
+        <div class="law-key">Applies to</div><div class="law-val">${esc(l.applies)}</div>
+      </div>
+      <div class="law-row" style="margin-top:0.3rem;">
+        <div class="law-key">Source</div><div class="law-val"><a href="${esc(l.source)}" class="law-source" target="_blank" rel="noopener">${esc(l.sourceLabel)} &#8599;</a></div>
+      </div>
+      <div style="border-bottom:1px solid var(--rule);margin:0.75rem 0;"></div>
     </div>`;
-  }).join('');
-
-  document.getElementById('tw-results').classList.add('visible');
-
-  // Animate bars after paint
-  requestAnimationFrame(() => setTimeout(() => {
-    document.querySelectorAll('.source-fill').forEach(el => el.style.width = el.dataset.w);
-    document.querySelectorAll('.tl-bar').forEach(el => el.style.height = el.dataset.h);
-  }, 60));
+  });
+  h += `<div class="law-row"><div class="law-key">Guidance</div><div class="law-val" style="font-family:var(--serif);">${esc(d.guidance)}</div></div>
+    <div style="margin-top:0.75rem;font-family:var(--cond);font-size:0.65rem;color:var(--rule-heavy);">Last updated: ${esc(d.lastUpdated)} &middot; Not legal advice &mdash; consult your county or state attorney for guidance.</div>
+  </div></div>`;
+  div.innerHTML = h;
 }
 
-// ── NEWS FEED ──
-async function loadNewsFeed() {
-  const state = document.getElementById('nf-state').value;
-  const topic = document.getElementById('nf-topic').value;
-
-  document.getElementById('nf-list').innerHTML = '';
-  document.getElementById('nf-empty').classList.remove('visible');
-  document.getElementById('nf-loading').classList.add('active');
-
+// ═══════════ VENDOR CHECK ═══════════
+async function runVendorCheck() {
+  const vendor = document.getElementById('v-vendor').value.trim();
+  const cat    = document.getElementById('v-category').value;
+  const btn    = document.getElementById('v-btn');
+  const res    = document.getElementById('v-results');
+  if (!vendor) { document.getElementById('v-vendor').focus(); return; }
+  btn.disabled=true; btn.textContent='Checking…';
+  res.innerHTML=`<div class="loading-wrap"><div class="spinner"></div><div class="loading-label">Scanning news for ${esc(vendor)}…</div></div>`;
   try {
-    const params = new URLSearchParams({ q: topic });
-    if (state) params.set('state', state);
-    const res = await fetch(`/api/news?${params}`);
-    const data = await res.json();
-
-    document.getElementById('nf-loading').classList.remove('active');
-
-    if (!data.items || data.items.length === 0) {
-      document.getElementById('nf-empty').classList.add('visible');
-      return;
-    }
-
-    document.getElementById('nf-list').innerHTML = data.items.slice(0, 25).map(it => {
-      const dateStr = fmtDate(it.pubDate);
-      return `<div class="article-row">
-        <div>
-          <a href="${esc(it.link)}" target="_blank" rel="noopener" class="article-title">${esc(it.title)}</a>
-          <div class="article-meta">${esc(it.source || 'Unknown')}</div>
-        </div>
-        <div class="article-date">${dateStr}</div>
-      </div>`;
-    }).join('');
-  } catch (err) {
-    document.getElementById('nf-loading').classList.remove('active');
-    document.getElementById('nf-empty').classList.add('visible');
-    console.error(err);
-  }
+    const q = vendor + (cat?' '+cat:'') + ' election';
+    const p = new URLSearchParams({q, mode:'scan'});
+    const r = await fetch('/api/news?'+p);
+    if (!r.ok) throw new Error('API error '+r.status);
+    const data = await r.json();
+    res.innerHTML = buildScanHtml(data, vendor+(cat?' ('+cat+')':''), RISK_TERMS, 'Risk Signals');
+  } catch(e) {
+    res.innerHTML=`<div class="error-box"><strong>Check failed:</strong> ${esc(e.message)}</div>`;
+  } finally { btn.disabled=false; btn.textContent='Check Vendor'; }
 }
 
-// Auto-load news feed when switching to that tab
-document.querySelector('[data-tool="news-feed"]').addEventListener('click', () => {
-  if (!document.getElementById('nf-list').innerHTML) loadNewsFeed();
-});
+// ═══════════ REQUEST FORM ═══════════
+function submitRequest(e, panelId) {
+  e.preventDefault();
+  const form = e.target;
+  const data = Object.fromEntries(new FormData(form));
+  if (!data.idea || !data.idea.trim()) return;
+  // In production this would POST to an API endpoint
+  // For now: log it and show success
+  console.log('Tool request:', data);
+  form.style.display = 'none';
+  document.getElementById('req-success-'+panelId).style.display = 'block';
+}
+
+// Auto-run threat scan on load
+window.addEventListener('load', () => { runThreatScan(); });
 </script>
 </body>
 </html>
