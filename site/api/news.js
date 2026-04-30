@@ -19,7 +19,7 @@ function get(url) {
 async function scanMode(q, state) {
   const query  = state ? `${q} "${state}"` : q;
   const rssUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
-  const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&count=30`;
+  const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
   const body   = await get(apiUrl);
   const parsed = JSON.parse(body);
   if (parsed.status !== 'ok') throw new Error(parsed.message || 'rss2json error');
@@ -38,7 +38,7 @@ async function scanMode(q, state) {
 // ── FEED MODE: The Guardian open API ──
 async function feedMode(q, state) {
   const query  = state ? `${q} ${state}` : q;
-  const apiUrl = `https://content.guardianapis.com/search?q=${encodeURIComponent(query)}&api-key=test&show-fields=trailText,publication&page-size=30&order-by=newest&section=us-news|politics|world`;
+  const apiUrl = `https://content.guardianapis.com/search?q=${encodeURIComponent(query + " election")}&api-key=test&show-fields=trailText&page-size=30&order-by=newest&production-office=us`;
   const body   = await get(apiUrl);
   const parsed = JSON.parse(body);
   const results = parsed.response?.results || [];
