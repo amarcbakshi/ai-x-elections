@@ -33,11 +33,17 @@
     body { background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 0.95rem; line-height: 1.5; }
 
     /* ── NAV ── */
-    .site-nav { background: var(--ink); color: var(--paper); display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 2rem; font-family: var(--cond); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; }
-    .site-nav a { color: var(--paper); text-decoration: none; opacity: 0.7; transition: opacity 0.15s; }
-    .site-nav a:hover { opacity: 1; }
-    .nav-brand { font-family: var(--display); font-size: 1.1rem; letter-spacing: 0; text-transform: none; opacity: 1 !important; }
-    .nav-brand span { color: var(--amber); }
+    /* ── SITE HEADER ── */
+    .site-header { background: var(--ink); padding: 18px 40px; display: flex; justify-content: space-between; align-items: center; gap: 32px; }
+    .site-brand { display: flex; flex-direction: column; gap: 5px; }
+    .site-logo { font-family: var(--display); font-size: clamp(40px, 5.5vw, 72px); line-height: 0.88; letter-spacing: -0.025em; color: var(--paper); text-decoration: none; }
+    .site-logo .x { color: oklch(50% 0.22 25); }
+    .site-tagline { font-family: var(--serif); font-size: 14px; font-style: italic; font-weight: 300; color: oklch(68% 0.006 70); }
+    .site-nav-links { display: flex; gap: 32px; align-items: center; flex-shrink: 0; }
+    .site-nav-links a { font-family: var(--cond); font-size: 15px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: oklch(65% 0.005 70); text-decoration: none; transition: color 0.15s; }
+    .site-nav-links a:hover { color: var(--paper); }
+    .site-nav-links a.nav-active { color: var(--paper); }
+    @media (max-width: 768px) { .site-header { padding: 14px 20px; } .site-logo { font-size: clamp(32px, 10vw, 52px); } .site-tagline { display: none; } .site-nav-links { gap: 16px; } .site-nav-links a { font-size: 12px; } }
 
     /* ── PAGE HEADER ── */
     .page-header { background: var(--ink); color: var(--paper); padding: 2.5rem 2rem 2rem; border-bottom: 3px solid var(--accent-mid); }
@@ -202,14 +208,18 @@
 </head>
 <body>
 
-<nav class="site-nav">
-  <a href="index.html" class="nav-brand">AI<span>&#215;</span>Elections</a>
-  <div style="display:flex;gap:1.5rem;">
-    <a href="index.html">&#8592; Publication</a>
+<header class="site-header">
+  <div class="site-brand">
+    <a href="index.html" class="site-logo">AI<span class="x">&#215;</span>Elections</a>
+    <span class="site-tagline">A publication by and for election workers</span>
+  </div>
+  <nav class="site-nav-links" aria-label="Site navigation">
+    <a href="index.html">Publication</a>
+    <a href="tools.html" class="nav-active">Toolkit</a>
     <a href="community.html">Community</a>
     <a href="#about">About</a>
-  </div>
-</nav>
+  </nav>
+</header>
 
 <div class="page-header">
   <div class="page-header-eyebrow">Election Official Toolkit</div>

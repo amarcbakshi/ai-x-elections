@@ -62,24 +62,24 @@ body { background: var(--paper); color: var(--ink); font-family: var(--f-text); 
   color: oklch(68% 0.006 70);
   letter-spacing: 0.01em;
 }
-.site-nav {
+.site-nav-links {
   display: flex;
-  gap: 28px;
+  gap: 32px;
   align-items: center;
   flex-shrink: 0;
 }
-.site-nav a {
+.site-nav-links a {
   font-family: var(--f-label);
-  font-size: 11px;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: oklch(65% 0.005 70);
   text-decoration: none;
   transition: color 0.15s;
 }
-.site-nav a:hover { color: var(--paper); }
-.site-nav a.nav-active { color: var(--paper); }
+.site-nav-links a:hover { color: var(--paper); }
+.site-nav-links a.nav-active { color: var(--paper); }
 
 /* ── SECTION NAV ── */
 .section-nav {
@@ -651,8 +651,8 @@ footer {
   .site-header { padding: 14px 20px; gap: 16px; }
   .site-logo { font-size: clamp(32px, 10vw, 52px); }
   .site-tagline { display: none; }
-  .site-nav { gap: 16px; }
-  .site-nav a { font-size: 10px; letter-spacing: 0.08em; }
+  .site-nav-links { gap: 16px; }
+  .site-nav-links a { font-size: 12px; letter-spacing: 0.06em; }
   .section-nav { padding: 0 20px; }
 
   .section-block { padding: 36px 20px; }
@@ -812,7 +812,7 @@ a.aside-item:hover .aside-title {
     <a href="/" class="site-logo">AI<span class="x">&#215;</span>Elections</a>
     <span class="site-tagline">A publication by and for election workers</span>
   </div>
-  <nav class="site-nav" aria-label="Site navigation">
+  <nav class="site-nav-links" aria-label="Site navigation">
     <a href="/" class="nav-active">Publication</a>
     <a href="tools.html">Toolkit</a>
     <a href="community.html">Community</a>
