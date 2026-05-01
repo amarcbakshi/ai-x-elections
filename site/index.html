@@ -118,15 +118,16 @@ body { background: var(--paper); color: var(--ink); font-family: var(--f-text); 
   align-items: center;
   gap: 8px;
   margin-left: auto;
-  padding: 8px 0 8px 16px;
+  padding: 8px 0 8px 20px;
   flex-shrink: 0;
+  border-left: 1px solid var(--rule);
 }
 .search-input {
   font-family: var(--f-label);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  width: 170px;
+  width: 190px;
   padding: 5px 10px;
   border: 1px solid var(--rule);
   background: transparent;
@@ -802,6 +803,41 @@ a.aside-item:hover .aside-title {
   display: block;
   margin-bottom: 28px;
 }
+
+/* ── SKELETON LOADER ── */
+.skeleton-block {
+  padding: 48px 40px;
+  border-bottom: 1.5px solid var(--ink);
+}
+.sk {
+  background: var(--pale);
+  animation: sk-pulse 1.4s ease-in-out infinite;
+  display: block;
+}
+.sk-row { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 32px; padding-bottom: 14px; border-bottom: 1.5px solid var(--ink); }
+.sk-title { height: 28px; width: 160px; }
+.sk-desc  { height: 13px; width: 220px; }
+.sk-grid  { display: grid; grid-template-columns: 3fr 2fr; gap: 48px; }
+.sk-img   { aspect-ratio: 3/2; width: 100%; margin-bottom: 20px; }
+.sk-kicker  { height: 10px; width: 80px; margin-bottom: 14px; }
+.sk-headline { height: 40px; width: 92%; margin-bottom: 14px; }
+.sk-deck1 { height: 15px; width: 100%; margin-bottom: 8px; }
+.sk-deck2 { height: 15px; width: 70%; }
+.sk-aside { border-left: 1px solid var(--rule); padding-left: 36px; }
+.sk-aside-item { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+.sk-aside-item:last-child { border-bottom: none; }
+.sk-aside-tag   { height: 10px; width: 60px; margin-bottom: 6px; }
+.sk-aside-title { height: 14px; width: 88%; margin-bottom: 6px; }
+.sk-aside-deck  { height: 12px; width: 72%; }
+@keyframes sk-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+@media (max-width: 768px) {
+  .skeleton-block { padding: 36px 20px; }
+  .sk-grid { grid-template-columns: 1fr; }
+  .sk-aside { display: none; }
+}
 </style>
 </head>
 <body>
@@ -815,7 +851,6 @@ a.aside-item:hover .aside-title {
   <nav class="site-nav-links" aria-label="Site navigation">
     <a href="/" class="nav-active">Publication</a>
     <a href="tools.html">Toolkit</a>
-    <a href="community.html">Community</a>
     <a href="#about">About</a>
   </nav>
 </header>
@@ -835,7 +870,26 @@ a.aside-item:hover .aside-title {
 
 <!-- MAIN CONTENT -->
 <main class="main" id="content-root">
-  <div class="content-loading">Loading…</div>
+  <div class="skeleton-block" id="skeleton-loader" aria-label="Loading articles" aria-live="polite">
+  <div class="sk-row">
+    <div class="sk sk-title"></div>
+    <div class="sk sk-desc"></div>
+  </div>
+  <div class="sk-grid">
+    <div>
+      <div class="sk sk-img"></div>
+      <div class="sk sk-kicker"></div>
+      <div class="sk sk-headline"></div>
+      <div class="sk sk-deck1"></div>
+      <div class="sk sk-deck2"></div>
+    </div>
+    <div class="sk-aside">
+      <div class="sk-aside-item"><div class="sk sk-aside-tag"></div><div class="sk sk-aside-title"></div><div class="sk sk-aside-deck"></div></div>
+      <div class="sk-aside-item"><div class="sk sk-aside-tag"></div><div class="sk sk-aside-title"></div><div class="sk sk-aside-deck"></div></div>
+      <div class="sk-aside-item"><div class="sk sk-aside-tag"></div><div class="sk sk-aside-title"></div><div class="sk sk-aside-deck"></div></div>
+    </div>
+  </div>
+</div>
 </main>
 
 <!-- SUBSCRIBE CTA -->
@@ -872,8 +926,7 @@ a.aside-item:hover .aside-title {
         <a href="#" onclick="jumpSection('on-your-desk'); return false;">On Your Desk</a>
         <a href="#" onclick="jumpSection('field-reports'); return false;">Field Reports</a>
         <a href="tools.html">Toolkit</a>
-        <a href="community.html">Community</a>
-      </div>
+          </div>
       <div class="footer-col">
         <div class="footer-col-title">Resources</div>
         <a href="https://www.cisa.gov/topics/election-security" target="_blank" rel="noopener">CISA Election Security</a>
@@ -1163,10 +1216,35 @@ async function fetchContent() {
     allArticles = articles;
     allToolkit  = toolkit;
     root.innerHTML = renderAll(articles, toolkit);
+    updateSectionNav(articles);
     applyFilter(activeFilter);
   } catch (err) {
     console.error('fetchContent error', err);
     root.innerHTML = `<div class="content-error">Content is temporarily unavailable. Please refresh or try again shortly.</div>`;
+  }
+}
+
+// ── SECTION NAV VISIBILITY ──
+function updateSectionNav(articles) {
+  // Build map of section → article count
+  const counts = {};
+  articles.forEach(a => {
+    const sid = SECTION_SLUG[a.section] || 'field-reports';
+    counts[sid] = (counts[sid] || 0) + 1;
+  });
+
+  let firstVisible = null;
+  document.querySelectorAll('.sec-btn[data-filter]').forEach(btn => {
+    const sid = btn.dataset.filter;
+    const hasContent = (counts[sid] || 0) > 0;
+    btn.style.display = hasContent ? '' : 'none';
+    if (hasContent && !firstVisible) firstVisible = btn;
+  });
+
+  // If active section is empty, switch to first section that has content
+  const activeBtn = document.querySelector('.sec-btn.active');
+  if (activeBtn && activeBtn.style.display === 'none' && firstVisible) {
+    filterSection(firstVisible);
   }
 }
 

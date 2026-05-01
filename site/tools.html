@@ -175,7 +175,7 @@
     .vendor-ts { font-family: var(--cond); font-size: 0.65rem; letter-spacing: 0.06em; color: var(--rule-heavy); margin-left: auto; text-transform: uppercase; }
 
     /* ── REQUEST FORM ── */
-    .request-section { margin-top: 3rem; padding: 1.5rem 1.75rem; background: oklch(97% 0.008 25); border-left: 3px solid var(--red); border-radius: 0 4px 4px 0; }
+    .request-section { margin-top: 3rem; padding: 1.5rem 1.75rem; border-top: 2px solid var(--ink); }
     .request-heading { font-family: var(--display); font-size: 1.6rem; margin-bottom: 0.4rem; }
     .request-deck { font-family: var(--serif); font-style: italic; color: var(--rule-heavy); margin-bottom: 1.5rem; font-size: 0.95rem; }
     .request-form { display: flex; flex-direction: column; gap: 0.75rem; max-width: 560px; }
@@ -184,24 +184,81 @@
     .request-form textarea { height: 100px; resize: vertical; }
     .btn-submit { background: var(--ink); color: var(--paper); border: none; border-radius: 3px; padding: 0.6rem 1.6rem; font-family: var(--cond); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background 0.15s; align-self: flex-start; }
     .btn-submit:hover { background: var(--accent); }
-    .form-success { display: none; background: var(--green-pale); border: 1px solid oklch(85% 0.07 150); border-radius: 4px; padding: 1rem 1.2rem; font-family: var(--serif); font-size: 0.95rem; color: var(--green); }
+    .form-success { display: none; background: var(--green-pale); border: 1px solid oklch(85% 0.07 150); padding: 1rem 1.2rem; font-family: var(--serif); font-size: 0.95rem; color: var(--green); }
     .error-box { background: var(--red-pale); border: 1px solid oklch(85% 0.08 25); border-radius: 4px; padding: 0.8rem 1rem; color: var(--red); font-size: 0.85rem; margin-bottom: 1rem; }
 
     /* ── FOOTER ── */
-    .site-footer { background: var(--ink); color: var(--paper); padding: 1.5rem 2rem; font-family: var(--cond); font-size: 0.72rem; letter-spacing: 0.06em; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
-    .site-footer a { color: var(--paper); opacity: 0.6; text-decoration: none; }
-    .site-footer a:hover { opacity: 1; }
+    footer {
+      background: var(--ink);
+      padding: 48px 40px 32px;
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid oklch(25% 0.005 70);
+      margin-bottom: 24px;
+    }
+    .footer-seal { font-family: var(--display); font-size: 16px; color: var(--paper); }
+    .footer-seal .x { color: var(--red); }
+    .footer-seal p {
+      font-family: var(--cond);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: oklch(60% 0.005 70);
+      margin-top: 6px;
+    }
+    .footer-links { display: flex; gap: 48px; }
+    .footer-col-title {
+      font-family: var(--cond);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: oklch(55% 0.005 70);
+      margin-bottom: 12px;
+    }
+    .footer-col a, .footer-col span {
+      display: block;
+      font-family: var(--cond);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: oklch(65% 0.005 70);
+      text-decoration: none;
+      margin-bottom: 6px;
+      transition: color 0.15s;
+    }
+    .footer-col a:hover { color: oklch(82% 0.005 70); }
+    .footer-bottom { display: flex; justify-content: space-between; }
+    .footer-bottom p {
+      font-family: var(--cond);
+      font-size: 10px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: oklch(50% 0.005 70);
+    }
+    @media (max-width: 768px) {
+      footer { padding: 32px 20px; }
+      .footer-inner { flex-direction: column; gap: 28px; }
+      .footer-links { flex-direction: column; gap: 24px; }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+    }
 
     /* ── TOOL LANDING ── */
-    .tool-landing { max-width: 860px; margin: 0 auto; padding: 3rem 2rem 4rem; }
-    .tool-landing-intro { font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: var(--rule-heavy); margin-bottom: 2.5rem; max-width: 56ch; line-height: 1.65; }
-    .tool-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
-    .tool-card { border: 1px solid var(--rule); border-radius: 4px; padding: 1.75rem 1.5rem; background: white; cursor: pointer; text-align: left; transition: border-color 0.15s, box-shadow 0.15s; display: flex; flex-direction: column; gap: 0.75rem; }
-    .tool-card:hover { border-color: var(--accent-mid); box-shadow: 0 2px 12px oklch(18% 0.01 260 / 0.08); }
-    .tool-card-icon { font-size: 1.6rem; line-height: 1; }
-    .tool-card-name { font-family: var(--cond); font-size: 1.05rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink); }
-    .tool-card-desc { font-family: var(--serif); font-size: 0.88rem; line-height: 1.6; color: var(--rule-heavy); font-style: italic; flex: 1; }
-    .tool-card-cta { font-family: var(--cond); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-top: 0.25rem; }
+    .tool-landing { padding: 3rem 2.5rem 4rem; }
+    .tool-landing-intro { font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: var(--rule-heavy); margin-bottom: 3rem; max-width: 56ch; line-height: 1.65; border-top: 1.5px solid var(--ink); padding-top: 1.5rem; }
+    .tool-list { display: flex; flex-direction: column; }
+    .tool-entry { display: grid; grid-template-columns: 80px 1fr; gap: 0 2rem; align-items: start; padding: 2rem 0; border-top: 1.5px solid var(--ink); cursor: pointer; transition: background 0.12s; }
+    .tool-entry:hover { background: oklch(95% 0.004 75); margin: 0 -1rem; padding-left: 1rem; padding-right: 1rem; }
+    .tool-entry:last-child { border-bottom: 1.5px solid var(--ink); }
+    .tool-entry-num { font-family: var(--display); font-size: 3rem; line-height: 1; color: var(--rule-heavy); padding-top: 4px; }
+    .tool-entry-body { }
+    .tool-entry-name { font-family: var(--cond); font-size: 1.25rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.5rem; }
+    .tool-entry-desc { font-family: var(--serif); font-size: 0.92rem; line-height: 1.6; color: var(--rule-heavy); font-style: italic; margin-bottom: 0.75rem; max-width: 52ch; }
+    .tool-entry-cta { font-family: var(--cond); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); text-decoration: none; border-bottom: 1.5px solid var(--ink); padding-bottom: 1px; display: inline-block; }
     .back-to-tools { background: none; border: none; font-family: var(--cond); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rule-heavy); cursor: pointer; padding: 0.75rem 2rem; display: flex; align-items: center; gap: 0.4rem; transition: color 0.15s; border-bottom: 1px solid var(--rule); width: 100%; }
     .back-to-tools:hover { color: var(--ink); }
   </style>
@@ -216,7 +273,6 @@
   <nav class="site-nav-links" aria-label="Site navigation">
     <a href="index.html">Publication</a>
     <a href="tools.html" class="nav-active">Toolkit</a>
-    <a href="community.html">Community</a>
     <a href="#about">About</a>
   </nav>
 </header>
@@ -231,25 +287,31 @@
 <!-- TOOL LANDING -->
 <div id="tool-landing" class="tool-landing">
   <p class="tool-landing-intro">Live tools built for election administrators. Free to use. No account required.</p>
-  <div class="tool-cards">
-    <button class="tool-card" onclick="openTool('threat')">
-      <div class="tool-card-icon">&#128225;</div>
-      <div class="tool-card-name">Media Monitor</div>
-      <div class="tool-card-desc">Scan live news coverage for your jurisdiction. See volume, source credibility, misinformation signals, and trending keywords in real time.</div>
-      <div class="tool-card-cta">Open tool &#8594;</div>
-    </button>
-    <button class="tool-card" onclick="openTool('ailaw')">
-      <div class="tool-card-icon">&#9878;</div>
-      <div class="tool-card-name">AI Law Guide</div>
-      <div class="tool-card-desc">State-by-state tracker of AI election laws — status, scope, practical guidance, and links to source legislation.</div>
-      <div class="tool-card-cta">Open tool &#8594;</div>
-    </button>
-    <button class="tool-card" onclick="openTool('vendor')">
-      <div class="tool-card-icon">&#128269;</div>
-      <div class="tool-card-name">Vendor Risk Check</div>
-      <div class="tool-card-desc">Research any election technology vendor for procurement risk signals: lawsuits, decertifications, breaches, and regulatory actions.</div>
-      <div class="tool-card-cta">Open tool &#8594;</div>
-    </button>
+  <div class="tool-list">
+    <div class="tool-entry" onclick="openTool('threat')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')openTool('threat')">
+      <div class="tool-entry-num">01</div>
+      <div class="tool-entry-body">
+        <div class="tool-entry-name">Media Monitor</div>
+        <p class="tool-entry-desc">Scan live news coverage for your jurisdiction. Volume, source credibility, misinformation signals, and trending keywords in real time.</p>
+        <span class="tool-entry-cta">Open tool &#8594;</span>
+      </div>
+    </div>
+    <div class="tool-entry" onclick="openTool('ailaw')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')openTool('ailaw')">
+      <div class="tool-entry-num">02</div>
+      <div class="tool-entry-body">
+        <div class="tool-entry-name">AI Law Guide</div>
+        <p class="tool-entry-desc">State-by-state tracker of AI election laws. Status, scope, practical guidance, and direct links to source legislation.</p>
+        <span class="tool-entry-cta">Open tool &#8594;</span>
+      </div>
+    </div>
+    <div class="tool-entry" onclick="openTool('vendor')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')openTool('vendor')">
+      <div class="tool-entry-num">03</div>
+      <div class="tool-entry-body">
+        <div class="tool-entry-name">Vendor Risk Check</div>
+        <p class="tool-entry-desc">Research any election technology vendor for procurement risk signals: lawsuits, decertifications, security breaches, and regulatory actions.</p>
+        <span class="tool-entry-cta">Open tool &#8594;</span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -433,11 +495,38 @@
   </div>
 </div>
 
-<footer class="site-footer">
-  <span>AI &#215; Elections &mdash; Election Official Toolkit</span>
-  <span>Free to use &middot; No account required &middot; For election administration professionals</span>
-  <a href="index.html">Publication Home</a>
-  <a href="community.html">Community</a>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-seal">
+      <div>AI<span class="x">&#215;</span>Elections</div>
+      <p>A publication by and for election workers</p>
+      <p style="margin-top: 10px; max-width: 28ch; font-family: var(--serif); font-size: 12px; font-weight: 300; font-style: italic; line-height: 1.55; color: oklch(58% 0.005 70); text-transform: none; letter-spacing: 0;">Independent reporting on artificial intelligence threats, vendors, and policy, written by and for the professionals who run elections.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <div class="footer-col-title">Tools</div>
+        <a href="#" onclick="openTool('threat'); return false;">Media Monitor</a>
+        <a href="#" onclick="openTool('ailaw'); return false;">AI Law Guide</a>
+        <a href="#" onclick="openTool('vendor'); return false;">Vendor Risk Check</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Resources</div>
+        <a href="https://www.cisa.gov/topics/election-security" target="_blank" rel="noopener">CISA Election Security</a>
+        <a href="https://www.eac.gov" target="_blank" rel="noopener">EAC</a>
+        <a href="https://www.nist.gov/topics/elections" target="_blank" rel="noopener">NIST Election Resources</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-title">Contact</div>
+        <span>editorial@aixelections.com</span>
+        <span>tips@aixelections.com</span>
+        <a href="index.html" style="margin-top:10px;">Publication &#8594;</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&#169; 2026 AI &#215; Elections. Independent publication.</p>
+    <p>Not affiliated with any campaign, vendor, government body, or political party.</p>
+  </div>
 </footer>
 
 <script>
